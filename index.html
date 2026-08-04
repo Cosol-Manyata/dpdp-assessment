@@ -1,0 +1,3248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPDPA Compliance Assessment Platform</title>
+  <meta name="description" content="Assess your organization's DPDPA readiness and generate an executive compliance report with prioritised remediation." />
+  <style>
+/* =============================================================================
+ * styles.css — DPDPA Compliance Assessment Platform
+ * A professional, GRC-style design system: white surfaces, blue accent,
+ * cards, badges, progress bars, sticky navigation. Vanilla CSS, no framework.
+ * ========================================================================== */
+
+/* ----------------------------- Design tokens ----------------------------- */
+:root {
+  /* Brand */
+  --blue-50:  #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --navy:     #0f172a;
+
+  /* Neutrals */
+  --slate-50:  #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+
+  /* Semantic */
+  --green-50:  #ecfdf5; --green-500: #10b981; --green-600: #059669; --green-700: #047857;
+  --teal-50:   #f0fdfa; --teal-600:  #0d9488;
+  --amber-50:  #fffbeb; --amber-500: #f59e0b; --amber-600: #d97706; --amber-700: #b45309;
+  --orange-50: #fff7ed; --orange-500:#f97316; --orange-600:#ea580c;
+  --red-50:    #fef2f2; --red-500:   #ef4444; --red-600:   #dc2626; --red-700: #b91c1c;
+
+  --bg:        #f6f8fb;
+  --surface:   #ffffff;
+  --border:    #e2e8f0;
+  --text:      #0f172a;
+  --text-soft: #475569;
+  --text-mut:  #64748b;
+
+  --radius:    14px;
+  --radius-sm: 9px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
+  --shadow:    0 1px 3px rgba(15,23,42,.08), 0 8px 24px rgba(15,23,42,.06);
+  --shadow-lg: 0 12px 40px rgba(15,23,42,.12);
+  --ring:      0 0 0 4px rgba(37,99,235,.15);
+
+  --header-h:  64px;
+  --maxw:      1200px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+
+/* ----------------------------- Base / reset ------------------------------ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Default icon sizing. Every icon from DPDPA.icon() carries `.ico`; this is the
+ * lowest-priority fallback so any container-specific `svg` rule wins over it.
+ * Prevents un-ruled inline icons from rendering at their default (huge) size. */
+.ico { width: 1.1em; height: 1.1em; flex: none; vertical-align: -0.15em; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+}
+h1, h2, h3, h4 { color: var(--navy); line-height: 1.2; margin: 0 0 .4em; font-weight: 700; }
+h1 { font-size: 2.1rem; letter-spacing: -.02em; }
+h2 { font-size: 1.5rem; letter-spacing: -.01em; }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 1rem; color: var(--text-soft); }
+a { color: var(--blue-600); text-decoration: none; }
+a:hover { text-decoration: underline; }
+small { color: var(--text-mut); }
+ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.muted { color: var(--text-mut); }
+.center { text-align: center; }
+.hidden { display: none !important; }
+
+/* ------------------------------- Header ---------------------------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--header-h);
+  background: rgba(255,255,255,.9);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.site-header .container {
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 700; color: var(--navy); font-size: 1.06rem; }
+.brand:hover { text-decoration: none; }
+.brand .logo {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+  display: grid; place-items: center; color: #fff; box-shadow: var(--shadow-sm);
+}
+.brand .logo svg { width: 19px; height: 19px; }
+.brand .sub { display: block; font-size: .68rem; font-weight: 600; color: var(--text-mut); letter-spacing: .04em; text-transform: uppercase; margin-top: -2px; }
+
+/* Company logo image. White artwork sits on a dark chip so it reads on the
+ * white header. Falls back to the built-in CS mark if the image is missing. */
+.brand-logo { height: 40px; width: auto; max-width: 230px; display: block; object-fit: contain;
+  background: var(--navy); border-radius: 9px; padding: 5px 11px; box-shadow: var(--shadow-sm); }
+.brand-logo.is-missing { display: none; }
+.brand-fallback-mark { display: none; }                          /* only shown if the logo fails */
+.brand-logo.is-missing ~ .brand-fallback-mark { display: grid; }
+.brand-text { line-height: 1.2; }
+@media (max-width: 560px) {
+  .brand-text { display: none; }                                 /* logo alone on very small screens */
+  .brand-logo { max-width: 150px; height: 36px; }
+}
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav a { color: var(--text-soft); font-weight: 600; font-size: .92rem; padding: 8px 12px; border-radius: 8px; }
+.nav a:hover { background: var(--slate-100); text-decoration: none; }
+.nav a.active { color: var(--blue-700); background: var(--blue-50); }
+
+/* ------------------------------- Buttons --------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: inherit; font-weight: 600; font-size: .95rem;
+  padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
+  cursor: pointer; transition: all .16s ease; text-decoration: none; white-space: nowrap;
+}
+.btn svg { width: 17px; height: 17px; }
+.btn-primary { background: var(--blue-600); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary:hover { background: var(--blue-700); text-decoration: none; transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-secondary { background: var(--surface); color: var(--blue-700); border-color: var(--slate-300); }
+.btn-secondary:hover { background: var(--slate-50); border-color: var(--slate-400); text-decoration: none; }
+.btn-ghost { background: transparent; color: var(--text-soft); }
+.btn-ghost:hover { background: var(--slate-100); text-decoration: none; }
+.btn-lg { padding: 14px 26px; font-size: 1.02rem; border-radius: 12px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* -------------------------------- Cards ---------------------------------- */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm);
+}
+.card-pad { padding: 24px; }
+.card-hover { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.card-hover:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--blue-200); }
+
+/* -------------------------------- Badges --------------------------------- */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: .74rem; font-weight: 700; letter-spacing: .02em;
+  padding: 4px 10px; border-radius: 999px; border: 1px solid transparent; text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.badge-critical { background: var(--red-50);    color: var(--red-700);    border-color: #fecaca; }
+.badge-high     { background: var(--orange-50); color: var(--orange-600); border-color: #fed7aa; }
+.badge-moderate { background: var(--amber-50);  color: var(--amber-700);  border-color: #fde68a; }
+.badge-low      { background: var(--blue-50);   color: var(--blue-700);   border-color: var(--blue-200); }
+.badge-good     { background: var(--green-50);  color: var(--green-700);  border-color: #a7f3d0; }
+.badge-na       { background: var(--slate-100); color: var(--slate-500);  border-color: var(--slate-200); }
+.badge-soft { text-transform: none; font-weight: 600; }
+
+/* Importance / small pills */
+.pill { display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:600;
+  padding:3px 9px; border-radius:6px; background: var(--slate-100); color: var(--slate-600); }
+.pill-high { background: var(--red-50); color: var(--red-600); }
+.pill-medium { background: var(--amber-50); color: var(--amber-700); }
+.pill-low { background: var(--blue-50); color: var(--blue-700); }
+
+/* ----------------------------- Progress bars ----------------------------- */
+.progress { height: 8px; background: var(--slate-200); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; border-radius: 999px; background: var(--blue-600);
+  transition: width .5s cubic-bezier(.4,0,.2,1); }
+.progress.sm { height: 6px; }
+.bar-good > span     { background: linear-gradient(90deg, var(--green-500), var(--green-600)); }
+.bar-moderate > span { background: linear-gradient(90deg, var(--amber-500), var(--amber-600)); }
+.bar-high > span     { background: linear-gradient(90deg, var(--orange-500), var(--orange-600)); }
+.bar-critical > span { background: linear-gradient(90deg, var(--red-500), var(--red-600)); }
+
+/* -------------------------------- Tables --------------------------------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table.grc { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 720px; }
+table.grc th {
+  text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--slate-500); font-weight: 700; padding: 13px 16px; background: var(--slate-50);
+  border-bottom: 1px solid var(--border); position: sticky; top: 0;
+}
+table.grc td { padding: 14px 16px; border-bottom: 1px solid var(--slate-100); color: var(--text-soft); vertical-align: top; }
+table.grc tr:last-child td { border-bottom: none; }
+table.grc tbody tr:hover { background: var(--slate-50); }
+table.grc td strong { color: var(--navy); font-weight: 600; }
+
+/* ------------------------------- Sections -------------------------------- */
+.section { padding: 40px 0; }
+.section-head { margin-bottom: 22px; }
+.section-head .eyebrow { display: inline-flex; align-items: center; gap: 7px;
+  font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--blue-600); margin-bottom: 8px; }
+.section-head h2 { margin: 0; }
+.section-head p { margin: 8px 0 0; max-width: 62ch; }
+
+/* Layout helpers */
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+/* =============================================================================
+ * LANDING PAGE
+ * ========================================================================== */
+.hero { position: relative; overflow: hidden;
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(37,99,235,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(13,148,136,.07), transparent 55%),
+    var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.hero .container { padding-top: 72px; padding-bottom: 72px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+@media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; gap: 36px; } }
+.hero .tag { display:inline-flex; align-items:center; gap:8px; background: var(--blue-50);
+  color: var(--blue-700); font-weight:600; font-size:.82rem; padding:7px 14px; border-radius:999px;
+  border:1px solid var(--blue-100); margin-bottom: 20px; }
+.hero h1 { font-size: 2.9rem; margin-bottom: 18px; }
+.hero h1 .accent { color: var(--blue-600); }
+.hero .lead { font-size: 1.14rem; color: var(--text-soft); max-width: 54ch; margin-bottom: 28px; }
+@media (max-width: 560px) { .hero h1 { font-size: 2.1rem; } }
+.hero-stats { display:flex; gap: 28px; margin-top: 34px; flex-wrap: wrap; }
+.hero-stats .stat b { display:block; font-size: 1.7rem; color: var(--navy); font-weight: 800; letter-spacing: -.02em; }
+.hero-stats .stat span { font-size: .84rem; color: var(--text-mut); }
+
+/* Hero visual: mini score gauge card */
+.hero-card { background: var(--surface); border:1px solid var(--border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); padding: 26px; }
+.hero-card .hc-head { display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; }
+.hero-card .hc-head b { color: var(--navy); }
+.gauge-mini { display:flex; align-items:center; gap: 20px; }
+.gauge-mini .g-score { font-size: 3rem; font-weight: 800; color: var(--blue-600); letter-spacing: -.03em; line-height: 1; }
+.gauge-mini .g-score small { font-size: 1.1rem; color: var(--slate-400); font-weight: 700; }
+.hc-rows { margin-top: 22px; display: grid; gap: 14px; }
+.hc-row { display: grid; grid-template-columns: 118px 1fr auto; gap: 12px; align-items: center; font-size: .85rem; }
+.hc-row span:first-child { color: var(--text-soft); font-weight: 600; }
+.hc-row b { color: var(--navy); font-variant-numeric: tabular-nums; }
+
+/* Feature cards */
+.feature { padding: 24px; }
+.feature .fi { width: 44px; height: 44px; border-radius: 11px; background: var(--blue-50); color: var(--blue-600);
+  display:grid; place-items:center; margin-bottom: 16px; }
+.feature .fi svg { width: 22px; height: 22px; }
+.feature h3 { margin-bottom: 6px; }
+.feature p { margin: 0; font-size: .92rem; }
+
+/* Steps / flow */
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
+@media (max-width: 900px) { .flow { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .flow { grid-template-columns: 1fr; } }
+.flow .step { position: relative; padding: 20px 18px; background: var(--surface); border:1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.flow .step .n { width: 30px; height: 30px; border-radius: 8px; background: var(--navy); color:#fff;
+  display:grid; place-items:center; font-weight:700; font-size:.9rem; margin-bottom: 12px; }
+.flow .step h4 { margin: 0 0 4px; font-size: .98rem; }
+.flow .step p { margin: 0; font-size: .84rem; }
+
+/* Domains preview grid */
+.dom-chip { display:flex; align-items:center; gap: 12px; padding: 14px 16px; background: var(--surface);
+  border:1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); }
+.dom-chip .di { width: 38px; height: 38px; border-radius: 9px; background: var(--blue-50); color: var(--blue-600);
+  display:grid; place-items:center; flex: none; }
+.dom-chip .di svg { width: 19px; height: 19px; }
+.dom-chip b { display:block; font-size: .92rem; color: var(--navy); }
+.dom-chip span { font-size: .76rem; color: var(--text-mut); }
+
+.cta-band { background: linear-gradient(135deg, var(--navy), #1e293b);
+  border-radius: var(--radius-lg); padding: 44px; color: #fff; text-align: center; box-shadow: var(--shadow-lg); }
+.cta-band h2 { color: #fff; }
+.cta-band p { color: rgba(255,255,255,.8); max-width: 56ch; margin: 8px auto 24px; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--border); background: var(--surface); margin-top: 40px; }
+.site-footer .container { padding: 28px 24px; display:flex; justify-content:space-between; gap: 16px; flex-wrap: wrap; }
+.site-footer p { margin: 0; font-size: .84rem; }
+.disclaimer { background: var(--amber-50); border: 1px solid #fde68a; color: var(--amber-700);
+  border-radius: var(--radius-sm); padding: 14px 16px; font-size: .84rem; display:flex; gap:10px; }
+.disclaimer svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+
+/* =============================================================================
+ * ASSESSMENT PAGE
+ * ========================================================================== */
+.assess-layout { display: grid; grid-template-columns: 272px 1fr; gap: 28px; align-items: start;
+  padding: 28px 0 60px; }
+@media (max-width: 940px) { .assess-layout { grid-template-columns: 1fr; } }
+
+/* Stepper sidebar */
+.stepper { position: sticky; top: calc(var(--header-h) + 20px); }
+@media (max-width: 940px) { .stepper { position: static; } }
+.stepper .card-pad { padding: 18px; }
+.stepper h4 { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--slate-500); margin-bottom: 12px; }
+.step-item { display:flex; align-items:center; gap: 11px; padding: 9px 10px; border-radius: 9px;
+  cursor: pointer; transition: background .14s ease; margin-bottom: 2px; }
+.step-item:hover { background: var(--slate-50); }
+.step-item.active { background: var(--blue-50); }
+.step-item.active .si-name { color: var(--blue-700); font-weight: 700; }
+.step-item .si-ic { width: 30px; height: 30px; border-radius: 8px; background: var(--slate-100); color: var(--slate-500);
+  display:grid; place-items:center; flex:none; transition: all .14s ease; }
+.step-item .si-ic svg { width: 16px; height: 16px; }
+.step-item.active .si-ic { background: var(--blue-600); color: #fff; }
+.step-item.done .si-ic { background: var(--green-50); color: var(--green-600); }
+.step-item .si-name { font-size: .88rem; font-weight: 600; color: var(--text-soft); flex: 1; line-height: 1.25; }
+.step-item .si-count { font-size: .72rem; color: var(--slate-400); font-variant-numeric: tabular-nums; }
+.step-item.na { opacity: .55; }
+
+/* Main assessment panel */
+.assess-topbar { display:flex; align-items:center; justify-content:space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.assess-progress-wrap { flex: 1; min-width: 240px; }
+.assess-progress-wrap .labels { display:flex; justify-content:space-between; font-size:.8rem; margin-bottom: 7px; }
+.assess-progress-wrap .labels b { color: var(--navy); }
+
+.domain-header { display:flex; align-items:flex-start; gap: 16px; margin-bottom: 6px; }
+.domain-header .dh-ic { width: 52px; height: 52px; border-radius: 13px;
+  background: linear-gradient(135deg, var(--blue-500), var(--blue-700)); color:#fff;
+  display:grid; place-items:center; flex:none; box-shadow: var(--shadow-sm); }
+.domain-header .dh-ic svg { width: 26px; height: 26px; }
+.domain-header h2 { margin: 0 0 3px; }
+.domain-header .dh-meta { display:flex; gap: 10px; align-items:center; flex-wrap: wrap; margin-top: 6px; }
+.domain-header .ref-tag { font-size:.76rem; font-weight:600; color: var(--blue-700); background: var(--blue-50);
+  padding: 3px 9px; border-radius: 6px; }
+
+.applic-note { margin: 16px 0; background: var(--slate-50); border:1px dashed var(--slate-300);
+  border-radius: var(--radius-sm); padding: 12px 15px; font-size: .86rem; color: var(--text-soft);
+  display:flex; gap: 10px; }
+.applic-note svg { width:18px; height:18px; color: var(--slate-400); flex:none; margin-top:1px; }
+
+/* Question card */
+.q-card { margin-top: 16px; padding: 22px 24px; }
+.q-card.answered { border-color: var(--blue-200); }
+.q-card.needs-answer { border-color: #fca5a5; box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
+.q-flag { display: none; margin-top: 13px; align-items: center; gap: 7px;
+  color: var(--red-600); font-size: .84rem; font-weight: 600; }
+.q-flag svg { width: 16px; height: 16px; }
+.q-card.needs-answer .q-flag { display: flex; }
+.req-star { color: var(--red-500); font-weight: 700; margin-left: 3px; }
+.q-top { display:flex; justify-content:space-between; gap: 14px; align-items:flex-start; margin-bottom: 6px; }
+.q-num { font-size:.76rem; font-weight:700; color: var(--slate-400); letter-spacing:.04em; text-transform: uppercase; }
+.q-badges { display:flex; gap: 7px; flex-wrap: wrap; }
+.q-text { font-size: 1.08rem; font-weight: 600; color: var(--navy); margin: 4px 0 10px; line-height: 1.4; }
+.q-why { display:flex; gap: 8px; align-items:flex-start; background: var(--blue-50); border-radius: 9px;
+  padding: 10px 13px; font-size: .87rem; color: var(--slate-700); margin-bottom: 8px; }
+.q-why svg { width: 16px; height: 16px; color: var(--blue-500); flex:none; margin-top: 2px; }
+.q-ref { font-size: .82rem; color: var(--text-mut); margin-bottom: 16px; display:flex; align-items:center; gap:7px; }
+.q-ref svg { width: 15px; height: 15px; color: var(--slate-400); }
+.q-ref b { color: var(--slate-600); font-weight: 600; }
+
+/* Options */
+.options { display: grid; gap: 9px; }
+.opt {
+  display:flex; align-items:center; gap: 12px; padding: 12px 15px;
+  border: 1.5px solid var(--slate-200); border-radius: 10px; cursor: pointer;
+  transition: all .13s ease; background: var(--surface);
+}
+.opt:hover { border-color: var(--blue-300, #93c5fd); background: var(--blue-50); }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt .mark { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--slate-300);
+  flex:none; display:grid; place-items:center; transition: all .13s ease; }
+.opt .mark::after { content:''; width: 9px; height: 9px; border-radius: 50%; background: var(--blue-600);
+  transform: scale(0); transition: transform .13s ease; }
+.opt.checked { border-color: var(--blue-600); background: var(--blue-50); box-shadow: var(--ring); }
+.opt.checked .mark { border-color: var(--blue-600); }
+.opt.checked .mark::after { transform: scale(1); }
+.opt .opt-label { font-size: .94rem; font-weight: 500; color: var(--text); flex: 1; }
+.opt.checked .opt-label { color: var(--navy); font-weight: 600; }
+
+/* Nav buttons row */
+.assess-nav { display:flex; justify-content:space-between; align-items:center; margin-top: 28px; gap: 12px; }
+.assess-nav .spacer { flex: 1; }
+
+/* Profile form */
+.field { margin-bottom: 18px; }
+.field label { display:block; font-weight: 600; color: var(--navy); font-size: .92rem; margin-bottom: 7px; }
+.field input[type=text], .field select {
+  width: 100%; padding: 11px 13px; border: 1.5px solid var(--slate-200); border-radius: 10px;
+  font-family: inherit; font-size: .94rem; color: var(--text); background: var(--surface); transition: all .13s;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--blue-600); box-shadow: var(--ring); }
+.checks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+@media (max-width: 560px) { .checks { grid-template-columns: 1fr; } }
+.check { display:flex; align-items:center; gap: 10px; padding: 10px 13px; border:1.5px solid var(--slate-200);
+  border-radius: 9px; cursor: pointer; font-size: .9rem; transition: all .13s; }
+.check:hover { border-color: var(--blue-300, #93c5fd); background: var(--blue-50); }
+.check.checked { border-color: var(--blue-600); background: var(--blue-50); }
+.check input { position:absolute; opacity:0; }
+.check .box { width:18px; height:18px; border-radius: 5px; border:2px solid var(--slate-300); flex:none;
+  display:grid; place-items:center; }
+.check.checked .box { background: var(--blue-600); border-color: var(--blue-600); }
+.check .box svg { width: 12px; height: 12px; color:#fff; opacity: 0; }
+.check.checked .box svg { opacity: 1; }
+
+/* Toast / save indicator */
+.save-hint { display:inline-flex; align-items:center; gap: 6px; font-size:.8rem; color: var(--green-600); font-weight:600; }
+.save-hint svg { width: 15px; height: 15px; }
+
+/* =============================================================================
+ * REPORT PAGE
+ * ========================================================================== */
+.report-hero { background: linear-gradient(135deg, var(--navy) 0%, #1a2744 55%, var(--blue-800) 100%);
+  color:#fff; border-radius: var(--radius-lg); padding: 34px; margin: 28px 0; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+.report-hero::after { content:''; position:absolute; right:-80px; top:-80px; width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(59,130,246,.35), transparent 65%); }
+.report-hero .rh-grid { display:grid; grid-template-columns: auto 1fr; gap: 40px; align-items:center; position: relative; z-index:1; }
+@media (max-width: 720px) { .report-hero .rh-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+/* Circular gauge — colour reflects the compliance level (via inline gradient) */
+.gauge { width: 176px; height: 176px; position: relative; flex: none; }
+.gauge svg { transform: rotate(-90deg); width: 100%; height: 100%; overflow: visible; }
+.gauge .g-track { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 15; }
+.gauge .g-fill { fill: none; stroke-width: 15; stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(.34,1.1,.4,1); }
+.gauge .g-center { position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; }
+.gauge .g-center b { font-size: 3rem; font-weight: 800; letter-spacing:-.03em; line-height:1; color:#fff; }
+.gauge .g-center b small { font-size: 1.15rem; opacity:.5; font-weight:700; margin-left:1px; }
+.gauge .g-center span { font-size: .64rem; text-transform: uppercase; letter-spacing:.12em;
+  opacity:.6; margin-top: 8px; color:#fff; white-space: nowrap; }
+
+.rh-info h1 { color:#fff; font-size: 1.75rem; margin-bottom: 6px; }
+.rh-info .rh-org { font-size: 1.05rem; opacity: .85; margin-bottom: 18px; }
+.rh-level { display:inline-flex; align-items:center; gap: 9px; font-weight:700; font-size: 1.02rem;
+  padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2); }
+.rh-level .dot { width: 10px; height: 10px; border-radius: 50%; }
+.rh-headline { color: rgba(255,255,255,.92); font-size: 1.05rem; line-height: 1.55; margin: 16px 0 0; max-width: 60ch; }
+.rh-foot { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.15);
+  font-size: .84rem; color: rgba(255,255,255,.68); letter-spacing: .01em; }
+
+/* Critical findings card — consequence-led */
+.critical-card { padding: 22px 24px; border-left: 4px solid var(--red-500); }
+.cf-head { display:flex; align-items:center; gap: 9px; margin: 0 0 14px; color: var(--navy); }
+.cf-head svg { color: var(--red-500); width: 20px; height: 20px; }
+.cf-list { list-style:none; padding:0; margin:0; display:grid; gap: 13px; }
+.cf-list li { display:flex; gap: 12px; align-items:flex-start; }
+.cf-ic { width: 26px; height: 26px; border-radius: 7px; background: var(--red-50); color: var(--red-600);
+  display:grid; place-items:center; flex:none; margin-top: 1px; }
+.cf-ic svg { width: 15px; height: 15px; }
+.cf-body b { display:block; color: var(--navy); font-size: .96rem; font-weight: 600; line-height: 1.45; }
+.cf-body span { font-size: .78rem; color: var(--text-mut); }
+.cf-more { margin-top: 14px; padding-top: 13px; border-top: 1px dashed var(--slate-200);
+  font-size: .84rem; color: var(--text-mut); font-weight: 500; }
+
+/* Domain verdict cards */
+.verdict { padding: 20px 22px; }
+.verdict .v-top { display:flex; align-items:center; gap: 12px; margin-bottom: 13px; }
+.verdict .v-ic { width: 42px; height: 42px; border-radius: 11px; background: var(--blue-50); color: var(--blue-600);
+  display:grid; place-items:center; flex:none; }
+.verdict .v-ic svg { width: 21px; height: 21px; }
+.verdict .v-name { flex: 1; min-width: 0; }
+.verdict .v-name b { display:block; color: var(--navy); font-size: 1rem; }
+.verdict .v-name span { font-size: .76rem; color: var(--text-mut); }
+.verdict .v-score { font-size: 1.7rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.verdict .v-score small { font-size: .95rem; opacity: .55; }
+.verdict .v-headline { font-size: .96rem; font-weight: 600; color: var(--navy); margin: 12px 0 12px; line-height: 1.45; }
+.verdict .v-line { display:flex; gap: 9px; align-items:flex-start; font-size: .86rem; color: var(--text-soft);
+  padding: 9px 12px; border-radius: 9px; margin-top: 8px; }
+.verdict .v-line svg { width: 16px; height: 16px; flex:none; margin-top: 2px; }
+.verdict .v-line b { font-weight: 700; }
+.verdict .v-line.neg { background: var(--red-50); }
+.verdict .v-line.neg svg { color: var(--red-500); }
+.verdict .v-line.neg b { color: var(--red-700); }
+.verdict .v-line.pos { background: var(--green-50); }
+.verdict .v-line.pos svg { color: var(--green-600); }
+.verdict .v-line.pos b { color: var(--green-700); }
+.verdict.verdict-na { opacity: .7; }
+
+/* KPI / dashboard cards */
+.kpi { padding: 20px; }
+.kpi .kpi-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 12px; }
+.kpi .kpi-ic { width: 40px; height: 40px; border-radius: 10px; display:grid; place-items:center; }
+.kpi-ic svg { width: 20px; height: 20px; }   /* also covers reuse outside .kpi (e.g. readiness) */
+.kpi-ic.blue { background: var(--blue-50); color: var(--blue-600); }
+.kpi-ic.red { background: var(--red-50); color: var(--red-600); }
+.kpi-ic.amber { background: var(--amber-50); color: var(--amber-600); }
+.kpi-ic.green { background: var(--green-50); color: var(--green-600); }
+.kpi b { font-size: 2rem; font-weight: 800; color: var(--navy); letter-spacing:-.02em; display:block; line-height:1.1; }
+.kpi span { font-size: .86rem; color: var(--text-mut); font-weight: 500; }
+
+/* Domain score rows */
+.dom-score { padding: 18px 20px; }
+.dom-score .ds-top { display:flex; align-items:center; gap: 12px; margin-bottom: 12px; }
+.dom-score .ds-ic { width: 40px; height: 40px; border-radius: 10px; background: var(--slate-100); color: var(--slate-600);
+  display:grid; place-items:center; flex:none; }
+.dom-score .ds-ic svg { width: 20px; height: 20px; }
+.dom-score .ds-name { flex: 1; }
+.dom-score .ds-name b { display:block; color: var(--navy); font-size: .96rem; }
+.dom-score .ds-name span { font-size: .76rem; color: var(--text-mut); }
+.dom-score .ds-val { font-size: 1.5rem; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+.dom-score .ds-val small { font-size:.9rem; color: var(--slate-400); }
+.dom-score .ds-foot { display:flex; justify-content:space-between; align-items:center; margin-top: 10px; font-size:.8rem; color: var(--text-mut); }
+
+/* Domain deep-dive analysis blocks */
+.analysis { padding: 22px 24px; }
+.analysis .an-head { display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+.analysis .an-head .an-title { display:flex; align-items:center; gap: 12px; }
+.analysis .an-head .an-ic { width: 42px; height: 42px; border-radius: 11px; background: var(--blue-50); color: var(--blue-600); display:grid; place-items:center; flex:none; }
+.analysis .an-head .an-ic svg { width: 21px; height: 21px; }
+.analysis .an-head h3 { margin: 0; }
+.analysis .an-head .an-ref { font-size:.78rem; color: var(--text-mut); }
+.analysis .an-score { text-align:right; }
+.analysis .an-score b { font-size: 1.6rem; font-weight: 800; color: var(--navy); }
+.an-cols { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 6px; }
+@media (max-width: 640px) { .an-cols { grid-template-columns: 1fr; } }
+.an-list h5 { font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; margin:0 0 10px; display:flex; align-items:center; gap:7px; }
+.an-list h5.pos { color: var(--green-600); }
+.an-list h5.neg { color: var(--red-600); }
+.an-list ul { list-style:none; padding:0; margin:0; display:grid; gap: 8px; }
+.an-list li { display:flex; gap: 9px; align-items:flex-start; font-size: .88rem; color: var(--text-soft); }
+.an-list li svg { width: 16px; height: 16px; flex:none; margin-top: 2px; }
+.an-list li .ok { color: var(--green-500); }
+.an-list li .no { color: var(--red-500); }
+
+/* Priority matrix */
+.matrix { display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 720px) { .matrix { grid-template-columns: repeat(2,1fr); } }
+.matrix .m-cell { padding: 20px; border-radius: var(--radius); border:1px solid var(--border); text-align:center; }
+.matrix .m-cell b { font-size: 2.4rem; font-weight: 800; display:block; line-height:1; }
+.matrix .m-cell span { font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.m-cell.immediate { background: var(--red-50); border-color:#fecaca; }
+.m-cell.immediate b, .m-cell.immediate span { color: var(--red-600); }
+.m-cell.high { background: var(--orange-50); border-color:#fed7aa; }
+.m-cell.high b, .m-cell.high span { color: var(--orange-600); }
+.m-cell.medium { background: var(--amber-50); border-color:#fde68a; }
+.m-cell.medium b, .m-cell.medium span { color: var(--amber-700); }
+.m-cell.low { background: var(--blue-50); border-color: var(--blue-200); }
+.m-cell.low b, .m-cell.low span { color: var(--blue-700); }
+
+/* Two-column strengths/weaknesses */
+.sw-col { padding: 22px 24px; }
+.sw-col h3 { display:flex; align-items:center; gap: 10px; }
+.sw-col h3 .sw-ic { width: 34px; height:34px; border-radius: 9px; display:grid; place-items:center; }
+.sw-col.pos h3 .sw-ic { background: var(--green-50); color: var(--green-600); }
+.sw-col.neg h3 .sw-ic { background: var(--red-50); color: var(--red-600); }
+.sw-col ul { list-style:none; padding:0; margin: 14px 0 0; display:grid; gap: 10px; }
+.sw-col li { display:flex; gap: 11px; align-items:flex-start; font-size:.9rem; }
+.sw-col li .li-ic { flex:none; margin-top:1px; }
+.sw-col li .li-ic svg { width: 17px; height: 17px; }
+.sw-col.pos li .li-ic { color: var(--green-500); }
+.sw-col.neg li .li-ic { color: var(--red-500); }
+.sw-col li .li-body b { color: var(--navy); font-weight:600; font-size:.9rem; display:block; }
+.sw-col li .li-body span { font-size: .76rem; color: var(--text-mut); }
+
+/* Recommendation cards */
+.rec-card { padding: 18px 20px; display:flex; gap: 14px; align-items:flex-start; }
+.rec-card .rc-n { width: 30px; height:30px; border-radius: 8px; background: var(--blue-600); color:#fff;
+  display:grid; place-items:center; font-weight:700; font-size:.9rem; flex:none; }
+.rec-card .rc-body b { color: var(--navy); font-size: .95rem; display:block; margin-bottom: 3px; }
+.rec-card .rc-body p { margin: 0 0 6px; font-size: .88rem; }
+.rec-card .rc-meta { display:flex; gap: 10px; align-items:center; flex-wrap: wrap; }
+
+/* Timeline (remediation roadmap) */
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content:''; position:absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--slate-200); }
+.tl-item { position: relative; margin-bottom: 16px; }
+.tl-item::before { content:''; position:absolute; left: -26px; top: 6px; width: 14px; height: 14px; border-radius: 50%;
+  border: 3px solid var(--surface); background: var(--blue-600); box-shadow: 0 0 0 1px var(--slate-200); }
+.tl-item.p-immediate::before { background: var(--red-500); }
+.tl-item.p-high::before { background: var(--orange-500); }
+.tl-item.p-medium::before { background: var(--amber-500); }
+.tl-item.p-low::before { background: var(--blue-500); }
+
+/* Empty state */
+.empty { text-align:center; padding: 70px 24px; }
+.empty .e-ic { width: 68px; height: 68px; border-radius: 18px; background: var(--slate-100); color: var(--slate-400);
+  display:grid; place-items:center; margin: 0 auto 20px; }
+.empty .e-ic svg { width: 34px; height: 34px; }
+
+/* Tooltip */
+.tip { position: relative; display:inline-flex; cursor: help; }
+.tip .tip-ic { width: 15px; height:15px; color: var(--slate-400); }
+.tip:hover .tip-box { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.tip .tip-box { position:absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+  background: var(--navy); color:#fff; font-size:.78rem; font-weight:500; padding: 8px 11px; border-radius: 8px;
+  width: 220px; text-align:center; opacity:0; visibility:hidden; transition: all .16s; z-index: 30; box-shadow: var(--shadow); }
+.tip .tip-box::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border: 6px solid transparent; border-top-color: var(--navy); }
+
+/* Report toolbar (sticky sub-nav) */
+.report-toolbar { position: sticky; top: var(--header-h); z-index: 20; background: rgba(255,255,255,.92);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.report-toolbar .container { display:flex; align-items:center; justify-content:space-between; gap: 14px; padding: 12px 24px; flex-wrap: wrap; }
+.report-nav { display:flex; gap: 4px; flex-wrap: wrap; }
+.report-nav a { font-size:.84rem; font-weight:600; color: var(--text-soft); padding: 6px 11px; border-radius: 7px; }
+.report-nav a:hover { background: var(--slate-100); text-decoration:none; }
+.report-nav a.active { color: var(--blue-700); background: var(--blue-50); }
+
+/* Utility spacing */
+.mt-0{margin-top:0}.mt-1{margin-top:8px}.mt-2{margin-top:16px}.mt-3{margin-top:24px}.mt-4{margin-top:32px}
+.mb-0{margin-bottom:0}.mb-2{margin-bottom:16px}.mb-3{margin-bottom:24px}
+.flex{display:flex}.between{justify-content:space-between}.aic{align-items:center}.gap{gap:12px}.wrap{flex-wrap:wrap}
+
+/* =============================================================================
+ * PRINT (Save as PDF)
+ * ========================================================================== */
+@media print {
+  .site-header, .report-toolbar, .no-print, .site-footer, .btn { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  .container { max-width: 100%; padding: 0; }
+  .report-hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card, .table-wrap { box-shadow: none; break-inside: avoid; }
+  .section { padding: 16px 0; break-inside: avoid; }
+  .analysis, .kpi, .dom-score { break-inside: avoid; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* single-file view switching */
+[hidden]{display:none!important}
+/* offset anchor targets so they land below the sticky header / toolbar */
+#view-landing section[id]{scroll-margin-top:84px}
+#report-root section[id]{scroll-margin-top:128px}
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" data-view="landing" href="#">
+        <img class="brand-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMTcwIiBmaWxsPSJub25lIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkNvbm5lY3Rpdml0eSBTb2x1dGlvbnMiPgogIDwhLS0gTW9ub2dyYW06IHdoaXRlIHJvdW5kZWQgc3F1YXJlIHdpdGggQ1MgbWFyayAtLT4KICA8cmVjdCB4PSIxMiIgeT0iMTQiIHdpZHRoPSIxNDIiIGhlaWdodD0iMTQyIiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiLz4KICA8dGV4dCB4PSI4MyIgeT0iODgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIgogICAgICAgIGZvbnQtZmFtaWx5PSInU2Vnb2UgVUknLCdIZWx2ZXRpY2EgTmV1ZScsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4MiIKICAgICAgICBmb250LXdlaWdodD0iODAwIiBsZXR0ZXItc3BhY2luZz0iLTMiIGZpbGw9IiMwZjE3MmEiPkNTPC90ZXh0PgogIDwhLS0gV29yZG1hcmsgLS0+CiAgPHRleHQgeD0iMTg0IiB5PSI3MiIgZm9udC1mYW1pbHk9IidTZWdvZSBVSScsJ0hlbHZldGljYSBOZXVlJyxBcmlhbCxzYW5zLXNlcmlmIgogICAgICAgIGZvbnQtc2l6ZT0iNTIiIGZvbnQtd2VpZ2h0PSI2MDAiIGxldHRlci1zcGFjaW5nPSItMC41IiBmaWxsPSIjZmZmZmZmIj5Db25uZWN0aXZpdHk8L3RleHQ+CiAgPHRleHQgeD0iMTg0IiB5PSIxMzIiIGZvbnQtZmFtaWx5PSInU2Vnb2UgVUknLCdIZWx2ZXRpY2EgTmV1ZScsQXJpYWwsc2Fucy1zZXJpZiIKICAgICAgICBmb250LXNpemU9IjUyIiBmb250LXdlaWdodD0iNjAwIiBsZXR0ZXItc3BhY2luZz0iLTAuNSIgZmlsbD0iI2ZmZmZmZiI+U29sdXRpb25zPC90ZXh0Pgo8L3N2Zz4K" alt="Connectivity Solutions" />
+        <span class="brand-text">DPDPA <span style="color:var(--blue-600)">Compliance</span><span class="sub">Data Protection Readiness</span></span>
+      </a>
+      <nav class="nav">
+        <a data-view="landing" href="#">Overview</a>
+        <a data-nav="landing" href="#flow">How it works</a>
+        <a data-nav="landing" href="#coverage">Coverage</a>
+        <a data-nav="app" data-view="assessment" href="#">Assessment</a>
+        <a data-nav="app" data-view="report" href="#">Report</a>
+        <a data-nav="landing" data-view="assessment" href="#" class="btn btn-primary" style="color:#fff">Start Assessment <span data-icon="arrowRight"></span></a>
+      </nav>
+    </div>
+  </header>
+  <div id="view-landing" class="view">
+
+
+  <!-- ============================ HEADER ============================ -->
+  
+
+  <!-- ============================= HERO ============================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="tag" data-icon-prefix>
+            <span data-icon="scale" style="width:16px;height:16px;display:inline-flex"></span>
+            Aligned to the DPDP Act, 2023 &amp; DPDP Rules, 2025
+          </span>
+          <h1>Know your <span class="accent">DPDPA</span> compliance posture — before the regulator does.</h1>
+          <p class="lead">A professional, consultant-grade assessment that evaluates your organization
+            against the Digital Personal Data Protection Act, 2023 and produces an executive
+            compliance report with scoring, a risk register and a prioritised remediation roadmap.</p>
+          <div class="btn-row">
+            <a href="#" data-view="assessment" class="btn btn-primary btn-lg">Begin free assessment
+              <span data-icon="arrowRight"></span></a>
+            <a href="#flow" class="btn btn-secondary btn-lg">See how it works</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><b id="stat-questions">—</b><span>Control questions</span></div>
+            <div class="stat"><b id="stat-domains">—</b><span>Compliance domains</span></div>
+            <div class="stat"><b>16+</b><span>DPDPA sections mapped</span></div>
+          </div>
+        </div>
+
+        <!-- Illustrative report preview card -->
+        <div class="hero-card">
+          <div class="hc-head">
+            <b>Compliance Snapshot</b>
+            <span class="badge badge-moderate"><span class="dot"></span>Sample</span>
+          </div>
+          <div class="gauge-mini">
+            <div class="g-score">72<small>%</small></div>
+            <div>
+              <div class="badge badge-moderate" style="margin-bottom:8px">Needs Improvement</div>
+              <div class="muted" style="font-size:.84rem">Overall readiness across 13 domains</div>
+            </div>
+          </div>
+          <div class="hc-rows">
+            <div class="hc-row"><span>Notice &amp; Consent</span>
+              <div class="progress sm bar-moderate"><span style="width:68%"></span></div><b>68%</b></div>
+            <div class="hc-row"><span>Data Security</span>
+              <div class="progress sm bar-good"><span style="width:84%"></span></div><b>84%</b></div>
+            <div class="hc-row"><span>Breach Mgmt</span>
+              <div class="progress sm bar-high"><span style="width:45%"></span></div><b>45%</b></div>
+            <div class="hc-row"><span>Data Principal Rights</span>
+              <div class="progress sm bar-moderate"><span style="width:61%"></span></div><b>61%</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= INTRODUCTION ========================= -->
+  <section class="section container">
+    <div class="section-head center" style="max-width:720px;margin:0 auto 30px">
+      <span class="eyebrow" style="justify-content:center"><span data-icon="info" style="width:14px;height:14px;display:inline-flex"></span> Why this matters</span>
+      <h2>Not a questionnaire — a compliance consultant in software</h2>
+      <p style="margin-left:auto;margin-right:auto">The DPDPA imposes real obligations backed by penalties of up to
+        ₹250 crore. This platform evaluates your current controls, quantifies risk, and hands you a
+        board-ready roadmap toward substantial compliance.</p>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="card card-hover feature">
+        <div class="fi" data-icon="scale"></div>
+        <h3>Statutory mapping</h3>
+        <p>Every control maps to a real DPDPA section or DPDP Rule — no invented references.</p>
+      </div>
+      <div class="card card-hover feature">
+        <div class="fi" data-icon="activity"></div>
+        <h3>Weighted scoring</h3>
+        <p>Critical controls carry more weight, producing a defensible compliance score per domain.</p>
+      </div>
+      <div class="card card-hover feature">
+        <div class="fi" data-icon="alert"></div>
+        <h3>Risk register</h3>
+        <p>Failed controls become classified risks with likelihood, impact and mitigation.</p>
+      </div>
+      <div class="card card-hover feature">
+        <div class="fi" data-icon="target"></div>
+        <h3>Remediation roadmap</h3>
+        <p>Prioritised tasks with owners, timelines and quick-win flags you can action today.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= FLOW ============================= -->
+  <section class="section" id="flow" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"><span data-icon="list" style="width:14px;height:14px;display:inline-flex"></span> The process</span>
+        <h2>From assessment to action in five steps</h2>
+        <p>A guided flow that mirrors how a privacy consultant would evaluate your organization.</p>
+      </div>
+      <div class="flow">
+        <div class="step"><div class="n">1</div><h4>Profile</h4><p>Tell us about your organization and how it processes personal data.</p></div>
+        <div class="step"><div class="n">2</div><h4>Assess</h4><p>Answer control questions across every DPDPA domain.</p></div>
+        <div class="step"><div class="n">3</div><h4>Score</h4><p>Weighted scoring produces overall and per-domain compliance levels.</p></div>
+        <div class="step"><div class="n">4</div><h4>Analyse</h4><p>Gaps and risks are classified by likelihood, impact and priority.</p></div>
+        <div class="step"><div class="n">5</div><h4>Remediate</h4><p>Receive a prioritised roadmap with owners and timelines.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ DOMAINS =========================== -->
+  <section class="section container" id="coverage">
+    <div class="section-head">
+      <span class="eyebrow"><span data-icon="layers" style="width:14px;height:14px;display:inline-flex"></span> Coverage</span>
+      <h2>The full personal-data lifecycle</h2>
+      <p>The assessment spans governance, notice, consent, processing, rights, security, breach,
+        vendors, retention, cross-border transfer and Significant Data Fiduciary obligations.</p>
+    </div>
+    <div class="grid grid-3" id="domain-grid"><!-- populated by JS --></div>
+  </section>
+
+  <!-- ============================== CTA ============================= -->
+  <section class="section container">
+    <div class="cta-band">
+      <h2>Ready to measure your DPDPA readiness?</h2>
+      <p>The assessment takes about 15–20 minutes. Your answers stay in your browser — nothing is
+        uploaded. You can pause and resume at any time.</p>
+      <a href="#" data-view="assessment" class="btn btn-primary btn-lg" style="background:#fff;color:var(--blue-700)">
+        Start your assessment <span data-icon="arrowRight"></span></a>
+    </div>
+
+    <div class="disclaimer mt-4">
+      <span data-icon="info"></span>
+      <span><b>Disclaimer:</b> This tool provides a structured self-assessment for informational purposes
+        and does not constitute legal advice. Legal references are drawn from the Digital Personal Data
+        Protection Act, 2023 and the DPDP Rules, 2025. Consult qualified counsel before acting on the results.</span>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  
+
+  <!-- ============================ SCRIPTS =========================== -->
+  
+  
+
+  </div>
+  <div id="view-assessment" class="view" hidden>
+
+
+  <!-- ============================ HEADER ============================ -->
+  
+
+  <main class="container">
+    <div class="assess-layout">
+
+      <!-- ========================= STEPPER ========================= -->
+      <aside class="stepper">
+        <div class="card">
+          <div class="card-pad">
+            <h4>Assessment sections</h4>
+            <div id="stepper-list"><!-- JS --></div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding:16px">
+            <div class="flex between aic" style="margin-bottom:10px">
+              <span class="muted" style="font-size:.8rem">Overall completion</span>
+              <b id="side-pct" style="color:var(--navy);font-size:.9rem">0%</b>
+            </div>
+            <div class="progress" id="side-progress"><span style="width:0%"></span></div>
+            <button class="btn btn-secondary" id="btn-demo-fill" style="width:100%;justify-content:center;margin-top:16px;background:var(--blue-50);border-color:var(--blue-200)">
+              <span data-icon="zap"></span> Demo Fill
+            </button>
+            <button class="btn btn-primary" id="btn-generate" style="width:100%;justify-content:center;margin-top:8px">
+              Generate Report <span data-icon="arrowRight"></span>
+            </button>
+            <button class="btn btn-ghost" id="btn-reset" style="width:100%;justify-content:center;margin-top:6px;font-size:.85rem">
+              Reset assessment
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========================== MAIN =========================== -->
+      <section>
+        <div class="assess-topbar">
+          <div class="assess-progress-wrap">
+            <div class="labels">
+              <span>Step <b id="step-current">1</b> of <b id="step-total">1</b></span>
+              <span id="answered-summary" class="save-hint"></span>
+            </div>
+            <div class="progress" id="top-progress"><span style="width:0%"></span></div>
+          </div>
+        </div>
+
+        <div id="step-content"><!-- JS renders profile form or a domain's questions --></div>
+
+        <div class="assess-nav">
+          <button class="btn btn-secondary" id="btn-prev"><span data-icon="arrowLeft"></span> Previous</button>
+          <div class="spacer"></div>
+          <button class="btn btn-primary" id="btn-next">Next <span data-icon="arrowRight"></span></button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  
+  
+  
+
+  </div>
+  <div id="view-report" class="view" hidden>
+
+
+  <!-- ============================ HEADER ============================ -->
+  
+
+  <!-- Sticky in-report navigation + export controls (hidden when empty) -->
+  <div class="report-toolbar no-print" id="report-toolbar" style="display:none">
+    <div class="container">
+      <nav class="report-nav">
+        <a href="#summary">Summary</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#domains">Domain Verdicts</a>
+        <a href="#matrix">Priorities</a>
+        <a href="#risks">Risk Register</a>
+        <a href="#remediation">Roadmap</a>
+        <a href="#readiness">Bottom Line</a>
+      </nav>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-export"><span data-icon="download"></span> Export data</button>
+        <button class="btn btn-primary" id="btn-print"><span data-icon="printer"></span> Print / Save as PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container" id="report-root"><!-- JS renders the full report or an empty state --></main>
+
+  
+
+  
+  
+  
+
+  </div>
+  <footer class="site-footer">
+    <div class="container">
+      <p><b style="color:var(--navy)">DPDPA Compliance Assessment Platform</b> — informational self-assessment, not legal advice.</p>
+      <p id="footer-generated"></p>
+    </div>
+  </footer>
+  <script>
+/* =============================================================================
+ * questions.js
+ * -----------------------------------------------------------------------------
+ * DPDPA 2023 assessment content: organization profile, compliance domains and
+ * the structured question bank. This module is deliberately data-only so that
+ * it can later be swapped for a REST/JSON API without touching UI or scoring.
+ *
+ * Legal references cite the Digital Personal Data Protection Act, 2023 (DPDPA)
+ * and the Digital Personal Data Protection Rules, 2025 (DPDP Rules) where the
+ * rules add operational detail. References are not invented; where a control is
+ * best-practice supporting the accountability principle it is labelled as such.
+ *
+ * Global namespace: window.DPDPA
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var DPDPA = root.DPDPA = root.DPDPA || {};
+
+  /* ---------------------------------------------------------------------------
+   * Standard answer option sets (reused across scored questions)
+   * ------------------------------------------------------------------------ */
+  // Scored answers are mandatory — there is no per-question "Not applicable".
+  // Whole non-applicable domains are removed via each domain's applicability().
+  // A very small number of genuinely-optional controls opt back in via
+  // `allowNA: true`, which appends NA_OPTION to their choices.
+  var IMPLEMENTATION_OPTIONS = [
+    { label: 'Yes, fully implemented', value: 'yes', score: 100 },
+    { label: 'Partially implemented', value: 'partial', score: 60 },
+    { label: 'Planned / in progress', value: 'planned', score: 30 },
+    { label: 'No / not implemented', value: 'no', score: 0 }
+  ];
+
+  var YES_NO_OPTIONS = [
+    { label: 'Yes', value: 'yes', score: 100 },
+    { label: 'No', value: 'no', score: 0 }
+  ];
+
+  var MATURITY_OPTIONS = [
+    { label: '1 — Absent (no control in place)', value: '1', score: 0 },
+    { label: '2 — Initial (ad-hoc, undocumented)', value: '2', score: 25 },
+    { label: '3 — Defined (documented, inconsistent)', value: '3', score: 50 },
+    { label: '4 — Managed (operational, monitored)', value: '4', score: 75 },
+    { label: '5 — Optimised (audited, continually improved)', value: '5', score: 100 }
+  ];
+
+  var NA_OPTION = { label: 'Not applicable', value: 'na', score: null };
+
+  DPDPA.optionSets = {
+    implementation: IMPLEMENTATION_OPTIONS,
+    yesNo: YES_NO_OPTIONS,
+    maturity: MATURITY_OPTIONS,
+    na: NA_OPTION
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Organization profile (not scored — drives applicability & report context)
+   * ------------------------------------------------------------------------ */
+  DPDPA.profileQuestions = [
+    {
+      id: 'P-01', field: 'orgName', type: 'text', label: 'Organization name',
+      placeholder: 'e.g. Acme Technologies Pvt. Ltd.', required: true
+    },
+    {
+      id: 'P-02', field: 'industry', type: 'dropdown', label: 'Industry sector',
+      options: ['Banking & Financial Services', 'Insurance', 'Healthcare & Pharma',
+        'Information Technology / SaaS', 'E-commerce & Retail', 'Telecom',
+        'EdTech / Education', 'Online Gaming', 'Manufacturing', 'Media & Advertising',
+        'Government / PSU', 'Professional Services', 'Other']
+    },
+    {
+      id: 'P-03', field: 'employees', type: 'dropdown', label: 'Number of employees',
+      options: ['1–50', '51–200', '201–1,000', '1,001–5,000', 'More than 5,000']
+    },
+    {
+      id: 'P-04', field: 'turnover', type: 'dropdown', label: 'Annual turnover',
+      options: ['Below ₹5 crore', '₹5–50 crore', '₹50–250 crore', '₹250–1,000 crore', 'Above ₹1,000 crore']
+    },
+    {
+      id: 'P-05', field: 'dataPrincipals', type: 'dropdown',
+      label: 'Approximate number of Data Principals (individuals) whose data you process',
+      options: ['Under 10,000', '10,000–1 lakh', '1–10 lakh', '10 lakh–1 crore', 'Over 1 crore']
+    },
+    {
+      id: 'P-06', field: 'dataCategories', type: 'multi-select',
+      label: 'Categories of personal data processed',
+      options: ['Contact & identity details', 'Financial / payment data', 'Health data',
+        'Biometric data', 'Location data', 'Behavioural / usage data',
+        'Government identifiers (Aadhaar, PAN, etc.)', 'Children’s data', 'Employee data']
+    },
+    {
+      id: 'P-07', field: 'role', type: 'multi-select',
+      label: 'In what capacity does your organization process personal data?',
+      options: ['Data Fiduciary (you determine purpose & means)',
+        'Data Processor (you process on behalf of another entity)']
+    },
+    {
+      id: 'P-08', field: 'childrenData', type: 'dropdown',
+      label: 'Do you knowingly process the personal data of children (under 18) or persons with disability?',
+      options: ['Yes, regularly', 'Occasionally / possibly', 'No']
+    },
+    {
+      id: 'P-09', field: 'crossBorder', type: 'dropdown',
+      label: 'Do you transfer or store personal data outside India?',
+      options: ['Yes', 'No', 'Not sure']
+    },
+    {
+      id: 'P-10', field: 'sdf', type: 'dropdown',
+      label: 'Have you been notified as — or do you expect to be classified as — a Significant Data Fiduciary?',
+      options: ['Yes, notified', 'Likely (large volume / sensitive processing)', 'No / unlikely']
+    }
+  ];
+
+  /* ---------------------------------------------------------------------------
+   * Compliance domains (order defines the assessment flow & report sections)
+   * `applicability` is a function of the profile object; undefined = always on.
+   * ------------------------------------------------------------------------ */
+  DPDPA.domains = [
+    { id: 'governance', name: 'Governance & Accountability', icon: 'governance',
+      sections: 'S.8',
+      description: 'Leadership ownership, policies and the accountability framework required of a Data Fiduciary.' },
+    { id: 'notice', name: 'Notice & Transparency', icon: 'notice',
+      sections: 'S.5',
+      description: 'Whether Data Principals receive clear, itemised notice before their data is processed.' },
+    { id: 'consent', name: 'Consent Management', icon: 'consent',
+      sections: 'S.6',
+      description: 'How valid consent is obtained, recorded, and withdrawn.' },
+    { id: 'processing', name: 'Lawful Processing & Purpose Limitation', icon: 'processing',
+      sections: 'S.4, S.7, S.8',
+      description: 'Lawful basis, purpose limitation, data minimisation and accuracy of processing.' },
+    { id: 'rights', name: 'Rights of Data Principals', icon: 'rights',
+      sections: 'S.11–S.14',
+      description: 'Operationalisation of access, correction, erasure, grievance and nomination rights.' },
+    { id: 'children', name: 'Children’s & Vulnerable Data', icon: 'children',
+      sections: 'S.9',
+      description: 'Parental/guardian consent and protection against tracking and targeted advertising.',
+      applicability: function (p) { return !p || p.childrenData !== 'No'; } },
+    { id: 'security', name: 'Data Security Safeguards', icon: 'security',
+      sections: 'S.8(5), Rule 6',
+      description: 'Reasonable security safeguards protecting personal data from breach.' },
+    { id: 'breach', name: 'Personal Data Breach Management', icon: 'breach',
+      sections: 'S.8(6), Rule 7',
+      description: 'Detection, response and mandatory notification of personal data breaches.' },
+    { id: 'vendors', name: 'Processor & Vendor Management', icon: 'vendors',
+      sections: 'S.8(1)–(2)',
+      description: 'Contractual control and oversight of processors and third parties.' },
+    { id: 'retention', name: 'Data Retention & Erasure', icon: 'retention',
+      sections: 'S.8(7), Rule 8',
+      description: 'Retention limits, timely erasure and secure disposal of personal data.' },
+    { id: 'crossborder', name: 'Cross-Border Data Transfer', icon: 'crossborder',
+      sections: 'S.16',
+      description: 'Governance of personal data transferred or stored outside India.',
+      applicability: function (p) { return !p || p.crossBorder !== 'No'; } },
+    { id: 'sdf', name: 'Significant Data Fiduciary Obligations', icon: 'sdf',
+      sections: 'S.10, Rule 12',
+      description: 'Enhanced obligations — DPO, independent audit and Data Protection Impact Assessment.',
+      applicability: function (p) { return !p || p.sdf !== 'No / unlikely'; } },
+    { id: 'records', name: 'Records, Training & Audit', icon: 'records',
+      sections: 'S.8 (accountability)',
+      description: 'Records of processing, staff training and periodic review evidencing compliance.' }
+  ];
+
+  /* ---------------------------------------------------------------------------
+   * Helper to build a scored question with the standard implementation options.
+   * ------------------------------------------------------------------------ */
+  function q(cfg) {
+    if (!cfg.type) cfg.type = 'single-select';
+    if (!cfg.options) {
+      var base = cfg.type === 'maturity'
+        ? MATURITY_OPTIONS
+        : (cfg.type === 'yes-no' ? YES_NO_OPTIONS : IMPLEMENTATION_OPTIONS);
+      // Append "Not applicable" only for controls explicitly flagged optional.
+      cfg.options = cfg.allowNA ? base.concat([NA_OPTION]) : base;
+    }
+    return cfg;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * The question bank
+   * ------------------------------------------------------------------------ */
+  DPDPA.questions = [
+
+    /* ---- Governance & Accountability -------------------------------------- */
+    q({ id: 'GOV-01', domain: 'governance',
+      question: 'Has your organization published a privacy / personal data protection policy?',
+      explanation: 'A published policy is the visible baseline of the accountability obligations placed on every Data Fiduciary.',
+      legalReference: 'DPDPA Section 8 – General obligations of Data Fiduciary',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Draft, obtain management approval for, and publish a DPDPA-aligned privacy policy covering purposes, rights and grievance channels.' }),
+    q({ id: 'GOV-02', domain: 'governance',
+      question: 'Is there a documented privacy governance framework assigning clear roles and responsibilities?',
+      explanation: 'Accountability requires an internal structure that assigns who owns privacy decisions and controls.',
+      legalReference: 'DPDPA Section 8(1) – Responsibility for compliance',
+      importance: 'High', weight: 7, risk: 'Medium',
+      recommendation: 'Establish a privacy governance framework (RACI) approved by senior management, defining ownership across functions.' }),
+    q({ id: 'GOV-03', domain: 'governance',
+      question: 'Has senior management formally approved and resourced privacy responsibilities?',
+      explanation: 'The Act holds the Data Fiduciary — not individuals — accountable, making board/leadership ownership essential.',
+      legalReference: 'DPDPA Section 8(1) – Accountability of Data Fiduciary',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Secure documented leadership sign-off on the privacy programme, budget and reporting line.' }),
+    q({ id: 'GOV-04', domain: 'governance',
+      question: 'Have you designated and published the contact details of a Data Protection Officer or a responsible person able to answer questions about processing?',
+      explanation: 'The Act requires the business contact of a person who can address Data Principal queries to be published.',
+      legalReference: 'DPDPA Section 8(9) – Publication of contact details',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Appoint a DPO / responsible contact and publish their business contact details on your website and in notices.' }),
+    q({ id: 'GOV-05', domain: 'governance', type: 'maturity',
+      question: 'How mature is your overall privacy management programme?',
+      explanation: 'Indicates whether privacy controls are ad-hoc or a managed, continually improved programme.',
+      legalReference: 'DPDPA Section 8 – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Move the programme toward a "Managed" maturity level with documented, monitored and periodically reviewed controls.' }),
+
+    /* ---- Notice & Transparency -------------------------------------------- */
+    q({ id: 'NOT-01', domain: 'notice',
+      question: 'Do you provide a privacy notice to Data Principals at or before the point of collecting their personal data?',
+      explanation: 'Verifies the core obligation that notice accompanies or precedes the request for consent.',
+      legalReference: 'DPDPA Section 5(1) – Notice',
+      importance: 'High', weight: 9, risk: 'High',
+      recommendation: 'Implement a notice that is presented at or before every collection point (web, app, forms, call centre).' }),
+    q({ id: 'NOT-02', domain: 'notice',
+      question: 'Does the notice itemise the personal data collected and the specific purposes of processing?',
+      explanation: 'Notice must clearly describe what data is collected and the exact purpose for each item.',
+      legalReference: 'DPDPA Section 5(1)(i) – Contents of notice',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Revise notices to list each data category against its specific, itemised processing purpose.' }),
+    q({ id: 'NOT-03', domain: 'notice',
+      question: 'Does the notice explain how a Data Principal can exercise their rights and complain to the Data Protection Board?',
+      explanation: 'Notice must tell individuals how to withdraw consent, exercise rights and lodge a complaint with the Board.',
+      legalReference: 'DPDPA Section 5(1)(ii) – Manner of exercising rights',
+      importance: 'High', weight: 6, risk: 'Medium',
+      recommendation: 'Add clear instructions and links for exercising rights and for complaining to the Data Protection Board of India.' }),
+    q({ id: 'NOT-04', domain: 'notice',
+      question: 'Is the notice made available in English and/or a language specified in the Eighth Schedule to the Constitution?',
+      explanation: 'The Act requires notices to be available in English or any of the 22 scheduled Indian languages, at the individual’s option.',
+      legalReference: 'DPDPA Section 5(3) – Language of notice',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Offer notices in English plus relevant Eighth Schedule languages based on your Data Principal base.' }),
+    q({ id: 'NOT-05', domain: 'notice',
+      question: 'For personal data collected before the Act, have you provided (or planned) notice to those existing Data Principals?',
+      explanation: 'Where consent was obtained before commencement, notice must still be given as soon as reasonably practicable.',
+      legalReference: 'DPDPA Section 5(2) – Notice for pre-existing consent',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Run a notice campaign to your legacy database explaining processing and rights.' }),
+
+    /* ---- Consent Management ----------------------------------------------- */
+    q({ id: 'CON-01', domain: 'consent',
+      question: 'Is consent obtained through a free, specific, informed, unconditional and unambiguous action (clear affirmative action)?',
+      explanation: 'Confirms consent meets the statutory quality standard rather than relying on pre-ticked boxes or bundling.',
+      legalReference: 'DPDPA Section 6(1) – Consent',
+      importance: 'High', weight: 9, risk: 'High',
+      recommendation: 'Redesign consent flows to use unbundled, opt-in affirmative actions with no pre-selected choices.' }),
+    q({ id: 'CON-02', domain: 'consent',
+      question: 'Is consent limited to the personal data necessary for the specified purpose?',
+      explanation: 'Consent may not extend beyond the data actually needed for the stated purpose.',
+      legalReference: 'DPDPA Section 6(1) – Limited to necessary data',
+      importance: 'High', weight: 6, risk: 'Medium',
+      recommendation: 'Map each consent to only the data required for its purpose and remove excess collection.' }),
+    q({ id: 'CON-03', domain: 'consent',
+      question: 'Can a Data Principal withdraw consent as easily as it was given, through an accessible mechanism?',
+      explanation: 'The ease of withdrawing consent must be comparable to the ease of giving it.',
+      legalReference: 'DPDPA Section 6(4)–(6) – Withdrawal of consent',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Provide a self-service withdrawal mechanism as simple as the original consent capture.' }),
+    q({ id: 'CON-04', domain: 'consent',
+      question: 'Do you cease processing (and instruct processors to cease) within a reasonable time after consent is withdrawn?',
+      explanation: 'Withdrawal must stop processing for that purpose within a reasonable period, including at processors.',
+      legalReference: 'DPDPA Section 6(6) – Effect of withdrawal',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Automate downstream stop-processing signals to internal systems and processors on withdrawal.' }),
+    q({ id: 'CON-05', domain: 'consent',
+      question: 'Do you maintain auditable records of consent (what, when, how and the version of notice shown)?',
+      explanation: 'Records evidence that valid consent existed — the Data Fiduciary bears the burden of proof.',
+      legalReference: 'DPDPA Section 6(1) with Section 8(1) – Accountability',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Implement a consent ledger capturing purpose, timestamp, method and notice version for every consent.' }),
+    q({ id: 'CON-06', domain: 'consent', allowNA: true,
+      question: 'Where you use a Consent Manager, is it a registered Consent Manager and integrated with your consent flows?',
+      explanation: 'The Act enables Data Principals to give, manage and withdraw consent through registered Consent Managers.',
+      legalReference: 'DPDPA Section 6(7)–(9) with DPDP Rules 2025 (Consent Manager)',
+      importance: 'Medium', weight: 4, risk: 'Low',
+      recommendation: 'If relying on a Consent Manager, verify registration with the Board and complete technical integration.' }),
+
+    /* ---- Lawful Processing & Purpose Limitation --------------------------- */
+    q({ id: 'PRO-01', domain: 'processing',
+      question: 'Have you identified and documented a lawful basis (consent or a legitimate use) for each processing purpose?',
+      explanation: 'Personal data may only be processed for a lawful purpose on the basis of consent or a listed legitimate use.',
+      legalReference: 'DPDPA Section 4 – Grounds for processing',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Build a processing register mapping every purpose to its lawful basis under Section 4/7.' }),
+    q({ id: 'PRO-02', domain: 'processing',
+      question: 'Where you rely on "certain legitimate uses" (e.g. employment, voluntarily provided data), is this documented and justified?',
+      explanation: 'Legitimate uses are narrowly defined and must be correctly identified rather than assumed.',
+      legalReference: 'DPDPA Section 7 – Certain legitimate uses',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Document each legitimate-use reliance with the specific Section 7 clause and its justification.' }),
+    q({ id: 'PRO-03', domain: 'processing',
+      question: 'Is processing limited strictly to the purpose for which the data was collected (purpose limitation)?',
+      explanation: 'Data must not be used for purposes beyond those notified and consented to.',
+      legalReference: 'DPDPA Section 6(1) with Section 5 – Purpose limitation',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Introduce controls preventing re-use of personal data for un-notified purposes.' }),
+    q({ id: 'PRO-04', domain: 'processing',
+      question: 'Do you apply data minimisation — collecting only the personal data necessary for each purpose?',
+      explanation: 'Collecting more than needed increases risk and conflicts with the necessity principle.',
+      legalReference: 'DPDPA Section 6(1) – Necessity / minimisation',
+      importance: 'Medium', weight: 6, risk: 'Medium',
+      recommendation: 'Review collection forms and data flows to eliminate unnecessary fields.' }),
+    q({ id: 'PRO-05', domain: 'processing',
+      question: 'Do you ensure personal data is accurate and complete, especially where used to make decisions affecting the individual or shared with others?',
+      explanation: 'The Act requires accuracy and completeness where data drives decisions or is disclosed onward.',
+      legalReference: 'DPDPA Section 8(3) – Accuracy & completeness',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Implement data-quality checks and update processes for decision-relevant and shared data.' }),
+
+    /* ---- Rights of Data Principals ---------------------------------------- */
+    q({ id: 'RTS-01', domain: 'rights',
+      question: 'Can Data Principals obtain a summary of their personal data being processed and the entities it is shared with?',
+      explanation: 'Operationalises the right to access information about one’s personal data.',
+      legalReference: 'DPDPA Section 11 – Right to access information',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Build an access-request workflow returning a data summary, processing activities and sharing details.' }),
+    q({ id: 'RTS-02', domain: 'rights',
+      question: 'Can Data Principals request correction, completion, updating and erasure of their personal data?',
+      explanation: 'Operationalises the statutory right to correct and erase personal data.',
+      legalReference: 'DPDPA Section 12 – Right to correction and erasure',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Provide correction/erasure request channels and fulfil them within defined timelines.' }),
+    q({ id: 'RTS-03', domain: 'rights',
+      question: 'Is there a published, readily available grievance redressal mechanism with defined response timelines?',
+      explanation: 'Data Fiduciaries must offer an effective grievance mechanism as a first line of redress.',
+      legalReference: 'DPDPA Section 8(10) & Section 13 – Grievance redressal',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Publish a grievance channel, assign ownership and commit to (and track) response timelines.' }),
+    q({ id: 'RTS-04', domain: 'rights',
+      question: 'Can a Data Principal nominate another individual to exercise their rights in the event of death or incapacity?',
+      explanation: 'The Act grants a right to nominate, which fiduciaries must be able to honour.',
+      legalReference: 'DPDPA Section 14 – Right to nominate',
+      importance: 'Medium', weight: 4, risk: 'Low',
+      recommendation: 'Add a nomination capability and process for acting on a valid nominee’s request.' }),
+    q({ id: 'RTS-05', domain: 'rights',
+      question: 'Do you track and respond to rights requests within a defined, published time period?',
+      explanation: 'Timely, tracked responses evidence that rights are genuinely operational, not merely stated.',
+      legalReference: 'DPDPA Section 13(2) with DPDP Rules 2025 – Response timelines',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Deploy a request register with SLAs, reminders and audit trail for every rights request.' }),
+
+    /* ---- Children's & Vulnerable Data ------------------------------------- */
+    q({ id: 'CHD-01', domain: 'children',
+      question: 'Do you obtain verifiable consent of a parent before processing the personal data of a child (under 18)?',
+      explanation: 'Processing a child’s data requires verifiable parental consent.',
+      legalReference: 'DPDPA Section 9(1) with DPDP Rules 2025 – Verifiable consent',
+      importance: 'High', weight: 9, risk: 'High',
+      recommendation: 'Implement age determination and a verifiable parental-consent mechanism before processing children’s data.' }),
+    q({ id: 'CHD-02', domain: 'children', allowNA: true,
+      question: 'Do you obtain verifiable consent of a lawful guardian before processing the data of a person with disability who has a guardian?',
+      explanation: 'The same verifiable-consent protection extends to persons with disability who have lawful guardians.',
+      legalReference: 'DPDPA Section 9(1) – Persons with disability',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Extend guardian-consent verification to processing involving persons with disability.' }),
+    q({ id: 'CHD-03', domain: 'children',
+      question: 'Do you avoid processing that is likely to cause any detrimental effect on the well-being of a child?',
+      explanation: 'The Act prohibits processing likely to harm a child’s well-being.',
+      legalReference: 'DPDPA Section 9(2) – Detrimental processing',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Assess children-facing features for well-being impact and remove harmful processing.' }),
+    q({ id: 'CHD-04', domain: 'children',
+      question: 'Do you refrain from tracking, behavioural monitoring or targeted advertising directed at children?',
+      explanation: 'Tracking, behavioural monitoring and targeted advertising toward children are prohibited.',
+      legalReference: 'DPDPA Section 9(3) – Tracking & targeted advertising',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Disable tracking, behavioural profiling and ad targeting for users identified as children.' }),
+
+    /* ---- Data Security Safeguards ----------------------------------------- */
+    q({ id: 'SEC-01', domain: 'security',
+      question: 'Have you implemented reasonable security safeguards to protect personal data in your possession or control?',
+      explanation: 'The Act mandates reasonable security safeguards to prevent personal data breaches.',
+      legalReference: 'DPDPA Section 8(5) with DPDP Rules 2025 Rule 6',
+      importance: 'High', weight: 9, risk: 'High',
+      recommendation: 'Adopt the Rule 6 safeguard set: encryption, access control, monitoring, logging and backups.' }),
+    q({ id: 'SEC-02', domain: 'security',
+      question: 'Is personal data protected by encryption, tokenisation, masking or equivalent obfuscation at rest and in transit?',
+      explanation: 'Encryption/masking is a named reasonable safeguard reducing breach impact.',
+      legalReference: 'DPDP Rules 2025 Rule 6 – Reasonable security safeguards',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Encrypt personal data at rest and in transit and mask it in non-production environments.' }),
+    q({ id: 'SEC-03', domain: 'security',
+      question: 'Do you enforce access control and authorisation so only authorised personnel access personal data?',
+      explanation: 'Restricting access is a core safeguard limiting exposure and misuse.',
+      legalReference: 'DPDP Rules 2025 Rule 6 – Access control',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Implement role-based access control, least privilege and periodic access reviews.' }),
+    q({ id: 'SEC-04', domain: 'security', type: 'maturity',
+      question: 'How mature is your logging and monitoring capability for detecting unauthorised access to personal data?',
+      explanation: 'Logs and monitoring enable detection and investigation of breaches, as expected by the rules.',
+      legalReference: 'DPDP Rules 2025 Rule 6 – Logging & monitoring',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Enable centralised logging and alerting on access to personal data with retained, reviewed logs.' }),
+    q({ id: 'SEC-05', domain: 'security',
+      question: 'Do you maintain backups and a tested recovery capability for personal data?',
+      explanation: 'Backup and recovery maintain availability and continuity of processing after an incident.',
+      legalReference: 'DPDP Rules 2025 Rule 6 – Backup & continuity',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Establish regular backups with periodic restore testing and documented recovery objectives.' }),
+    q({ id: 'SEC-06', domain: 'security', type: 'maturity',
+      question: 'How mature is your vulnerability and patch management for systems holding personal data?',
+      explanation: 'Proactive vulnerability management reduces the likelihood of exploitable breaches.',
+      legalReference: 'DPDP Rules 2025 Rule 6 – Reasonable safeguards (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Run periodic vulnerability scans, timely patching and remediation tracking.' }),
+
+    /* ---- Personal Data Breach Management ---------------------------------- */
+    q({ id: 'BRC-01', domain: 'breach',
+      question: 'Do you have the capability to detect and identify a personal data breach promptly?',
+      explanation: 'Timely detection is the precondition for meeting mandatory notification duties.',
+      legalReference: 'DPDPA Section 8(6) with DPDP Rules 2025 Rule 7',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Deploy monitoring/alerting and define what constitutes a reportable personal data breach.' }),
+    q({ id: 'BRC-02', domain: 'breach',
+      question: 'Do you have a documented breach response plan / standard operating procedure with defined roles?',
+      explanation: 'A documented plan ensures a consistent, timely response and evidences preparedness.',
+      legalReference: 'DPDPA Section 8(6) – Breach obligations (good practice)',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Create a breach response SOP covering triage, containment, notification and roles.' }),
+    q({ id: 'BRC-03', domain: 'breach',
+      question: 'Do you have a process to notify each affected Data Principal in the event of a personal data breach?',
+      explanation: 'The Act requires intimation to every affected Data Principal, not only the regulator.',
+      legalReference: 'DPDPA Section 8(6) – Intimation to Data Principals',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Prepare notification templates and channels to inform affected individuals of a breach.' }),
+    q({ id: 'BRC-04', domain: 'breach',
+      question: 'Do you have a process to notify the Data Protection Board of India within the timelines prescribed by the rules?',
+      explanation: 'Breaches must be intimated to the Board, with detailed follow-up within the prescribed period.',
+      legalReference: 'DPDPA Section 8(6) with DPDP Rules 2025 Rule 7 – Board notification',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Define a Board-notification workflow that meets the without-delay and detailed-report timelines.' }),
+    q({ id: 'BRC-05', domain: 'breach',
+      question: 'Do you maintain a breach register and conduct post-incident reviews to prevent recurrence?',
+      explanation: 'Documentation and lessons-learned demonstrate accountability and drive improvement.',
+      legalReference: 'DPDPA Section 8 – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Log all incidents in a breach register and run structured post-incident reviews.' }),
+
+    /* ---- Processor & Vendor Management ------------------------------------ */
+    q({ id: 'VEN-01', domain: 'vendors',
+      question: 'Do you engage data processors only under a valid, written contract?',
+      explanation: 'A Data Fiduciary may engage a processor only under a valid contract.',
+      legalReference: 'DPDPA Section 8(2) – Engagement of processors',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Ensure every processor is covered by a data processing agreement before any data is shared.' }),
+    q({ id: 'VEN-02', domain: 'vendors',
+      question: 'Do your processor contracts impose security, purpose-limitation and breach-support obligations?',
+      explanation: 'The fiduciary remains accountable, so contracts must flow down protective obligations.',
+      legalReference: 'DPDPA Section 8(1)–(2) – Continued responsibility',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Standardise DPA clauses on security, purpose limitation, sub-processing, breach and deletion.' }),
+    q({ id: 'VEN-03', domain: 'vendors',
+      question: 'Do you perform due diligence / risk assessment on vendors before and during engagement?',
+      explanation: 'Assessing vendor safeguards manages the risk you remain accountable for.',
+      legalReference: 'DPDPA Section 8(1) – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Introduce a vendor risk-assessment questionnaire and periodic re-assessment.' }),
+    q({ id: 'VEN-04', domain: 'vendors',
+      question: 'Do you control the use of sub-processors and ensure obligations flow down to them?',
+      explanation: 'Uncontrolled sub-processing can break the chain of accountability and security.',
+      legalReference: 'DPDPA Section 8(1) – Continued responsibility',
+      importance: 'Medium', weight: 4, risk: 'Medium',
+      recommendation: 'Require prior approval and equivalent obligations for any sub-processors.' }),
+
+    /* ---- Data Retention & Erasure ----------------------------------------- */
+    q({ id: 'RET-01', domain: 'retention',
+      question: 'Have you defined a documented data retention schedule for personal data?',
+      explanation: 'Retention limits are needed to erase data once the purpose is served.',
+      legalReference: 'DPDPA Section 8(7) with DPDP Rules 2025 Rule 8',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Publish a retention schedule specifying retention periods per data category and purpose.' }),
+    q({ id: 'RET-02', domain: 'retention',
+      question: 'Do you erase personal data once consent is withdrawn or the purpose is no longer served (unless retention is legally required)?',
+      explanation: 'The Act requires erasure when the purpose ends or consent is withdrawn, absent a legal retention duty.',
+      legalReference: 'DPDPA Section 8(7) – Erasure obligation',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Automate purpose-end and withdrawal-triggered erasure, retaining only where law requires.' }),
+    q({ id: 'RET-03', domain: 'retention',
+      question: 'Do you securely and irreversibly dispose of personal data at the end of its retention period?',
+      explanation: 'Secure disposal prevents recovery of data that should no longer exist.',
+      legalReference: 'DPDPA Section 8(7) – Secure erasure',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Adopt secure deletion / destruction standards for digital and physical media.' }),
+    q({ id: 'RET-04', domain: 'retention',
+      question: 'Do you ensure processors also erase personal data on instruction and at end of retention?',
+      explanation: 'Erasure must propagate to processors, who hold copies on your behalf.',
+      legalReference: 'DPDPA Section 8(2)–(7) – Erasure by processors',
+      importance: 'Medium', weight: 4, risk: 'Medium',
+      recommendation: 'Contractually require and verify processor deletion on instruction and at retention end.' }),
+
+    /* ---- Cross-Border Data Transfer --------------------------------------- */
+    q({ id: 'CBT-01', domain: 'crossborder',
+      question: 'Do you maintain awareness of, and comply with, any Central Government restrictions on transfer of personal data to countries outside India?',
+      explanation: 'The Act permits transfer abroad except to countries the Government may restrict.',
+      legalReference: 'DPDPA Section 16 – Processing outside India',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Track the restricted-country position and gate transfers accordingly.' }),
+    q({ id: 'CBT-02', domain: 'crossborder',
+      question: 'Do you maintain an inventory mapping where personal data is stored and transferred internationally?',
+      explanation: 'You cannot govern cross-border transfers you have not mapped.',
+      legalReference: 'DPDPA Section 16 with Section 8(1) – Accountability',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Build a data-transfer map covering destinations, processors and hosting locations.' }),
+    q({ id: 'CBT-03', domain: 'crossborder',
+      question: 'Do you comply with any sector-specific law that imposes higher localisation or transfer restrictions than the Act?',
+      explanation: 'Section 16 preserves stricter transfer restrictions under other Indian laws (e.g. RBI, sectoral rules).',
+      legalReference: 'DPDPA Section 16(2) – Effect of other laws',
+      importance: 'Medium', weight: 4, risk: 'Medium',
+      recommendation: 'Identify applicable sectoral localisation rules and reconcile them with your transfer practices.' }),
+
+    /* ---- Significant Data Fiduciary --------------------------------------- */
+    q({ id: 'SDF-01', domain: 'sdf',
+      question: 'Have you appointed a Data Protection Officer based in India who is responsible to the board / governing body?',
+      explanation: 'A Significant Data Fiduciary must appoint a DPO based in India.',
+      legalReference: 'DPDPA Section 10(2)(a) – DPO appointment',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Appoint an India-based DPO reporting to the board, and publish their details.' }),
+    q({ id: 'SDF-02', domain: 'sdf',
+      question: 'Have you appointed an independent data auditor to evaluate DPDPA compliance?',
+      explanation: 'SDFs must appoint an independent data auditor.',
+      legalReference: 'DPDPA Section 10(2)(b) – Independent data auditor',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Engage an independent data auditor and define an audit scope and cadence.' }),
+    q({ id: 'SDF-03', domain: 'sdf',
+      question: 'Do you conduct periodic Data Protection Impact Assessments (DPIAs)?',
+      explanation: 'SDFs must undertake periodic DPIAs and audits as prescribed.',
+      legalReference: 'DPDPA Section 10(2)(c) with DPDP Rules 2025 Rule 12',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Institutionalise DPIAs for high-risk processing with periodic refresh.' }),
+    q({ id: 'SDF-04', domain: 'sdf',
+      question: 'Do you undertake periodic compliance audits and other measures the rules prescribe for Significant Data Fiduciaries?',
+      explanation: 'Periodic audit and additional measures are conditions of the SDF classification.',
+      legalReference: 'DPDPA Section 10(2)(c) with DPDP Rules 2025 Rule 12',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Schedule periodic audits and implement any additional SDF measures under the rules.' }),
+
+    /* ---- Records, Training & Audit ---------------------------------------- */
+    q({ id: 'REC-01', domain: 'records',
+      question: 'Do you maintain a Record of Processing Activities (ROPA) / data inventory?',
+      explanation: 'A processing record underpins accountability and evidences lawful processing.',
+      legalReference: 'DPDPA Section 8(1) – Accountability (good practice)',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Maintain a living ROPA covering purposes, categories, recipients, retention and safeguards.' }),
+    q({ id: 'REC-02', domain: 'records',
+      question: 'Are your privacy policies, SOPs and processes documented and version-controlled?',
+      explanation: 'Documented, current procedures make compliance repeatable and auditable.',
+      legalReference: 'DPDPA Section 8 – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Document and version-control all privacy policies and operating procedures.' }),
+    q({ id: 'REC-03', domain: 'records',
+      question: 'Do you provide periodic privacy and data protection training and awareness to staff?',
+      explanation: 'Trained staff are essential to operating controls and preventing breaches.',
+      legalReference: 'DPDPA Section 8(1) – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Deliver role-based privacy training at onboarding and at least annually.' }),
+    q({ id: 'REC-04', domain: 'records', type: 'maturity',
+      question: 'How mature is your programme of periodic internal review / audit of DPDPA compliance?',
+      explanation: 'Regular review detects drift and evidences ongoing accountability.',
+      legalReference: 'DPDPA Section 8 – Accountability (good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Establish scheduled internal compliance reviews with tracked corrective actions.' })
+  ];
+
+  /* ---------------------------------------------------------------------------
+   * Exposure copy — the consequence when a control is weak or missing.
+   * This is the report's insight layer: plain-English "what breaks and what it
+   * costs you", not a restatement of the question. Merged onto each question.
+   * ------------------------------------------------------------------------ */
+  var EXPOSURES = {
+    // Governance
+    'GOV-01': 'With no published policy, you have nothing to point to when a customer — or the Board — asks how you handle their data.',
+    'GOV-02': 'Without clear ownership, privacy becomes everyone’s job and no one’s — controls quietly drift and gaps go unnoticed.',
+    'GOV-03': 'If leadership hasn’t signed off, privacy has no budget and no teeth — yet the Act holds the organisation, not an individual, accountable.',
+    'GOV-04': 'If people can’t find who to ask, their questions become complaints — and their complaints go straight to the regulator.',
+    'GOV-05': 'An ad-hoc programme works right up until it’s tested — a breach or audit is a bad time to discover the gaps.',
+    // Notice
+    'NOT-01': 'Collecting data without notice means the consent behind it never truly existed — the foundation of your processing is missing.',
+    'NOT-02': 'Vague notices make every consent challengeable — a regulator can treat your entire consent base as invalid.',
+    'NOT-03': 'If the notice doesn’t say how to complain, people skip you and find the Board’s number instead.',
+    'NOT-04': 'A notice a Data Principal can’t read isn’t notice at all — the Act expects English or their scheduled language, their choice.',
+    'NOT-05': 'Every pre-Act record you hold without fresh notice is a silent liability sitting in your database.',
+    // Consent
+    'CON-01': 'Pre-ticked boxes and bundled consent don’t count — if it isn’t a clear yes, the processing behind it is unlawful.',
+    'CON-02': 'Consent that grabs more than you need turns minor over-collection into a consent-validity problem.',
+    'CON-03': 'If opting out is harder than opting in, you’re holding consent the Act already considers defective.',
+    'CON-04': 'If “unsubscribe” doesn’t actually stop processing, you’re processing with no lawful basis the moment someone opts out.',
+    'CON-05': 'When the Board asks “prove they agreed,” a missing consent trail means you lose by default — the burden is on you.',
+    'CON-06': 'Without a registered Consent Manager route, you’re cut off from the channel the Act built for people to manage consent at scale.',
+    // Processing
+    'PRO-01': 'Processing with no identified lawful basis is unlawful by definition — and “we’ve always done it” isn’t one of the grounds.',
+    'PRO-02': 'Leaning on a legitimate use you can’t point to in Section 7 is a bet you’ll lose in an audit.',
+    'PRO-03': 'Quietly reusing data for new purposes is how a data programme becomes a data scandal.',
+    'PRO-04': 'Every extra field you collect is more data to secure, justify, and eventually explain in a breach.',
+    'PRO-05': 'Wrong data driving real decisions means real harm to real people — exactly what Section 8(3) exists to prevent.',
+    // Rights
+    'RTS-01': 'If people can’t see what you hold on them, they can’t trust you with it — and the Act gives them the right to look.',
+    'RTS-02': 'With no way to fix or delete data, errors and stale records pile up — and every ignored request is a Section 12 breach.',
+    'RTS-03': 'With no grievance channel, complaints skip you entirely and land straight at the Data Protection Board.',
+    'RTS-04': 'When a Data Principal dies or is incapacitated, you have no lawful way to act on their data without a nomination path.',
+    'RTS-05': 'Rights that exist on paper but aren’t answered on time are the fastest route from customer to complainant.',
+    // Children
+    'CHD-01': 'Processing a child’s data without verifiable parental consent is a bright-line breach — one the Act treats as non-negotiable.',
+    'CHD-02': 'Skipping guardian consent for a person with disability exposes your most vulnerable users — and you — to the harshest scrutiny.',
+    'CHD-03': 'A feature that could harm a child’s well-being isn’t just a design flaw here — it’s a statutory violation.',
+    'CHD-04': 'Tracking or advertising to children is flatly prohibited — no amount of consent cures it, and the penalties bite hard.',
+    // Security
+    'SEC-01': 'Without reasonable safeguards, a breach isn’t bad luck — it’s negligence the Act can penalise up to ₹250 crore.',
+    'SEC-02': 'Unencrypted personal data turns a stolen laptop or a leaked backup into a full-blown reportable breach.',
+    'SEC-03': 'Every person who can see data they don’t need is a breach waiting to happen — from the inside.',
+    'SEC-04': 'If you can’t see who touched personal data, you can’t detect a breach — or prove one didn’t happen.',
+    'SEC-05': 'Untested backups are a promise you discover is broken at the exact moment you need them.',
+    'SEC-06': 'Unpatched systems are the unlocked door most breaches simply walk through.',
+    // Breach
+    'BRC-01': 'A breach you can’t detect is a breach you can’t report — and the clock is already running.',
+    'BRC-02': 'Improvising during a breach burns the hours that matter most and turns an incident into a crisis.',
+    'BRC-03': 'Failing to tell affected people isn’t just a Section 8(6) breach — it’s how a contained incident becomes a headline.',
+    'BRC-04': 'Miss the Board notification window and one breach becomes two — the leak, and the failure to report it.',
+    'BRC-05': 'With no breach log or post-mortem, the same incident happens twice — and you can’t show you learned.',
+    // Vendors
+    'VEN-01': 'Sharing data with a processor on a handshake means their mistakes become your unlawful processing.',
+    'VEN-02': 'A contract that doesn’t flow down security and deletion duties leaves you accountable for controls you can’t enforce.',
+    'VEN-03': 'You inherit your weakest vendor’s security — without checking, you have no idea how weak that is.',
+    'VEN-04': 'Data quietly handed to a fourth party you never vetted is a breach chain you can’t even see.',
+    // Retention
+    'RET-01': 'With no retention limits, data never leaves — and every extra year is extra breach exposure and extra liability.',
+    'RET-02': 'Keeping data after the purpose ends or consent is withdrawn is unlawful hoarding under Section 8(7).',
+    'RET-03': '“Deleted” data that’s actually recoverable is data you’ll still have to answer for in a breach.',
+    'RET-04': 'If your processors don’t delete when you do, your erasure is a fiction and the copies live on.',
+    // Cross-border
+    'CBT-01': 'Send data to a country the Government has restricted and you’ve broken Section 16 — regardless of intent.',
+    'CBT-02': 'You can’t govern transfers you can’t see — and “we didn’t know it went there” is not a defence.',
+    'CBT-03': 'Sector rules (like RBI’s) can trump the Act — meeting DPDPA isn’t enough if localisation law says otherwise.',
+    // SDF
+    'SDF-01': 'As a Significant Data Fiduciary, no India-based DPO answerable to the board is a structural gap the Board notices first.',
+    'SDF-02': 'Without independent audit, you’re grading your own homework — exactly what SDF status is meant to prevent.',
+    'SDF-03': 'Skipping DPIAs on high-risk processing means you discover the risk after it lands, not before.',
+    'SDF-04': 'Enhanced obligations with no periodic audit is a compliance claim with nothing behind it.',
+    // Records
+    'REC-01': 'No record of processing means that when anyone asks what you do with data, your honest answer is “we’re not sure.”',
+    'REC-02': 'Undocumented processes walk out the door when people do — and can’t be audited or trusted.',
+    'REC-03': 'Your controls are only as strong as the least-trained person who can click “export.”',
+    'REC-04': 'Without periodic review, compliance quietly decays until an incident reveals how far it has drifted.'
+  };
+  DPDPA.questions.forEach(function (q) { q.exposure = EXPOSURES[q.id] || ''; });
+
+  /* ---------------------------------------------------------------------------
+   * Icon library (feather-style inline SVG paths, 24x24, currentColor stroke).
+   * Kept here because it is shared data used by every page.
+   * ------------------------------------------------------------------------ */
+  var P = 'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+  var ICON_PATHS = {
+    shield:      '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" ' + P + '/>',
+    governance:  '<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 11h.01M15 11h.01" ' + P + '/>',
+    notice:      '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M9 13h6 M9 17h6" ' + P + '/>',
+    consent:     '<path d="M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" ' + P + '/>',
+    processing:  '<path d="M12 2C6.5 2 4 3.5 4 5s2.5 3 8 3 8-1.5 8-3-2.5-3-8-3z M4 5v7c0 1.5 2.5 3 8 3s8-1.5 8-3V5 M4 12v7c0 1.5 2.5 3 8 3s8-1.5 8-3v-7" ' + P + '/>',
+    rights:      '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" ' + P + '/>',
+    children:    '<path d="M18 20a6 6 0 0 0-12 0 M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M8.5 8.5c1 1 2 1.5 3.5 1.5s2.5-.5 3.5-1.5" ' + P + '/>',
+    security:    '<path d="M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z M8 11V7a4 4 0 0 1 8 0v4 M12 16v2" ' + P + '/>',
+    breach:      '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9v4 M12 17h.01" ' + P + '/>',
+    vendors:     '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75" ' + P + '/>',
+    retention:   '<path d="M21 8v13H3V8 M1 3h22v5H1z M10 12h4" ' + P + '/>',
+    crossborder: '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" ' + P + '/>',
+    sdf:         '<path d="M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M8.2 13.3 7 22l5-3 5 3-1.2-8.7" ' + P + '/>',
+    records:     '<path d="M9 2h6a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V3a1 1 0 0 1 1-1z M8 4h8 M9 12h6 M9 16h6" ' + P + '/>',
+
+    info:        '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01" ' + P + '/>',
+    help:        '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01" ' + P + '/>',
+    check:       '<path d="M20 6 9 17l-5-5" ' + P + '/>',
+    checkCircle: '<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1 M22 4 12 14.01l-3-3" ' + P + '/>',
+    x:           '<path d="M18 6 6 18 M6 6l12 12" ' + P + '/>',
+    xCircle:     '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M15 9l-6 6 M9 9l6 6" ' + P + '/>',
+    alert:       '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9v4 M12 17h.01" ' + P + '/>',
+    arrowRight:  '<path d="M5 12h14 M12 5l7 7-7 7" ' + P + '/>',
+    arrowLeft:   '<path d="M19 12H5 M12 19l-7-7 7-7" ' + P + '/>',
+    download:    '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3" ' + P + '/>',
+    printer:     '<path d="M6 9V2h12v7 M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2 M6 14h12v8H6z" ' + P + '/>',
+    target:      '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" ' + P + '/>',
+    trending:    '<path d="M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6" ' + P + '/>',
+    list:        '<path d="M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01" ' + P + '/>',
+    activity:    '<path d="M22 12h-4l-3 9L9 3l-3 9H2" ' + P + '/>',
+    flag:        '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z M4 22v-7" ' + P + '/>',
+    clock:       '<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 6v6l4 2" ' + P + '/>',
+    zap:         '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" ' + P + '/>',
+    layers:      '<path d="M12 2 2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5" ' + P + '/>',
+    file:        '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6" ' + P + '/>',
+    lock:        '<path d="M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z M8 11V7a4 4 0 0 1 8 0v4" ' + P + '/>',
+    dashboard:   '<path d="M3 3h8v8H3z M13 3h8v5h-8z M13 12h8v9h-8z M3 15h8v6H3z" ' + P + '/>',
+    scale:       '<path d="M12 3v18 M5 21h14 M7 7 3 13h8L7 7z M17 7l-4 6h8l-4-6z M12 3 7 7 M12 3l5 4" ' + P + '/>'
+  };
+
+  DPDPA.icon = function (name, cls) {
+    var path = ICON_PATHS[name] || ICON_PATHS.info;
+    // Always carry the low-specificity `ico` class so icons have a sane default
+    // size everywhere; any container-specific `svg` rule overrides it.
+    var klass = 'ico' + (cls ? ' ' + cls : '');
+    return '<svg viewBox="0 0 24 24" class="' + klass + '"' +
+      ' xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + path + '</svg>';
+  };
+
+  /* Fill any element carrying data-icon="name" with its inline SVG. */
+  DPDPA.hydrateIcons = function (root) {
+    var scope = root || document;
+    var nodes = scope.querySelectorAll('[data-icon]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].innerHTML = DPDPA.icon(nodes[i].getAttribute('data-icon'));
+    }
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Convenience lookups
+   * ------------------------------------------------------------------------ */
+  DPDPA.getDomainById = function (id) {
+    for (var i = 0; i < DPDPA.domains.length; i++) {
+      if (DPDPA.domains[i].id === id) return DPDPA.domains[i];
+    }
+    return null;
+  };
+
+  DPDPA.getQuestionsByDomain = function (domainId) {
+    return DPDPA.questions.filter(function (q) { return q.domain === domainId; });
+  };
+
+})(window);
+
+  </script>
+  <script>
+/* =============================================================================
+ * rules.js
+ * -----------------------------------------------------------------------------
+ * The scoring, risk and remediation engine. This is the "consultant brain":
+ * it consumes the question bank (questions.js) plus a saved answer set and
+ * derives scores, compliance levels, a risk register, gap analysis and a
+ * prioritised remediation plan.
+ *
+ * All logic is pure (no DOM). It is designed so it could run server-side later.
+ *
+ * Global namespace: window.DPDPA.rules
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var DPDPA = root.DPDPA = root.DPDPA || {};
+  var rules = DPDPA.rules = {};
+
+  /* ---------------------------------------------------------------------------
+   * Compliance levels
+   * ------------------------------------------------------------------------ */
+  rules.LEVELS = [
+    { min: 95, max: 100, label: 'Highly Compliant', key: 'excellent', color: 'green',
+      summary: 'A mature, well-governed privacy programme aligned with DPDPA obligations.' },
+    { min: 80, max: 94, label: 'Compliant', key: 'good', color: 'teal',
+      summary: 'Substantial compliance with focused improvements remaining.' },
+    { min: 60, max: 79, label: 'Needs Improvement', key: 'moderate', color: 'amber',
+      summary: 'Foundational controls exist but material gaps require remediation.' },
+    { min: 40, max: 59, label: 'High Risk', key: 'high', color: 'orange',
+      summary: 'Significant non-compliance exposing the organization to regulatory risk.' },
+    { min: 0, max: 39, label: 'Critical Non-Compliance', key: 'critical', color: 'red',
+      summary: 'Core DPDPA obligations are unmet; urgent, structured remediation is required.' }
+  ];
+
+  rules.levelForScore = function (score) {
+    for (var i = 0; i < rules.LEVELS.length; i++) {
+      if (score >= rules.LEVELS[i].min) return rules.LEVELS[i];
+    }
+    return rules.LEVELS[rules.LEVELS.length - 1];
+  };
+
+  /* Domain-level status uses the same bands but a shorter label set. */
+  rules.statusForScore = function (score) {
+    if (score >= 80) return { label: 'Strong', key: 'good' };
+    if (score >= 60) return { label: 'Needs Improvement', key: 'moderate' };
+    if (score >= 40) return { label: 'High Risk', key: 'high' };
+    return { label: 'Critical', key: 'critical' };
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Owner & timeline heuristics used by the remediation plan
+   * ------------------------------------------------------------------------ */
+  var DOMAIN_OWNER = {
+    governance: 'DPO / Privacy Office',
+    notice: 'Legal / Marketing',
+    consent: 'Product / Engineering',
+    processing: 'Data Governance',
+    rights: 'DPO / Customer Operations',
+    children: 'Product / Legal',
+    security: 'Information Security',
+    breach: 'Information Security / DPO',
+    vendors: 'Procurement / Legal',
+    retention: 'Data Governance / IT',
+    crossborder: 'Legal / IT Infrastructure',
+    sdf: 'DPO / Board',
+    records: 'DPO / Compliance'
+  };
+
+  var PRIORITY_META = {
+    Immediate: { rank: 0, timeline: '0–2 weeks', badge: 'critical' },
+    High: { rank: 1, timeline: '2–6 weeks', badge: 'high' },
+    Medium: { rank: 2, timeline: '1–3 months', badge: 'moderate' },
+    Low: { rank: 3, timeline: '3–6 months', badge: 'low' }
+  };
+  rules.PRIORITY_META = PRIORITY_META;
+
+  /* ---------------------------------------------------------------------------
+   * Answer helpers
+   * ------------------------------------------------------------------------ */
+  function findOption(question, value) {
+    if (!question.options) return null;
+    for (var i = 0; i < question.options.length; i++) {
+      if (question.options[i].value === value) return question.options[i];
+    }
+    return null;
+  }
+
+  /* Is a scored question "answered" with a scoring value (not N/A, not blank)? */
+  function isScored(option) {
+    return option && option.score !== null && option.score !== undefined;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Core scoring
+   *   answers: { questionId: optionValue }
+   *   profile: organization profile object (for applicability)
+   * ------------------------------------------------------------------------ */
+  rules.evaluate = function (answers, profile) {
+    answers = answers || {};
+    profile = profile || {};
+
+    var applicableDomains = DPDPA.domains.filter(function (d) {
+      return !d.applicability || d.applicability(profile);
+    });
+    var applicableIds = {};
+    applicableDomains.forEach(function (d) { applicableIds[d.id] = true; });
+
+    var domainAgg = {};   // id -> { weighted, weight, answered, applicable, na, questions:[] }
+    applicableDomains.forEach(function (d) {
+      domainAgg[d.id] = { weighted: 0, weight: 0, answered: 0, na: 0, total: 0, evaluated: [] };
+    });
+
+    var totalWeighted = 0, totalWeight = 0, answeredCount = 0, naCount = 0, totalApplicable = 0;
+
+    DPDPA.questions.forEach(function (question) {
+      if (!applicableIds[question.domain]) return;      // skip non-applicable domains
+      var agg = domainAgg[question.domain];
+      agg.total++;
+      totalApplicable++;
+
+      var value = answers[question.id];
+      var option = findOption(question, value);
+      var scored = isScored(option);
+
+      var record = {
+        question: question,
+        value: value || null,
+        optionLabel: option ? option.label : null,
+        score: scored ? option.score : null,
+        answered: !!value,
+        na: !!(option && option.score === null && option.value === 'na'),
+        scored: scored
+      };
+      agg.evaluated.push(record);
+
+      if (record.na) { agg.na++; naCount++; }
+      if (record.answered) answeredCount++;
+
+      if (scored) {
+        agg.weighted += option.score * question.weight;
+        agg.weight += question.weight;
+        agg.answered++;
+        totalWeighted += option.score * question.weight;
+        totalWeight += question.weight;
+      }
+    });
+
+    var domainScores = applicableDomains.map(function (d) {
+      var agg = domainAgg[d.id];
+      var score = agg.weight > 0 ? Math.round(agg.weighted / agg.weight) : null;
+      return {
+        id: d.id,
+        name: d.name,
+        icon: d.icon,
+        sections: d.sections,
+        description: d.description,
+        score: score,
+        status: score === null ? { label: 'Not Assessed', key: 'na' } : rules.statusForScore(score),
+        answered: agg.answered,
+        total: agg.total,
+        na: agg.na,
+        evaluated: agg.evaluated
+      };
+    });
+
+    var overall = totalWeight > 0 ? Math.round(totalWeighted / totalWeight) : 0;
+
+    return {
+      overallScore: overall,
+      level: rules.levelForScore(overall),
+      domainScores: domainScores,
+      answeredCount: answeredCount,
+      naCount: naCount,
+      totalApplicable: totalApplicable,
+      completion: totalApplicable > 0 ? Math.round((answeredCount / totalApplicable) * 100) : 0,
+      applicableDomains: applicableDomains
+    };
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Risk classification for a single evaluated question
+   * Combines the answer score with the question's inherent risk rating.
+   * ------------------------------------------------------------------------ */
+  function priorityFor(score, inherentRisk) {
+    // score is 0..100 (lower = worse). inherentRisk: High/Medium/Low
+    if (inherentRisk === 'High') {
+      if (score <= 30) return 'Immediate';
+      if (score < 100) return 'High';
+    } else if (inherentRisk === 'Medium') {
+      if (score <= 30) return 'High';
+      if (score < 100) return 'Medium';
+    } else { // Low
+      if (score <= 30) return 'Medium';
+      if (score < 100) return 'Low';
+    }
+    return 'Low';
+  }
+
+  function likelihoodFor(score) {
+    if (score <= 30) return 'High';
+    if (score <= 60) return 'Medium';
+    return 'Low';
+  }
+
+  /* Potential impacts inferred from the domain — used when a control fails. */
+  var DOMAIN_IMPACT = {
+    governance: ['Unclear accountability', 'Inconsistent control operation', 'Regulatory scrutiny'],
+    notice: ['Invalid consent', 'Transparency violation', 'Data Principal complaints'],
+    consent: ['Consent invalidity', 'Unlawful processing', 'Regulatory penalties'],
+    processing: ['Purpose creep', 'Unlawful processing', 'Loss of trust'],
+    rights: ['Unmet statutory rights', 'Grievances & complaints', 'Board proceedings'],
+    children: ['Prohibited processing of children’s data', 'Severe penalties', 'Reputational harm'],
+    security: ['Personal data breach', 'Financial penalty up to ₹250 crore', 'Operational disruption'],
+    breach: ['Missed notification deadlines', 'Regulatory penalty', 'Escalated harm to individuals'],
+    vendors: ['Uncontrolled third-party risk', 'Breach via processor', 'Contractual liability'],
+    retention: ['Excess data exposure', 'Erasure-right violation', 'Larger breach blast radius'],
+    crossborder: ['Non-compliant transfer', 'Regulatory restriction', 'Sectoral law breach'],
+    sdf: ['Breach of enhanced SDF duties', 'Regulatory penalty', 'Audit findings'],
+    records: ['Inability to demonstrate compliance', 'Weak audit posture', 'Accountability gap']
+  };
+
+  rules.riskFromRecord = function (record) {
+    var q = record.question;
+    // Only failing/partial scored controls generate risk (100 = no gap).
+    if (!record.scored || record.score >= 100) return null;
+    var priority = priorityFor(record.score, q.risk);
+    var meta = PRIORITY_META[priority];
+    return {
+      id: q.id,
+      title: q.question,
+      shortTitle: shortTitle(q),
+      domain: q.domain,
+      domainName: (DPDPA.getDomainById(q.domain) || {}).name || q.domain,
+      exposure: q.exposure || describeGap(record),
+      description: q.exposure || describeGap(record),
+      currentState: record.optionLabel || 'Not answered',
+      score: record.score,
+      inherentRisk: q.risk,
+      likelihood: likelihoodFor(record.score),
+      impact: q.risk,
+      impacts: DOMAIN_IMPACT[q.domain] || [],
+      priority: priority,
+      timeline: meta.timeline,
+      badge: meta.badge,
+      section: q.legalReference,
+      mitigation: q.recommendation,
+      owner: DOMAIN_OWNER[q.domain] || 'DPO',
+      quickWin: isQuickWin(record)
+    };
+  };
+
+  function shortTitle(q) {
+    // A compact, noun-phrase-ish label derived from the question for tables.
+    var t = q.question
+      .replace(/^Do you\s+/i, '')
+      .replace(/^Do your\s+/i, '')
+      .replace(/^Does your organization\s+/i, '')
+      .replace(/^Have you\s+/i, '')
+      .replace(/^Has your organization\s+/i, '')
+      .replace(/^Has\s+/i, '')
+      .replace(/^How mature is your\s+/i, '')
+      .replace(/^How mature is\s+/i, '')
+      .replace(/^Where you\b[^,]*,\s*/i, '')
+      .replace(/^Can a Data Principal\s+/i, 'Data Principals can ')
+      .replace(/^Can\s+/i, '')
+      .replace(/^Is there (?:a|an)\s+/i, '')
+      .replace(/^Is there\s+/i, '')
+      .replace(/^Is\s+/i, '')
+      .replace(/^Are\s+/i, '');
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+    if (t.length > 90) t = t.slice(0, 87) + '…';
+    return t.replace(/\?$/, '');
+  }
+  rules.shortLabel = shortTitle;   // exposed so the report layer reuses one source of truth
+
+  function describeGap(record) {
+    var q = record.question;
+    if (record.score === 0) return 'Control is absent — ' + shortTitle(q).toLowerCase() + '.';
+    if (record.score <= 30) return 'Only planned, not operational — ' + shortTitle(q).toLowerCase() + '.';
+    return 'Partially implemented — ' + shortTitle(q).toLowerCase() + '.';
+  }
+
+  /* Quick win = LOW effort AND HIGH impact — the classic low-hanging fruit.
+     Effort comes from effortFor(); impact = an Immediate/High remediation priority.
+     This ties the flag to the same effort/priority the rest of the report uses,
+     rather than a hand-picked list of domains. */
+  function isQuickWin(record) {
+    if (!record.scored || record.score >= 100) return false;
+    var priority = priorityFor(record.score, record.question.risk);
+    return effortFor(record) === 'Low' && (priority === 'Immediate' || priority === 'High');
+  }
+
+  /* ---------------------------------------------------------------------------
+   * Aggregate builders: risk register, gap analysis, remediation, strengths…
+   * ------------------------------------------------------------------------ */
+  rules.buildRiskRegister = function (evaluation) {
+    var risks = [];
+    evaluation.domainScores.forEach(function (d) {
+      d.evaluated.forEach(function (record) {
+        var r = rules.riskFromRecord(record);
+        if (r) risks.push(r);
+      });
+    });
+    risks.sort(function (a, b) {
+      var pa = PRIORITY_META[a.priority].rank, pb = PRIORITY_META[b.priority].rank;
+      if (pa !== pb) return pa - pb;
+      return a.score - b.score;
+    });
+    return risks;
+  };
+
+  rules.buildGapAnalysis = function (evaluation) {
+    var gaps = [];
+    evaluation.domainScores.forEach(function (d) {
+      d.evaluated.forEach(function (record) {
+        if (!record.scored || record.score >= 100) return;
+        var q = record.question;
+        var priority = priorityFor(record.score, q.risk);
+        gaps.push({
+          id: q.id,
+          domain: q.domain,
+          domainName: d.name,
+          area: shortTitle(q),
+          currentState: record.optionLabel || 'Not implemented',
+          requiredState: 'Fully implemented and operational',
+          gap: q.exposure || describeGap(record),
+          priority: priority,
+          badge: PRIORITY_META[priority].badge,
+          action: q.recommendation,
+          effort: effortFor(record),
+          section: q.legalReference
+        });
+      });
+    });
+    gaps.sort(function (a, b) {
+      return PRIORITY_META[a.priority].rank - PRIORITY_META[b.priority].rank;
+    });
+    return gaps;
+  };
+
+  function effortFor(record) {
+    // Effort to COMPLETE the control from where it stands today.
+    var d = record.question.domain;
+    // Domains whose remediation typically needs engineering, contracts or audit.
+    var heavy = { security: 1, consent: 1, children: 1, vendors: 1, crossborder: 1, sdf: 1 };
+    if (record.score >= 60) return 'Low';                        // already partial -> just finish it
+    if (record.score >= 30) return heavy[d] ? 'Medium' : 'Low';  // planned -> execute the plan
+    return heavy[d] ? 'High' : 'Medium';                         // absent -> build from scratch
+  }
+
+  rules.buildRemediationPlan = function (evaluation) {
+    var tasks = [];
+    evaluation.domainScores.forEach(function (d) {
+      d.evaluated.forEach(function (record) {
+        if (!record.scored || record.score >= 100) return;
+        var q = record.question;
+        var priority = priorityFor(record.score, q.risk);
+        var meta = PRIORITY_META[priority];
+        tasks.push({
+          id: q.id,
+          task: q.recommendation,
+          reason: q.exposure || describeGap(record),
+          priority: priority,
+          badge: meta.badge,
+          timeline: meta.timeline,
+          section: q.legalReference,
+          owner: DOMAIN_OWNER[q.domain] || 'DPO',
+          domainName: d.name,
+          effort: effortFor(record),
+          quickWin: isQuickWin(record)
+        });
+      });
+    });
+    tasks.sort(function (a, b) {
+      var pa = PRIORITY_META[a.priority].rank, pb = PRIORITY_META[b.priority].rank;
+      if (pa !== pb) return pa - pb;
+      return (b.quickWin ? 1 : 0) - (a.quickWin ? 1 : 0);
+    });
+    return tasks;
+  };
+
+  /* Strengths: fully implemented controls (score 100). */
+  rules.buildStrengths = function (evaluation) {
+    var out = [];
+    evaluation.domainScores.forEach(function (d) {
+      d.evaluated.forEach(function (record) {
+        if (record.scored && record.score >= 100) {
+          out.push({ text: shortTitle(record.question), domain: d.name, section: record.question.legalReference });
+        }
+      });
+    });
+    return out;
+  };
+
+  /* Weaknesses: absent controls (score 0), highest-risk first. */
+  rules.buildWeaknesses = function (evaluation) {
+    var out = [];
+    evaluation.domainScores.forEach(function (d) {
+      d.evaluated.forEach(function (record) {
+        if (record.scored && record.score === 0) {
+          out.push({
+            text: shortTitle(record.question),
+            domain: d.name,
+            risk: record.question.risk,
+            section: record.question.legalReference
+          });
+        }
+      });
+    });
+    var order = { High: 0, Medium: 1, Low: 2 };
+    out.sort(function (a, b) { return order[a.risk] - order[b.risk]; });
+    return out;
+  };
+
+  /* Critical findings for the executive summary (Immediate-priority risks). */
+  rules.buildCriticalFindings = function (riskRegister) {
+    return riskRegister.filter(function (r) { return r.priority === 'Immediate'; });
+  };
+
+  /* Priority matrix counts. */
+  rules.buildPriorityMatrix = function (riskRegister) {
+    var counts = { Immediate: 0, High: 0, Medium: 0, Low: 0 };
+    riskRegister.forEach(function (r) { counts[r.priority]++; });
+    return counts;
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Intelligent recommendations — curated, de-duplicated, prioritised.
+   * Picks the highest-impact remediation per domain plus cross-cutting advice.
+   * ------------------------------------------------------------------------ */
+  rules.buildRecommendations = function (evaluation) {
+    var byDomain = {};
+    evaluation.domainScores.forEach(function (d) {
+      if (d.score === null) return;
+      var worst = null;
+      d.evaluated.forEach(function (record) {
+        if (!record.scored || record.score >= 100) return;
+        if (!worst || record.score < worst.score) worst = record;
+      });
+      if (worst) {
+        byDomain[d.id] = {
+          domain: d.name,
+          score: d.score,
+          text: worst.question.recommendation,
+          section: worst.question.legalReference,
+          priority: priorityFor(worst.score, worst.question.risk)
+        };
+      }
+    });
+    var recs = Object.keys(byDomain).map(function (k) { return byDomain[k]; });
+    recs.sort(function (a, b) {
+      return PRIORITY_META[a.priority].rank - PRIORITY_META[b.priority].rank || a.score - b.score;
+    });
+    return recs;
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Domain verdicts — a synthesised, per-domain read instead of a per-question
+   * walk. Each verdict has a punchy headline plus the single biggest exposure
+   * and the strongest control, so the report focuses on the domain, not the Qs.
+   * ------------------------------------------------------------------------ */
+  function stableIndex(seed, n) {
+    var h = 0;
+    for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    return h % n;
+  }
+  function gapWord(n) { return n === 1 ? 'control' : 'controls'; }
+
+  function verdictHeadline(d, wins, gaps, total) {
+    var s = d.score, pick = function (arr) { return arr[stableIndex(d.id, arr.length)]; };
+    if (s >= 80) return pick([
+      'Pulling its weight — ' + wins + ' of ' + total + ' controls are solid.',
+      'A genuine strength; ' + wins + ' of ' + total + ' controls here hold up.'
+    ]);
+    if (s >= 60) return pick([
+      'Functional but leaky — ' + gaps + ' ' + gapWord(gaps) + ' still need shoring up.',
+      'The bones are here, but ' + gaps + ' ' + gapWord(gaps) + ' keep it from holding up.'
+    ]);
+    if (s >= 40) return pick([
+      'Exposed — ' + gaps + ' of ' + total + ' controls are missing or half-built.',
+      'Thin cover; most of this domain isn’t operational yet.'
+    ]);
+    return pick([
+      'Effectively absent — this is where a regulator would start looking.',
+      'Near-zero protection today; treat this as ground zero.'
+    ]);
+  }
+
+  rules.buildDomainVerdicts = function (evaluation) {
+    return evaluation.domainScores.map(function (d) {
+      if (d.score === null) {
+        return { id: d.id, name: d.name, icon: d.icon, sections: d.sections, score: null,
+          status: d.status, headline: 'Not applicable to your profile.', exposure: null,
+          win: null, gaps: 0, wins: 0, total: 0 };
+      }
+      var scored = d.evaluated.filter(function (r) { return r.scored; });
+      var wins = scored.filter(function (r) { return r.score >= 80; });
+      var gaps = scored.filter(function (r) { return r.score < 80; });
+      var worst = null, best = null;
+      gaps.forEach(function (r) { if (!worst || r.score < worst.score) worst = r; });
+      wins.forEach(function (r) { if (!best || r.score > best.score) best = r; });
+      return {
+        id: d.id, name: d.name, icon: d.icon, sections: d.sections, score: d.score, status: d.status,
+        headline: verdictHeadline(d, wins.length, gaps.length, scored.length),
+        exposure: worst ? (worst.question.exposure || describeGap(worst)) : null,
+        win: best ? shortTitle(best.question) : null,
+        gaps: gaps.length, wins: wins.length, total: scored.length
+      };
+    });
+  };
+
+  /* A single punchy headline for the executive summary. */
+  rules.buildHeadline = function (evaluation, criticalCount) {
+    var s = evaluation.overallScore;
+    if (s >= 95) return 'A mature programme. Keep auditing and you stay ahead of the Act.';
+    if (s >= 80) return 'You’re most of the way there — tighten a handful of controls and you’re audit-ready.';
+    if (s >= 60) return 'A real foundation with real gaps. The roadmap below closes them in priority order.';
+    if (s >= 40) return 'Significant exposure: several core DPDPA obligations aren’t operational yet.'
+      + (criticalCount ? ' Start with the critical findings flagged below.' : '');
+    return 'Critical gaps across the board — this is a build-from-here situation, and the roadmap shows where to start.';
+  };
+
+  /* ---------------------------------------------------------------------------
+   * Overall readiness narrative — a consultant-style paragraph.
+   * ------------------------------------------------------------------------ */
+  rules.buildReadinessNarrative = function (evaluation, riskRegister) {
+    var level = evaluation.level;
+    var strong = evaluation.domainScores.filter(function (d) { return d.score !== null && d.score >= 80; });
+    var weak = evaluation.domainScores.filter(function (d) { return d.score !== null && d.score < 60; })
+      .sort(function (a, b) { return a.score - b.score; });
+    var critical = riskRegister.filter(function (r) { return r.priority === 'Immediate'; }).length;
+
+    var parts = [];
+    parts.push('With an overall compliance score of ' + evaluation.overallScore + '% (' + level.label +
+      '), the organization ' + readinessVerb(evaluation.overallScore) + '.');
+
+    if (strong.length) {
+      parts.push('It demonstrates relative strength in ' + listNames(strong.slice(0, 3)) + '.');
+    }
+    if (weak.length) {
+      parts.push('The most material gaps lie in ' + listNames(weak.slice(0, 3)) +
+        ', which require prioritised remediation.');
+    }
+    if (critical > 0) {
+      parts.push('There ' + (critical === 1 ? 'is 1 finding' : 'are ' + critical + ' findings') +
+        ' rated for immediate action, exposing the organization to regulatory and reputational risk under the DPDPA.');
+    } else if (evaluation.overallScore >= 80) {
+      parts.push('No findings require immediate action; focus should shift to sustaining and auditing existing controls.');
+    }
+    parts.push('A structured remediation roadmap — sequenced by the priority matrix below — will move the organization toward substantial compliance with the Digital Personal Data Protection Act, 2023.');
+    return parts.join(' ');
+  };
+
+  function readinessVerb(score) {
+    if (score >= 95) return 'operates a mature, well-governed privacy programme';
+    if (score >= 80) return 'has achieved substantial DPDPA compliance';
+    if (score >= 60) return 'has a functioning foundation but has not yet reached substantial compliance';
+    if (score >= 40) return 'faces significant compliance exposure';
+    return 'is in a state of critical non-compliance requiring urgent intervention';
+  }
+
+  function listNames(domains) {
+    var names = domains.map(function (d) { return d.name; });
+    if (names.length === 1) return names[0];
+    if (names.length === 2) return names[0] + ' and ' + names[1];
+    return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+  }
+
+  /* ---------------------------------------------------------------------------
+   * One-call report model builder — everything the report page needs.
+   * ------------------------------------------------------------------------ */
+  rules.buildReport = function (answers, profile) {
+    var evaluation = rules.evaluate(answers, profile);
+    var riskRegister = rules.buildRiskRegister(evaluation);
+    var criticalFindings = rules.buildCriticalFindings(riskRegister);
+    return {
+      profile: profile || {},
+      evaluation: evaluation,
+      headline: rules.buildHeadline(evaluation, criticalFindings.length),
+      domainVerdicts: rules.buildDomainVerdicts(evaluation),
+      riskRegister: riskRegister,
+      gapAnalysis: rules.buildGapAnalysis(evaluation),
+      remediationPlan: rules.buildRemediationPlan(evaluation),
+      recommendations: rules.buildRecommendations(evaluation),
+      strengths: rules.buildStrengths(evaluation),
+      weaknesses: rules.buildWeaknesses(evaluation),
+      criticalFindings: criticalFindings,
+      priorityMatrix: rules.buildPriorityMatrix(riskRegister),
+      readiness: rules.buildReadinessNarrative(evaluation, riskRegister)
+    };
+  };
+
+})(window);
+
+  </script>
+  <script>
+/* =============================================================================
+ * assessment.js
+ * -----------------------------------------------------------------------------
+ * The assessment wizard controller. Renders the organization profile and each
+ * compliance domain as a navigable step, captures answers, autosaves to
+ * localStorage, tracks progress and hands off to the report on completion.
+ *
+ * Depends on: questions.js (data + icons), rules.js (applicability helpers).
+ * Persistence key is versioned so the storage schema can evolve.
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var DPDPA = root.DPDPA;
+  var STORAGE_KEY = 'dpdpa_assessment_v1';
+
+  /* --------------------------- State management --------------------------- */
+  var state = loadState();
+  var currentStep = 0;          // 0 = profile, 1..N = applicable domains
+  var steps = buildSteps();     // recomputed whenever the profile changes
+
+  function loadState() {
+    try {
+      var raw = root.localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        parsed.profile = parsed.profile || {};
+        parsed.answers = parsed.answers || {};
+        parsed.meta = parsed.meta || {};
+        return parsed;
+      }
+    } catch (e) { /* ignore corrupt storage */ }
+    return { profile: {}, answers: {}, meta: { startedAt: new Date().toISOString() } };
+  }
+
+  function saveState() {
+    state.meta.updatedAt = new Date().toISOString();
+    if (root.DPDPA) root.DPDPA.currentAssessment = state;
+    try { root.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { /* quota */ }
+  }
+
+  /* Applicable steps = profile + domains whose applicability() passes. */
+  function buildSteps() {
+    var list = [{ type: 'profile', id: '__profile__', name: 'Organization Profile', icon: 'governance' }];
+    DPDPA.domains.forEach(function (d) {
+      if (!d.applicability || d.applicability(state.profile)) {
+        list.push({ type: 'domain', id: d.id, name: d.name, icon: d.icon, domain: d });
+      }
+    });
+    return list;
+  }
+
+  /* ------------------------------ Progress -------------------------------- */
+  function applicableQuestions() {
+    var applicableIds = {};
+    steps.forEach(function (s) { if (s.type === 'domain') applicableIds[s.id] = true; });
+    return DPDPA.questions.filter(function (q) { return applicableIds[q.domain]; });
+  }
+
+  function answeredCountFor(domainId) {
+    var qs = DPDPA.getQuestionsByDomain(domainId);
+    var n = 0;
+    qs.forEach(function (q) { if (state.answers[q.id]) n++; });
+    return { answered: n, total: qs.length };
+  }
+
+  function overallCompletion() {
+    var qs = applicableQuestions();
+    if (!qs.length) return 0;
+    var answered = 0;
+    qs.forEach(function (q) { if (state.answers[q.id]) answered++; });
+    return Math.round((answered / qs.length) * 100);
+  }
+
+  /* ------------------------------ Rendering ------------------------------- */
+  var el = {
+    stepperList: document.getElementById('stepper-list'),
+    stepContent: document.getElementById('step-content'),
+    topProgress: document.querySelector('#top-progress > span'),
+    sideProgress: document.querySelector('#side-progress > span'),
+    sidePct: document.getElementById('side-pct'),
+    stepCurrent: document.getElementById('step-current'),
+    stepTotal: document.getElementById('step-total'),
+    answeredSummary: document.getElementById('answered-summary'),
+    btnPrev: document.getElementById('btn-prev'),
+    btnNext: document.getElementById('btn-next'),
+    btnDemoFill: document.getElementById('btn-demo-fill'),
+    btnGenerate: document.getElementById('btn-generate'),
+    btnReset: document.getElementById('btn-reset')
+  };
+
+  function riskBadgeClass(risk) {
+    return risk === 'High' ? 'badge-high' : (risk === 'Medium' ? 'badge-moderate' : 'badge-low');
+  }
+  function importancePillClass(imp) {
+    return imp === 'High' ? 'pill-high' : (imp === 'Medium' ? 'pill-medium' : 'pill-low');
+  }
+
+  function renderStepper() {
+    el.stepperList.innerHTML = steps.map(function (s, i) {
+      var cls = 'step-item';
+      if (i === currentStep) cls += ' active';
+      var meta = '';
+      if (s.type === 'domain') {
+        var c = answeredCountFor(s.id);
+        if (c.answered === c.total && c.total > 0) cls += ' done';
+        meta = '<span class="si-count">' + c.answered + '/' + c.total + '</span>';
+      } else {
+        cls += hasProfileBasics() ? ' done' : '';
+      }
+      var icon = (i === currentStep || s.type === 'profile') ? s.icon : s.icon;
+      var innerIcon = (i !== currentStep && s.type === 'domain' && answeredCountFor(s.id).answered === answeredCountFor(s.id).total && answeredCountFor(s.id).total > 0)
+        ? 'check' : icon;
+      return '<div class="' + cls + '" data-step="' + i + '">' +
+        '<span class="si-ic">' + DPDPA.icon(innerIcon) + '</span>' +
+        '<span class="si-name">' + s.name + '</span>' + meta +
+      '</div>';
+    }).join('');
+
+    Array.prototype.forEach.call(el.stepperList.querySelectorAll('.step-item'), function (node) {
+      node.addEventListener('click', function () { goToStep(parseInt(node.getAttribute('data-step'), 10)); });
+    });
+  }
+
+  function hasProfileBasics() { return !!(state.profile.orgName && state.profile.industry); }
+
+  function renderProgress() {
+    var pct = overallCompletion();
+    el.topProgress.style.width = pct + '%';
+    el.sideProgress.style.width = pct + '%';
+    el.sidePct.textContent = pct + '%';
+    el.stepCurrent.textContent = (currentStep + 1);
+    el.stepTotal.textContent = steps.length;
+
+    if (steps[currentStep].type === 'domain') {
+      var c = answeredCountFor(steps[currentStep].id);
+      el.answeredSummary.innerHTML = c.answered === c.total
+        ? DPDPA.icon('check') + ' Section complete'
+        : (c.answered + ' of ' + c.total + ' answered');
+    } else {
+      el.answeredSummary.innerHTML = hasProfileBasics() ? DPDPA.icon('check') + ' Saved' : '';
+    }
+    DPDPA.hydrateIcons(el.answeredSummary);
+  }
+
+  /* --------------------------- Profile step ------------------------------- */
+  function renderProfileStep() {
+    var fields = DPDPA.profileQuestions.map(function (pq) {
+      var val = state.profile[pq.field];
+      if (pq.type === 'text') {
+        return '<div class="field"><label>' + pq.label + (pq.required ? ' *' : '') + '</label>' +
+          '<input type="text" data-field="' + pq.field + '" value="' + escapeAttr(val || '') +
+          '" placeholder="' + (pq.placeholder || '') + '" /></div>';
+      }
+      if (pq.type === 'dropdown') {
+        var opts = '<option value="">Select…</option>' + pq.options.map(function (o) {
+          return '<option value="' + escapeAttr(o) + '"' + (val === o ? ' selected' : '') + '>' + o + '</option>';
+        }).join('');
+        return '<div class="field"><label>' + pq.label + '</label>' +
+          '<select data-field="' + pq.field + '">' + opts + '</select></div>';
+      }
+      if (pq.type === 'multi-select') {
+        var selected = Array.isArray(val) ? val : [];
+        var checks = pq.options.map(function (o) {
+          var on = selected.indexOf(o) !== -1;
+          return '<label class="check' + (on ? ' checked' : '') + '" data-multi="' + pq.field + '" data-val="' + escapeAttr(o) + '">' +
+            '<span class="box">' + DPDPA.icon('check') + '</span>' +
+            '<span>' + o + '</span></label>';
+        }).join('');
+        return '<div class="field"><label>' + pq.label + '</label><div class="checks">' + checks + '</div></div>';
+      }
+      return '';
+    }).join('');
+
+    el.stepContent.innerHTML =
+      '<div class="domain-header">' +
+        '<div class="dh-ic">' + DPDPA.icon('governance') + '</div>' +
+        '<div><h2>Organization Profile</h2>' +
+        '<p style="margin:2px 0 0">Context that tailors the assessment and shapes the applicability of certain domains.</p></div>' +
+      '</div>' +
+      '<div class="applic-note">' + DPDPA.icon('info') +
+        '<span>Your answers to the children’s data, cross-border and Significant Data Fiduciary questions determine which specialised domains appear in your assessment.</span></div>' +
+      '<div class="card card-pad mt-2">' + fields + '</div>';
+
+    DPDPA.hydrateIcons(el.stepContent);
+    wireProfileInputs();
+  }
+
+  function wireProfileInputs() {
+    Array.prototype.forEach.call(el.stepContent.querySelectorAll('[data-field]'), function (node) {
+      node.addEventListener('input', function () { onProfileChange(node.getAttribute('data-field'), node.value); });
+      node.addEventListener('change', function () { onProfileChange(node.getAttribute('data-field'), node.value); });
+    });
+    Array.prototype.forEach.call(el.stepContent.querySelectorAll('[data-multi]'), function (node) {
+      node.addEventListener('click', function (e) {
+        e.preventDefault();
+        var field = node.getAttribute('data-multi'), v = node.getAttribute('data-val');
+        var arr = Array.isArray(state.profile[field]) ? state.profile[field].slice() : [];
+        var idx = arr.indexOf(v);
+        if (idx === -1) { arr.push(v); node.classList.add('checked'); }
+        else { arr.splice(idx, 1); node.classList.remove('checked'); }
+        state.profile[field] = arr;
+        saveState();
+      });
+    });
+  }
+
+  function onProfileChange(field, value) {
+    state.profile[field] = value;
+    saveState();
+    // Applicability-affecting fields rebuild the step list & stepper.
+    if (field === 'childrenData' || field === 'crossBorder' || field === 'sdf') {
+      steps = buildSteps();
+      renderStepper();
+      renderProgress();
+    } else {
+      renderStepper();
+      renderProgress();
+    }
+  }
+
+  /* ---------------------------- Domain step ------------------------------- */
+  function renderDomainStep(step) {
+    var domain = step.domain;
+    var qs = DPDPA.getQuestionsByDomain(domain.id);
+
+    var cards = qs.map(function (q, i) {
+      var current = state.answers[q.id];
+      var opts = q.options.map(function (o) {
+        var checked = current === o.value;
+        // Scores are intentionally hidden from the respondent to avoid biasing
+        // answers toward the higher-scoring option — answer honestly, not to score.
+        return '<label class="opt' + (checked ? ' checked' : '') + '" data-qid="' + q.id + '" data-val="' + o.value + '">' +
+          '<input type="radio" name="' + q.id + '"' + (checked ? ' checked' : '') + ' />' +
+          '<span class="mark"></span>' +
+          '<span class="opt-label">' + o.label + '</span></label>';
+      }).join('');
+
+      return '<div class="card q-card' + (current ? ' answered' : '') + '" id="qc-' + q.id + '">' +
+        '<div class="q-top">' +
+          '<span class="q-num">Question ' + (i + 1) + ' · ' + q.id + '</span>' +
+          '<div class="q-badges">' +
+            '<span class="badge ' + riskBadgeClass(q.risk) + '"><span class="dot"></span>' + q.risk + ' risk</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="q-text">' + q.question + '</div>' +
+        '<div class="q-why">' + DPDPA.icon('help') + '<span><b>Why we ask:</b> ' + q.explanation + '</span></div>' +
+        '<div class="q-ref">' + DPDPA.icon('scale') + '<span><b>Reference:</b> ' + q.legalReference + '</span>' +
+          '<span class="pill ' + importancePillClass(q.importance) + '" style="margin-left:auto">' + q.importance + ' importance</span></div>' +
+        '<div class="options">' + opts + '</div>' +
+        '<div class="q-flag">' + DPDPA.icon('alert') + '<span>Please choose an option — this control is required.</span></div>' +
+      '</div>';
+    }).join('');
+
+    var applicNote = '';
+    if (domain.applicability && !domain.applicability(state.profile)) {
+      applicNote = '<div class="applic-note">' + DPDPA.icon('info') +
+        '<span>Based on your profile this section may not apply. You may still answer it, or mark controls as <b>Not applicable</b>.</span></div>';
+    }
+
+    el.stepContent.innerHTML =
+      '<div class="domain-header">' +
+        '<div class="dh-ic">' + DPDPA.icon(domain.icon) + '</div>' +
+        '<div><h2>' + domain.name + '</h2>' +
+          '<p style="margin:2px 0 0">' + domain.description + '</p>' +
+          '<div class="dh-meta"><span class="ref-tag">' + domain.sections + '</span>' +
+            '<span class="muted" style="font-size:.82rem">' + qs.length + ' controls</span></div>' +
+        '</div>' +
+      '</div>' + applicNote +
+      '<div>' + cards + '</div>';
+
+    DPDPA.hydrateIcons(el.stepContent);
+    wireOptions();
+  }
+
+  function wireOptions() {
+    Array.prototype.forEach.call(el.stepContent.querySelectorAll('.opt'), function (node) {
+      node.addEventListener('click', function () {
+        var qid = node.getAttribute('data-qid'), val = node.getAttribute('data-val');
+        state.answers[qid] = val;
+        saveState();
+        // Update selection visuals within this question group.
+        Array.prototype.forEach.call(el.stepContent.querySelectorAll('.opt[data-qid="' + qid + '"]'), function (o) {
+          o.classList.toggle('checked', o.getAttribute('data-val') === val);
+          var input = o.querySelector('input'); if (input) input.checked = o.getAttribute('data-val') === val;
+        });
+        var card = document.getElementById('qc-' + qid);
+        if (card) { card.classList.add('answered'); card.classList.remove('needs-answer'); }
+        renderStepper();
+        renderProgress();
+      });
+    });
+  }
+
+  /* ------------------------------ Navigation ------------------------------ */
+  function renderStep() {
+    var step = steps[currentStep];
+    if (step.type === 'profile') renderProfileStep();
+    else renderDomainStep(step);
+
+    el.btnPrev.disabled = currentStep === 0;
+    if (currentStep === steps.length - 1) {
+      el.btnNext.innerHTML = 'Review &amp; Generate ' + DPDPA.icon('checkCircle');
+    } else {
+      el.btnNext.innerHTML = 'Next ' + DPDPA.icon('arrowRight');
+    }
+    DPDPA.hydrateIcons(el.btnNext);
+
+    renderStepper();
+    renderProgress();
+    root.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToStep(i) {
+    if (i < 0 || i >= steps.length) return;
+    currentStep = i;
+    renderStep();
+  }
+
+  function next() {
+    if (!validateCurrentStep(true)) return;                 // enforce answers before advancing
+    if (currentStep === steps.length - 1) { generateReport(); return; }
+    goToStep(currentStep + 1);
+  }
+
+  /* Is a given step fully answered? (profile needs its basics; domains need
+     every question answered). */
+  function stepComplete(i) {
+    var step = steps[i];
+    if (step.type === 'profile') return hasProfileBasics();
+    return DPDPA.getQuestionsByDomain(step.id).every(function (q) { return !!state.answers[q.id]; });
+  }
+
+  /* Validate the currently-displayed step; when `flag` is true, highlight the
+     unanswered questions and scroll to the first one. */
+  function validateCurrentStep(flag) {
+    var step = steps[currentStep];
+    if (step.type === 'profile') {
+      if (!hasProfileBasics()) { if (flag) flashProfileWarning(); return false; }
+      return true;
+    }
+    var qs = DPDPA.getQuestionsByDomain(step.id);
+    var firstMissing = null;
+    qs.forEach(function (q) {
+      var answered = !!state.answers[q.id];
+      var card = document.getElementById('qc-' + q.id);
+      if (card && flag) card.classList.toggle('needs-answer', !answered);
+      if (!answered && !firstMissing) firstMissing = q.id;
+    });
+    if (firstMissing) {
+      if (flag) {
+        var target = document.getElementById('qc-' + firstMissing);
+        if (target && target.scrollIntoView) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function generateReport() {
+    // Walk every step; jump to the first incomplete one and prompt.
+    for (var i = 0; i < steps.length; i++) {
+      if (!stepComplete(i)) {
+        goToStep(i);
+        validateCurrentStep(true);
+        showBlockedBanner();
+        return;
+      }
+    }
+    state.meta.completedAt = new Date().toISOString();
+    saveState();
+    if (root.DPDPA && root.DPDPA.app) root.DPDPA.app.showReport();
+  }
+
+  function showBlockedBanner() {
+    var b = document.createElement('div');
+    b.className = 'applic-note';
+    b.style.background = 'var(--red-50)';
+    b.style.borderColor = '#fca5a5';
+    b.style.color = 'var(--red-700)';
+    b.innerHTML = DPDPA.icon('alert') +
+      '<span>Every control is required. Please answer the highlighted question' +
+      '(s) before generating the report.</span>';
+    el.stepContent.insertBefore(b, el.stepContent.firstChild);
+    DPDPA.hydrateIcons(b);
+  }
+
+  function flashProfileWarning() {
+    var note = el.stepContent.querySelector('.applic-note');
+    if (note) {
+      note.style.background = 'var(--amber-50)';
+      note.style.borderColor = '#fde68a';
+      note.innerHTML = DPDPA.icon('alert') +
+        '<span>Please enter at least your <b>organization name</b> and <b>industry</b> before generating the report.</span>';
+      DPDPA.hydrateIcons(note);
+    }
+    var first = el.stepContent.querySelector('[data-field="orgName"]');
+    if (first) first.focus();
+  }
+
+  /* ------------------------------- Utilities ------------------------------ */
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* Fill the complete assessment with a realistic, deterministic demo profile.
+     The response mix intentionally produces a useful report with strengths,
+     partial controls and a few material gaps instead of an unrealistic 100%. */
+  function demoValueFor(question, index) {
+    var targetScores = [100, 100, 60, 100, 60, 30, 100, 60, 100, 0];
+    var target = targetScores[index % targetScores.length];
+    var scored = (question.options || []).filter(function (o) {
+      return o.score !== null && o.score !== undefined;
+    });
+    if (!scored.length) return null;
+    var best = scored[0];
+    for (var i = 1; i < scored.length; i++) {
+      if (Math.abs(scored[i].score - target) < Math.abs(best.score - target)) best = scored[i];
+    }
+    return best.value;
+  }
+
+  function fillDemoAssessment() {
+    state.profile = {
+      orgName: 'Demo Healthcare Technologies Pvt. Ltd.',
+      industry: 'Healthcare & Pharma',
+      employees: '201–1,000',
+      turnover: '₹50–250 crore',
+      dataPrincipals: '1–10 lakh',
+      dataCategories: [
+        'Contact & identity details', 'Financial / payment data', 'Health data',
+        'Government identifiers (Aadhaar, PAN, etc.)', 'Children’s data', 'Employee data'
+      ],
+      role: [
+        'Data Fiduciary (you determine purpose & means)',
+        'Data Processor (you process on behalf of another entity)'
+      ],
+      childrenData: 'Occasionally / possibly',
+      crossBorder: 'Yes',
+      sdf: 'Likely (large volume / sensitive processing)'
+    };
+
+    state.answers = {};
+    DPDPA.questions.forEach(function (question, index) {
+      var value = demoValueFor(question, index);
+      if (value !== null) state.answers[question.id] = value;
+    });
+    state.meta.demoFilledAt = new Date().toISOString();
+    steps = buildSteps();
+    currentStep = 0;
+    saveState();
+    renderStep();
+
+    if (el.btnDemoFill) {
+      el.btnDemoFill.innerHTML = DPDPA.icon('checkCircle') + ' Demo data filled';
+      el.btnDemoFill.style.background = 'var(--green-50)';
+      el.btnDemoFill.style.borderColor = '#a7f3d0';
+      el.btnDemoFill.style.color = 'var(--green-700)';
+      root.setTimeout(function () {
+        el.btnDemoFill.innerHTML = DPDPA.icon('zap') + ' Demo Fill';
+        el.btnDemoFill.style.background = 'var(--blue-50)';
+        el.btnDemoFill.style.borderColor = 'var(--blue-200)';
+        el.btnDemoFill.style.color = '';
+      }, 1800);
+    }
+  }
+
+  function resetAssessment() {
+    if (!root.confirm('Reset the assessment? All answers stored in this browser will be cleared.')) return;
+    try { root.localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    state = { profile: {}, answers: {}, meta: { startedAt: new Date().toISOString() } };
+    steps = buildSteps();
+    currentStep = 0;
+    renderStep();
+  }
+
+  /* -------------------------------- Init ---------------------------------- */
+  function init() {
+    DPDPA.hydrateIcons();
+    el.btnPrev.addEventListener('click', function () { goToStep(currentStep - 1); });
+    el.btnNext.addEventListener('click', next);
+    el.btnDemoFill.addEventListener('click', fillDemoAssessment);
+    el.btnGenerate.addEventListener('click', generateReport);
+    el.btnReset.addEventListener('click', resetAssessment);
+    renderStep();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+})(window);
+
+  </script>
+  <script>
+/* =============================================================================
+ * report.js
+ * -----------------------------------------------------------------------------
+ * Reads the saved assessment, runs the rules engine and renders an insight-led
+ * executive report. It focuses on DOMAINS, not individual questions, and every
+ * finding leads with the consequence ("what breaks and what it costs you"),
+ * not a restatement of the control.
+ *
+ * Sections: Summary · Dashboard · Domain Verdicts · Priorities · Risk Register
+ *           · Remediation Roadmap · Readiness
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var DPDPA = root.DPDPA;
+  var STORAGE_KEY = 'dpdpa_assessment_v1';
+  var mount = document.getElementById('report-root');
+
+  /* ------------------------------ Load data ------------------------------- */
+  function loadAssessment() {
+    try {
+      var raw = root.localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed.answers && Object.keys(parsed.answers).length) return parsed;
+      }
+    } catch (e) { /* localStorage may be blocked on file:// */ }
+    var mem = root.DPDPA && root.DPDPA.currentAssessment;
+    if (mem && mem.answers && Object.keys(mem.answers).length) return mem;
+    return null;
+  }
+
+  /* ------------------------------ Formatting ------------------------------ */
+  function fmtDate(iso) {
+    var d = iso ? new Date(iso) : new Date();
+    if (isNaN(d.getTime())) d = new Date();
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function levelBadgeClass(key) {
+    var map = { excellent: 'badge-good', good: 'badge-good', moderate: 'badge-moderate',
+      high: 'badge-high', critical: 'badge-critical', na: 'badge-na' };
+    return map[key] || 'badge-na';
+  }
+  function levelColor(key) {
+    var map = { excellent: '#10b981', good: '#10b981', moderate: '#f59e0b',
+      high: '#f97316', critical: '#ef4444', na: '#94a3b8' };
+    return map[key] || '#94a3b8';
+  }
+  function levelColorLight(key) {
+    var map = { excellent: '#34d399', good: '#34d399', moderate: '#fbbf24',
+      high: '#fb923c', critical: '#f87171', na: '#cbd5e1' };
+    return map[key] || '#cbd5e1';
+  }
+  function barClass(score) {
+    if (score >= 80) return 'bar-good';
+    if (score >= 60) return 'bar-moderate';
+    if (score >= 40) return 'bar-high';
+    return 'bar-critical';
+  }
+  function likePill(level) {
+    return level === 'High' ? 'pill-high' : (level === 'Medium' ? 'pill-medium' : 'pill-low');
+  }
+
+  /* ------------------------------ Empty state ----------------------------- */
+  function renderEmpty() {
+    document.getElementById('report-toolbar').style.display = 'none';
+    mount.innerHTML =
+      '<div class="empty" style="margin-top:40px">' +
+        '<div class="e-ic">' + DPDPA.icon('file') + '</div>' +
+        '<h2>No assessment found</h2>' +
+        '<p style="max-width:44ch;margin:0 auto 24px">Complete the DPDPA assessment to generate your executive ' +
+          'compliance report. Your answers stay in this browser.</p>' +
+        '<a href="#" data-view="assessment" class="btn btn-primary btn-lg">Start the assessment ' + DPDPA.icon('arrowRight') + '</a>' +
+      '</div>';
+    DPDPA.hydrateIcons();
+  }
+
+  /* =========================================================================
+   * 1. Executive summary — gauge, one-line verdict, key numbers, top findings
+   * ====================================================================== */
+  function sectionSummary(model) {
+    var ev = model.evaluation, lvl = ev.level;
+    var color = levelColor(lvl.key), colorLight = levelColorLight(lvl.key);
+    var C = 2 * Math.PI * 78, offset = C * (1 - ev.overallScore / 100);
+    var orgName = model.profile.orgName || 'Your organization';
+
+    return '<section id="summary" class="section" style="padding-top:0">' +
+      '<div class="report-hero">' +
+        '<div class="rh-grid">' +
+          '<div class="gauge">' +
+            '<svg viewBox="0 0 180 180">' +
+              '<defs><linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">' +
+                '<stop offset="0%" stop-color="' + colorLight + '"/>' +
+                '<stop offset="100%" stop-color="' + color + '"/>' +
+              '</linearGradient></defs>' +
+              '<circle class="g-track" cx="90" cy="90" r="78"></circle>' +
+              '<circle class="g-fill" cx="90" cy="90" r="78" stroke="url(#gaugeGrad)" ' +
+                'stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '" ' +
+                'style="filter: drop-shadow(0 2px 6px ' + color + '66)"></circle>' +
+            '</svg>' +
+            '<div class="g-center"><b>' + ev.overallScore + '<small>%</small></b><span>DPDPA readiness</span></div>' +
+          '</div>' +
+          '<div class="rh-info">' +
+            '<h1>DPDPA Compliance Report</h1>' +
+            '<div class="rh-org">' + esc(orgName) + (model.profile.industry ? ' · ' + esc(model.profile.industry) : '') + '</div>' +
+            '<div class="rh-level" style="border-color:' + color + '55"><span class="dot" style="background:' + color + '"></span>' + lvl.label + '</div>' +
+            '<p class="rh-headline">' + esc(model.headline) + '</p>' +
+            '<div class="rh-foot">Assessed on ' + fmtDate(model.metaDate) + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      criticalFindingsBlock(model) +
+    '</section>';
+  }
+
+  /* Critical findings — lead with the CONSEQUENCE, tag with domain + section. */
+  function criticalFindingsBlock(model) {
+    if (!model.criticalFindings.length) {
+      return '<div class="card card-pad mt-3" style="border-left:4px solid var(--green-500)">' +
+        '<div class="flex aic gap">' + DPDPA.icon('checkCircle') +
+        '<div><b style="color:var(--navy)">Nothing on fire.</b> ' +
+        '<span class="muted">No control is rated for immediate action — shift focus to sustaining and auditing what you have.</span></div></div></div>';
+    }
+    var items = model.criticalFindings.slice(0, 5).map(function (r) {
+      return '<li>' +
+        '<span class="cf-ic">' + DPDPA.icon('alert') + '</span>' +
+        '<div class="cf-body"><b>' + esc(r.exposure) + '</b>' +
+        '<span>' + esc(r.domainName) + ' &middot; ' + esc(r.section) + '</span></div></li>';
+    }).join('');
+    var more = model.criticalFindings.length > 5
+      ? '<div class="cf-more">+ ' + (model.criticalFindings.length - 5) + ' more critical findings in the risk register below</div>' : '';
+    return '<div class="card critical-card mt-3">' +
+      '<h3 class="cf-head">' + DPDPA.icon('zap') + 'Fix these first</h3>' +
+      '<ul class="cf-list">' + items + '</ul>' + more + '</div>';
+  }
+
+  /* =========================================================================
+   * 2. Compliance dashboard  (unchanged — KPIs + per-domain score cards)
+   * ====================================================================== */
+  function sectionDashboard(model) {
+    var ev = model.evaluation;
+    var highGaps = model.gapAnalysis.filter(function (g) { return g.priority === 'Immediate' || g.priority === 'High'; }).length;
+
+    var kpis =
+      kpi('blue', 'dashboard', ev.overallScore + '%', 'Overall compliance') +
+      kpi('red', 'alert', model.priorityMatrix.Immediate, 'Immediate-priority risks') +
+      kpi('amber', 'target', highGaps, 'High-priority gaps') +
+      kpi('green', 'list', model.remediationPlan.length, 'Actions to close');
+
+    var domainCards = ev.domainScores.map(function (d) {
+      if (d.score === null) {
+        return '<div class="card dom-score"><div class="ds-top">' +
+          '<div class="ds-ic">' + DPDPA.icon(d.icon) + '</div>' +
+          '<div class="ds-name"><b>' + d.name + '</b><span>' + d.sections + '</span></div>' +
+          '<div class="ds-val" style="font-size:.9rem;color:var(--slate-400)">—</div></div>' +
+          '<div class="ds-foot"><span class="badge badge-na">Not assessed</span></div></div>';
+      }
+      return '<div class="card dom-score card-hover">' +
+        '<div class="ds-top">' +
+          '<div class="ds-ic">' + DPDPA.icon(d.icon) + '</div>' +
+          '<div class="ds-name"><b>' + d.name + '</b><span>' + d.sections + '</span></div>' +
+          '<div class="ds-val">' + d.score + '<small>%</small></div>' +
+        '</div>' +
+        '<div class="progress ' + barClass(d.score) + '"><span style="width:' + d.score + '%"></span></div>' +
+        '<div class="ds-foot">' +
+          '<span class="badge ' + levelBadgeClass(d.status.key) + '">' + d.status.label + '</span>' +
+          '<span>' + d.answered + '/' + d.total + ' controls</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<section id="dashboard" class="section">' +
+      sectionHead('dashboard', 'Compliance Dashboard', 'Headline metrics and a score for every applicable domain.') +
+      '<div class="grid grid-4 mb-3">' + kpis + '</div>' +
+      '<div class="grid grid-3">' + domainCards + '</div>' +
+    '</section>';
+  }
+  function kpi(color, icon, value, label) {
+    return '<div class="card kpi card-hover"><div class="kpi-top">' +
+      '<div><b>' + value + '</b></div>' +
+      '<div class="kpi-ic ' + color + '">' + DPDPA.icon(icon) + '</div></div>' +
+      '<span>' + label + '</span></div>';
+  }
+
+  /* =========================================================================
+   * 3. Domain verdicts — synthesised per-domain read (replaces the old
+   *    per-question analysis). One tight card per domain.
+   * ====================================================================== */
+  function sectionVerdicts(model) {
+    var cards = model.domainVerdicts.map(function (v) {
+      if (v.score === null) {
+        return '<div class="card verdict verdict-na">' +
+          '<div class="v-top"><div class="v-ic">' + DPDPA.icon(v.icon) + '</div>' +
+          '<div class="v-name"><b>' + v.name + '</b><span>' + v.sections + '</span></div>' +
+          '<span class="badge badge-na">N/A</span></div>' +
+          '<p class="v-headline muted">' + esc(v.headline) + '</p></div>';
+      }
+      var exposure = v.exposure
+        ? '<div class="v-line neg">' + DPDPA.icon('alert') + '<span><b>Exposed:</b> ' + esc(v.exposure) + '</span></div>' : '';
+      var win = v.win
+        ? '<div class="v-line pos">' + DPDPA.icon('check') + '<span><b>Working:</b> ' + esc(v.win) + '</span></div>' : '';
+      return '<div class="card verdict card-hover">' +
+        '<div class="v-top">' +
+          '<div class="v-ic">' + DPDPA.icon(v.icon) + '</div>' +
+          '<div class="v-name"><b>' + v.name + '</b><span>' + v.sections + '</span></div>' +
+          '<div class="v-score" style="color:' + levelColor(v.status.key) + '">' + v.score + '<small>%</small></div>' +
+        '</div>' +
+        '<div class="progress ' + barClass(v.score) + '"><span style="width:' + v.score + '%"></span></div>' +
+        '<p class="v-headline">' + esc(v.headline) + '</p>' +
+        exposure + win +
+      '</div>';
+    }).join('');
+
+    return '<section id="domains" class="section">' +
+      sectionHead('layers', 'Domain Verdicts', 'A straight read on each domain — where you stand, what’s exposed, and what’s already working.') +
+      '<div class="grid grid-2" style="align-items:start">' + cards + '</div>' +
+    '</section>';
+  }
+
+  /* =========================================================================
+   * 4. Priority matrix
+   * ====================================================================== */
+  function sectionMatrix(model) {
+    var m = model.priorityMatrix;
+    return '<section id="matrix" class="section">' +
+      sectionHead('activity', 'Priority Matrix', 'How the findings distribute across remediation urgency.') +
+      '<div class="matrix">' +
+        matrixCell('immediate', m.Immediate, 'Immediate', '0–2 weeks') +
+        matrixCell('high', m.High, 'High', '2–6 weeks') +
+        matrixCell('medium', m.Medium, 'Medium', '1–3 months') +
+        matrixCell('low', m.Low, 'Low', '3–6 months') +
+      '</div>' +
+    '</section>';
+  }
+  function matrixCell(cls, n, label, time) {
+    return '<div class="m-cell ' + cls + '"><b>' + n + '</b><span>' + label + '</span>' +
+      '<div class="muted" style="font-size:.76rem;margin-top:4px">' + time + '</div></div>';
+  }
+
+  /* =========================================================================
+   * 5. Risk register — reference table, but the "Risk" is the CONSEQUENCE.
+   * ====================================================================== */
+  function sectionRisks(model) {
+    if (!model.riskRegister.length) {
+      return '<section id="risks" class="section">' +
+        sectionHead('alert', 'Risk Register', 'Risks arising from control gaps.') +
+        emptyCard('No open risks — every assessed control is fully implemented.') + '</section>';
+    }
+    var rows = model.riskRegister.map(function (r) {
+      return '<tr>' +
+        '<td><strong>' + esc(r.exposure) + '</strong></td>' +
+        '<td>' + esc(r.domainName) + '<br><span class="muted" style="font-size:.76rem">' + esc(r.section) + '</span></td>' +
+        '<td><span class="pill ' + likePill(r.likelihood) + '">' + r.likelihood + '</span></td>' +
+        '<td><span class="pill ' + likePill(r.impact) + '">' + r.impact + '</span></td>' +
+        '<td><span class="badge badge-' + r.badge + '">' + r.priority + '</span></td>' +
+        '<td>' + esc(r.mitigation) + '</td>' +
+        '<td>' + esc(r.owner) + '</td>' +
+      '</tr>';
+    }).join('');
+    return '<section id="risks" class="section">' +
+      sectionHead('alert', 'Risk Register', 'Every gap, framed as what it exposes you to — sorted by urgency.') +
+      '<div class="table-wrap"><table class="grc"><thead><tr>' +
+        '<th style="min-width:260px">What’s at risk</th><th>Where</th><th>Likelihood</th><th>Impact</th>' +
+        '<th>Priority</th><th style="min-width:220px">Fix</th><th>Owner</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</section>';
+  }
+
+  /* =========================================================================
+   * 6. Remediation roadmap — the priority moves as a timeline + lean table.
+   * ====================================================================== */
+  function sectionRemediation(model) {
+    if (!model.remediationPlan.length) {
+      return '<section id="remediation" class="section">' +
+        sectionHead('list', 'Remediation Roadmap', 'Prioritised actions to close gaps.') +
+        emptyCard('Nothing to remediate — controls are fully implemented.') + '</section>';
+    }
+    var plan = model.remediationPlan;
+    var topN = Math.min(8, plan.length);
+    var timeline = plan.slice(0, topN).map(function (t) {
+      return '<div class="tl-item p-' + t.badge + '">' +
+        '<div class="card card-pad" style="padding:15px 18px">' +
+          '<div class="flex between aic wrap" style="gap:8px;margin-bottom:6px">' +
+            '<b style="color:var(--navy)">' + esc(t.task) + '</b>' +
+            '<div class="flex gap aic wrap">' +
+              (t.quickWin ? '<span class="badge badge-good">' + DPDPA.icon('zap') + ' Quick win</span>' : '') +
+              '<span class="badge badge-' + t.badge + '">' + t.priority + '</span></div>' +
+          '</div>' +
+          '<p style="margin:0 0 8px;font-size:.86rem">' + esc(t.reason) + '</p>' +
+          '<div class="flex gap wrap" style="font-size:.8rem;color:var(--text-mut)">' +
+            '<span>' + DPDPA.icon('clock') + ' Start within ' + t.timeline + '</span>' +
+            '<span>' + DPDPA.icon('activity') + ' ' + t.effort + ' effort</span>' +
+            '<span>' + DPDPA.icon('rights') + ' ' + esc(t.owner) + '</span>' +
+            '<span>' + DPDPA.icon('scale') + ' ' + esc(t.section) + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    var rest = plan.slice(topN);
+    var restBlock = '';
+    if (rest.length) {
+      var rows = rest.map(function (t) {
+        return '<tr>' +
+          '<td><strong>' + esc(t.task) + '</strong></td>' +
+          '<td><span class="badge badge-' + t.badge + '">' + t.priority + '</span></td>' +
+          '<td>' + t.timeline + '</td>' +
+          '<td><span class="pill ' + likePill(t.effort) + '">' + t.effort + '</span></td>' +
+          '<td>' + esc(t.owner) + '</td>' +
+          '<td>' + (t.quickWin ? '<span class="badge badge-good">Yes</span>' : '<span class="pill">No</span>') + '</td>' +
+        '</tr>';
+      }).join('');
+      restBlock = '<h3 style="margin:26px 0 14px">The rest of the backlog (' + rest.length + ')</h3>' +
+        '<div class="table-wrap"><table class="grc"><thead><tr>' +
+          '<th>Action</th><th>Priority</th><th>Start within</th><th>Effort</th><th>Owner</th><th>Quick win</th>' +
+        '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+    }
+
+    return '<section id="remediation" class="section">' +
+      sectionHead('list', 'Remediation Roadmap', 'Your next ' + topN + ' moves, sequenced by urgency — then the rest of the backlog.') +
+      '<div class="timeline">' + timeline + '</div>' + restBlock +
+    '</section>';
+  }
+
+  /* =========================================================================
+   * 7. Overall readiness
+   * ====================================================================== */
+  function sectionReadiness(model) {
+    var ev = model.evaluation, color = levelColor(ev.level.key);
+    return '<section id="readiness" class="section">' +
+      sectionHead('flag', 'The Bottom Line', 'Where you stand and what it takes to move up.') +
+      '<div class="card card-pad" style="border-left:4px solid ' + color + '">' +
+        '<div class="flex between aic wrap mb-2" style="gap:12px">' +
+          '<div class="flex aic gap"><div class="kpi-ic blue" style="width:44px;height:44px">' + DPDPA.icon('shield') + '</div>' +
+            '<div><b style="color:var(--navy);font-size:1.05rem">' + ev.level.label + '</b>' +
+            '<div class="muted" style="font-size:.85rem">' + ev.level.summary + '</div></div></div>' +
+          '<div class="rh-level" style="background:' + color + '18;color:' + color + ';border:1px solid ' + color + '55">' + ev.overallScore + '% overall</div>' +
+        '</div>' +
+        '<p style="font-size:.98rem;line-height:1.7;color:var(--slate-700);margin:0">' + esc(model.readiness) + '</p>' +
+      '</div>' +
+      '<div class="disclaimer mt-3 no-print">' + DPDPA.icon('info') +
+        '<span>This report is a structured self-assessment for informational purposes and is not legal advice. ' +
+        'References cite the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.</span></div>' +
+    '</section>';
+  }
+
+  /* ------------------------------ Shared bits ----------------------------- */
+  function sectionHead(icon, title, sub) {
+    return '<div class="section-head"><span class="eyebrow">' +
+      '<span style="width:14px;height:14px;display:inline-flex">' + DPDPA.icon(icon) + '</span> Report</span>' +
+      '<h2>' + title + '</h2><p>' + sub + '</p></div>';
+  }
+  function emptyCard(text) {
+    return '<div class="card card-pad" style="border-left:4px solid var(--green-500)">' +
+      '<div class="flex aic gap">' + DPDPA.icon('checkCircle') +
+      '<span style="color:var(--navy);font-weight:600">' + text + '</span></div></div>';
+  }
+
+  /* ------------------------------ Export ---------------------------------- */
+  function exportData(assessment, model) {
+    var payload = {
+      generatedAt: new Date().toISOString(),
+      profile: assessment.profile,
+      overallScore: model.evaluation.overallScore,
+      complianceLevel: model.evaluation.level.label,
+      headline: model.headline,
+      domainVerdicts: model.domainVerdicts.map(function (v) {
+        return { domain: v.name, score: v.score, status: v.status.label, exposure: v.exposure, working: v.win };
+      }),
+      riskRegister: model.riskRegister.map(function (r) {
+        return { risk: r.exposure, priority: r.priority, likelihood: r.likelihood,
+          impact: r.impact, section: r.section, fix: r.mitigation, owner: r.owner };
+      }),
+      remediationPlan: model.remediationPlan,
+      answers: assessment.answers
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var safe = (assessment.profile.orgName || 'organization').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    a.href = url; a.download = 'dpdpa-compliance-report-' + safe + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  /* -------------------------------- Render -------------------------------- */
+  function render() {
+    var assessment = loadAssessment();
+    if (!assessment) { renderEmpty(); return; }
+
+    var model = DPDPA.rules.buildReport(assessment.answers, assessment.profile);
+    model.metaDate = assessment.meta && (assessment.meta.completedAt || assessment.meta.updatedAt);
+
+    document.getElementById('report-toolbar').style.display = '';
+
+    mount.innerHTML =
+      sectionSummary(model) +
+      sectionDashboard(model) +
+      sectionVerdicts(model) +
+      sectionMatrix(model) +
+      sectionRisks(model) +
+      sectionRemediation(model) +
+      sectionReadiness(model);
+
+    DPDPA.hydrateIcons();
+
+    var gen = document.getElementById('footer-generated');
+    if (gen) gen.textContent = 'Report generated ' + fmtDate(model.metaDate);
+
+    // Animate the gauge fill on load (start from empty).
+    requestAnimationFrame(function () {
+      var fill = mount.querySelector('.gauge .g-fill');
+      if (fill) {
+        var target = fill.getAttribute('stroke-dashoffset');
+        var dash = fill.getAttribute('stroke-dasharray');
+        fill.style.strokeDashoffset = dash;
+        requestAnimationFrame(function () { fill.style.strokeDashoffset = target; });
+      }
+    });
+
+    var pr = document.getElementById('btn-print');
+    var ex = document.getElementById('btn-export');
+    if (pr) pr.onclick = function () { root.print(); };
+    if (ex) ex.onclick = function () { exportData(assessment, model); };
+  }
+
+  DPDPA.report = { render: render };
+
+})(window);
+
+  </script>
+  <script>
+(function (root) {
+  'use strict';
+  var DPDPA = root.DPDPA;
+  var VIEWS = ['landing', 'assessment', 'report'];
+  var SUBS = { landing: 'Data Protection Readiness', assessment: 'Assessment in progress', report: 'Executive Report' };
+  function showView(name) {
+    VIEWS.forEach(function (v) { var el = document.getElementById('view-' + v); if (el) el.hidden = (v !== name); });
+    // Context-aware nav: landing shows its in-page links (How it works / Coverage /
+    // Start Assessment); the assessment & report views show the app links.
+    var onLanding = (name === 'landing');
+    Array.prototype.forEach.call(document.querySelectorAll('.nav [data-nav]'), function (a) {
+      a.hidden = (a.getAttribute('data-nav') === 'landing') ? !onLanding : onLanding;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.nav [data-view]'), function (a) {
+      a.classList.toggle('active', a.getAttribute('data-view') === name);
+    });
+    var sub = document.querySelector('.brand .sub'); if (sub) sub.textContent = SUBS[name] || '';
+    if (root.scrollTo) root.scrollTo({ top: 0, behavior: 'auto' });
+    runSpies();
+  }
+  DPDPA.app = {
+    showView: showView,
+    showReport: function () { showView('report'); if (DPDPA.report) DPDPA.report.render(); runSpies(); }
+  };
+
+  /* --- scroll-spy: highlight the nav link for the section currently in view --- */
+  var headerEl = document.querySelector('.site-header');
+  function headerH() { return headerEl ? headerEl.offsetHeight : 64; }
+  function spy(getLinks, getOffset, isActive) {
+    return function () {
+      if (!isActive()) return;
+      var links = getLinks(), offset = getOffset(), current = links[0];
+      for (var i = 0; i < links.length; i++) {
+        var el = links[i].id ? document.getElementById(links[i].id) : null;
+        if (el && el.getBoundingClientRect().top - offset <= 1) current = links[i];
+      }
+      links.forEach(function (l) { if (l.a) l.a.classList.toggle('active', l === current); });
+    };
+  }
+  var landingSpy = spy(
+    function () { return [
+      { id: null, a: document.querySelector('.nav a[data-view="landing"]') },   // Overview = top
+      { id: 'flow', a: document.querySelector('.nav a[href="#flow"]') },          // How it works
+      { id: 'coverage', a: document.querySelector('.nav a[href="#coverage"]') }   // Coverage
+    ]; },
+    function () { return headerH() + 24; },
+    function () { var v = document.getElementById('view-landing'); return v && !v.hidden; }
+  );
+  var reportSpy = spy(
+    function () { return Array.prototype.map.call(document.querySelectorAll('#report-toolbar .report-nav a'),
+      function (a) { return { id: (a.getAttribute('href') || '').replace('#', ''), a: a }; }); },
+    function () { var t = document.getElementById('report-toolbar'); return headerH() + (t ? t.offsetHeight : 0) + 20; },
+    function () { var v = document.getElementById('view-report'); return v && !v.hidden; }
+  );
+  function runSpies() { landingSpy(); reportSpy(); }
+  var ticking = false;
+  root.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    (root.requestAnimationFrame || function (f) { f(); })(function () { runSpies(); ticking = false; });
+  }, { passive: true });
+  root.addEventListener('resize', runSpies);
+  document.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('[data-view]') : null;
+    if (!t) return;
+    e.preventDefault();
+    var v = t.getAttribute('data-view');
+    if (v === 'report') DPDPA.app.showReport(); else showView(v);
+  });
+  // Landing init: icons + live stats + domain grid
+  DPDPA.hydrateIcons();
+  var sq = document.getElementById('stat-questions'); if (sq) sq.textContent = DPDPA.questions.length;
+  var sd = document.getElementById('stat-domains'); if (sd) sd.textContent = DPDPA.domains.length;
+  var grid = document.getElementById('domain-grid');
+  if (grid) grid.innerHTML = DPDPA.domains.map(function (d) {
+    var count = DPDPA.getQuestionsByDomain(d.id).length;
+    return '<div class="dom-chip card-hover"><div class="di">' + DPDPA.icon(d.icon) + '</div>' +
+      '<div><b>' + d.name + '</b><span>' + d.sections + ' \u00b7 ' + count + ' controls</span></div></div>';
+  }).join('');
+  showView('landing');
+})(window);
+
+  </script>
+</body>
+</html>
