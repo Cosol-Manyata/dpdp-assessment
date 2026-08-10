@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DPDPA Compliance Assessment Platform</title>
-  <meta name="description" content="Assess your organization's DPDPA readiness and generate an executive compliance report with prioritised remediation." />
+  <meta name="description" content="Run an unverified DPDPA readiness self-assessment and generate a control-maturity report with prioritised remediation." />
   <style>
 /* =============================================================================
  * styles.css — DPDPA Compliance Assessment Platform
@@ -668,7 +668,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
           <h1>Know your <span class="accent">DPDPA</span> compliance posture — before the regulator does.</h1>
           <p class="lead">A professional, consultant-grade assessment that evaluates your organization
             against the Digital Personal Data Protection Act, 2023 and produces an executive
-            compliance report with scoring, a risk register and a prioritised remediation roadmap.</p>
+            readiness report with control-maturity scoring, a control gap register and a prioritised remediation roadmap.</p>
           <div class="btn-row">
             <a href="#" data-view="assessment" class="btn btn-primary btn-lg">Begin free assessment
               <span data-icon="arrowRight"></span></a>
@@ -684,14 +684,14 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         <!-- Illustrative report preview card -->
         <div class="hero-card">
           <div class="hc-head">
-            <b>Compliance Snapshot</b>
+            <b>Readiness Snapshot</b>
             <span class="badge badge-moderate"><span class="dot"></span>Sample</span>
           </div>
           <div class="gauge-mini">
             <div class="g-score">72<small>%</small></div>
             <div>
               <div class="badge badge-moderate" style="margin-bottom:8px">Needs Improvement</div>
-              <div class="muted" style="font-size:.84rem">Overall readiness across 13 domains</div>
+              <div class="muted" style="font-size:.84rem">Overall readiness across applicable domains</div>
             </div>
           </div>
           <div class="hc-rows">
@@ -713,27 +713,27 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   <section class="section container">
     <div class="section-head center" style="max-width:720px;margin:0 auto 30px">
       <span class="eyebrow" style="justify-content:center"><span data-icon="info" style="width:14px;height:14px;display:inline-flex"></span> Why this matters</span>
-      <h2>Not a questionnaire — a compliance consultant in software</h2>
+      <h2>More than a questionnaire — structured readiness guidance</h2>
       <p style="margin-left:auto;margin-right:auto">The DPDPA imposes real obligations backed by penalties of up to
-        ₹250 crore. This platform evaluates your current controls, quantifies risk, and hands you a
-        board-ready roadmap toward substantial compliance.</p>
+        ₹250 crore. This unverified self-assessment evaluates reported control maturity and produces a
+        practical roadmap; it does not collect evidence or provide certification.</p>
     </div>
 
     <div class="grid grid-4">
       <div class="card card-hover feature">
         <div class="fi" data-icon="scale"></div>
         <h3>Statutory mapping</h3>
-        <p>Every control maps to a real DPDPA section or DPDP Rule — no invented references.</p>
+        <p>Controls distinguish statutory or prescribed requirements from supporting good practices.</p>
       </div>
       <div class="card card-hover feature">
         <div class="fi" data-icon="activity"></div>
         <h3>Weighted scoring</h3>
-        <p>Critical controls carry more weight, producing a defensible compliance score per domain.</p>
+        <p>Weighted responses produce a transparent maturity score, with failed critical statutory controls overriding green status.</p>
       </div>
       <div class="card card-hover feature">
         <div class="fi" data-icon="alert"></div>
-        <h3>Risk register</h3>
-        <p>Failed controls become classified risks with likelihood, impact and mitigation.</p>
+        <h3>Control gap register</h3>
+        <p>Incomplete controls become prioritised gaps with current state, significance and remediation guidance.</p>
       </div>
       <div class="card card-hover feature">
         <div class="fi" data-icon="target"></div>
@@ -754,8 +754,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       <div class="flow">
         <div class="step"><div class="n">1</div><h4>Profile</h4><p>Tell us about your organization and how it processes personal data.</p></div>
         <div class="step"><div class="n">2</div><h4>Assess</h4><p>Answer control questions across every DPDPA domain.</p></div>
-        <div class="step"><div class="n">3</div><h4>Score</h4><p>Weighted scoring produces overall and per-domain compliance levels.</p></div>
-        <div class="step"><div class="n">4</div><h4>Analyse</h4><p>Gaps and risks are classified by likelihood, impact and priority.</p></div>
+        <div class="step"><div class="n">3</div><h4>Score</h4><p>Weighted scoring produces overall and per-domain control-maturity levels.</p></div>
+        <div class="step"><div class="n">4</div><h4>Analyse</h4><p>Gaps are classified by significance, statutory status and remediation priority.</p></div>
         <div class="step"><div class="n">5</div><h4>Remediate</h4><p>Receive a prioritised roadmap with owners and timelines.</p></div>
       </div>
     </div>
@@ -785,8 +785,9 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     <div class="disclaimer mt-4">
       <span data-icon="info"></span>
       <span><b>Disclaimer:</b> This tool provides a structured self-assessment for informational purposes
-        and does not constitute legal advice. Legal references are drawn from the Digital Personal Data
-        Protection Act, 2023 and the DPDP Rules, 2025. Consult qualified counsel before acting on the results.</span>
+        without collecting or validating evidence; it is not a certification and does not constitute legal advice.
+        Content is aligned to the final DPDP Rules, 2025 and should be read with the phased commencement dates.
+        Consult qualified counsel before relying on the results.</span>
     </div>
   </section>
 
@@ -820,10 +821,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
               <b id="side-pct" style="color:var(--navy);font-size:.9rem">0%</b>
             </div>
             <div class="progress" id="side-progress"><span style="width:0%"></span></div>
-            <button class="btn btn-secondary" id="btn-demo-fill" style="width:100%;justify-content:center;margin-top:16px;background:var(--blue-50);border-color:var(--blue-200)">
-              <span data-icon="zap"></span> Demo Fill
-            </button>
-            <button class="btn btn-primary" id="btn-generate" style="width:100%;justify-content:center;margin-top:8px">
+            <button class="btn btn-primary" id="btn-generate" style="width:100%;justify-content:center;margin-top:16px">
               Generate Report <span data-icon="arrowRight"></span>
             </button>
             <button class="btn btn-ghost" id="btn-reset" style="width:100%;justify-content:center;margin-top:6px;font-size:.85rem">
@@ -873,10 +871,11 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     <div class="container">
       <nav class="report-nav">
         <a href="#summary">Summary</a>
+        <a href="#scope">Scope</a>
         <a href="#dashboard">Dashboard</a>
         <a href="#domains">Domain Verdicts</a>
         <a href="#matrix">Priorities</a>
-        <a href="#risks">Risk Register</a>
+        <a href="#risks">Control Gaps</a>
         <a href="#remediation">Roadmap</a>
         <a href="#readiness">Bottom Line</a>
       </nav>
@@ -898,7 +897,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   </div>
   <footer class="site-footer">
     <div class="container">
-      <p><b style="color:var(--navy)">DPDPA Compliance Assessment Platform</b> — informational self-assessment, not legal advice.</p>
+      <p><b style="color:var(--navy)">DPDPA Compliance Assessment Platform</b> — unverified readiness self-assessment, not certification or legal advice.</p>
       <p id="footer-generated"></p>
     </div>
   </footer>
@@ -958,6 +957,16 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     na: NA_OPTION
   };
 
+  DPDPA.legalStatus = {
+    contentVersion: '7 August 2026',
+    act: 'Digital Personal Data Protection Act, 2023',
+    rules: 'Digital Personal Data Protection Rules, 2025 (final)',
+    currentPhase: 'Readiness assessment during phased commencement',
+    consentManagerEffective: '14 November 2026',
+    substantiveEffective: '14 May 2027',
+    note: 'Most substantive Data Fiduciary obligations and Rules 3, 5–16, 22 and 23 commence eighteen months after Gazette publication. Rule 4 commences after one year.'
+  };
+
   /* ---------------------------------------------------------------------------
    * Organization profile (not scored — drives applicability & report context)
    * ------------------------------------------------------------------------ */
@@ -968,6 +977,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     },
     {
       id: 'P-02', field: 'industry', type: 'dropdown', label: 'Industry sector',
+      required: true,
       options: ['Banking & Financial Services', 'Insurance', 'Healthcare & Pharma',
         'Information Technology / SaaS', 'E-commerce & Retail', 'Telecom',
         'EdTech / Education', 'Online Gaming', 'Manufacturing', 'Media & Advertising',
@@ -996,23 +1006,46 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     {
       id: 'P-07', field: 'role', type: 'multi-select',
       label: 'In what capacity does your organization process personal data?',
+      required: true,
       options: ['Data Fiduciary (you determine purpose & means)',
         'Data Processor (you process on behalf of another entity)']
     },
     {
       id: 'P-08', field: 'childrenData', type: 'dropdown',
       label: 'Do you knowingly process the personal data of children (under 18) or persons with disability?',
+      required: true,
       options: ['Yes, regularly', 'Occasionally / possibly', 'No']
     },
     {
       id: 'P-09', field: 'crossBorder', type: 'dropdown',
       label: 'Do you transfer or store personal data outside India?',
+      required: true,
       options: ['Yes', 'No', 'Not sure']
     },
     {
       id: 'P-10', field: 'sdf', type: 'dropdown',
       label: 'Have you been notified as — or do you expect to be classified as — a Significant Data Fiduciary?',
+      required: true,
       options: ['Yes, notified', 'Likely (large volume / sensitive processing)', 'No / unlikely']
+    },
+    {
+      id: 'P-11', field: 'territorialScope', type: 'dropdown',
+      label: 'Does your processing fall within the territorial scope of the DPDPA (including offering goods or services to individuals in India from outside India)?',
+      required: true,
+      options: ['Yes', 'No', 'Not sure']
+    },
+    {
+      id: 'P-12', field: 'stateProcessing', type: 'dropdown',
+      label: 'Are you the State or a State instrumentality processing data for a subsidy, benefit, service, certificate, licence or permit?',
+      required: true,
+      options: ['Yes', 'No', 'Not sure']
+    },
+    {
+      id: 'P-13', field: 'exemptions', type: 'multi-select',
+      label: 'Are any exclusions or exemptions being relied on? Select all that may apply.',
+      options: ['Publicly available personal data', 'Legal claims / judicial or regulatory functions',
+        'Prevention, detection or investigation of offences', 'Corporate restructuring / insolvency',
+        'Research, archiving or statistical purposes', 'None identified', 'Not sure']
     }
   ];
 
@@ -1020,49 +1053,83 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
    * Compliance domains (order defines the assessment flow & report sections)
    * `applicability` is a function of the profile object; undefined = always on.
    * ------------------------------------------------------------------------ */
+  function hasRole(profile, prefix) {
+    var roles = profile && Array.isArray(profile.role) ? profile.role : [];
+    if (!roles.length) return prefix === 'Data Fiduciary'; // safe default for unfinished profiles
+    return roles.some(function (role) { return role.indexOf(prefix) === 0; });
+  }
+  function isFiduciary(profile) { return hasRole(profile, 'Data Fiduciary'); }
+  function isProcessor(profile) { return hasRole(profile, 'Data Processor'); }
+  function hasExemptionClaim(profile) {
+    var values = profile && Array.isArray(profile.exemptions) ? profile.exemptions : [];
+    return values.length > 0 && values.indexOf('None identified') === -1;
+  }
+
   DPDPA.domains = [
     { id: 'governance', name: 'Governance & Accountability', icon: 'governance',
       sections: 'S.8',
-      description: 'Leadership ownership, policies and the accountability framework required of a Data Fiduciary.' },
+      description: 'Leadership ownership, policies and the accountability framework required of a Data Fiduciary.',
+      applicability: isFiduciary },
     { id: 'notice', name: 'Notice & Transparency', icon: 'notice',
       sections: 'S.5',
-      description: 'Whether Data Principals receive clear, itemised notice before their data is processed.' },
+      description: 'Whether Data Principals receive clear, itemised notice before their data is processed.',
+      applicability: isFiduciary },
     { id: 'consent', name: 'Consent Management', icon: 'consent',
       sections: 'S.6',
-      description: 'How valid consent is obtained, recorded, and withdrawn.' },
+      description: 'How valid consent is obtained, recorded, and withdrawn.',
+      applicability: isFiduciary },
     { id: 'processing', name: 'Lawful Processing & Purpose Limitation', icon: 'processing',
       sections: 'S.4, S.7, S.8',
-      description: 'Lawful basis, purpose limitation, data minimisation and accuracy of processing.' },
+      description: 'Lawful basis, purpose limitation, data minimisation and accuracy of processing.',
+      applicability: isFiduciary },
     { id: 'rights', name: 'Rights of Data Principals', icon: 'rights',
       sections: 'S.11–S.14',
-      description: 'Operationalisation of access, correction, erasure, grievance and nomination rights.' },
+      description: 'Operationalisation of access, correction, erasure, grievance and nomination rights.',
+      applicability: isFiduciary },
     { id: 'children', name: 'Children’s & Vulnerable Data', icon: 'children',
       sections: 'S.9',
       description: 'Parental/guardian consent and protection against tracking and targeted advertising.',
-      applicability: function (p) { return !p || p.childrenData !== 'No'; } },
+      applicability: function (p) { return isFiduciary(p) && (!p || p.childrenData !== 'No'); } },
     { id: 'security', name: 'Data Security Safeguards', icon: 'security',
       sections: 'S.8(5), Rule 6',
-      description: 'Reasonable security safeguards protecting personal data from breach.' },
+      description: 'Reasonable security safeguards protecting personal data from breach.',
+      applicability: function (p) { return isFiduciary(p) || isProcessor(p); } },
     { id: 'breach', name: 'Personal Data Breach Management', icon: 'breach',
       sections: 'S.8(6), Rule 7',
-      description: 'Detection, response and mandatory notification of personal data breaches.' },
+      description: 'Detection, response and mandatory notification of personal data breaches.',
+      applicability: isFiduciary },
     { id: 'vendors', name: 'Processor & Vendor Management', icon: 'vendors',
       sections: 'S.8(1)–(2)',
-      description: 'Contractual control and oversight of processors and third parties.' },
+      description: 'Contractual control and oversight of processors and third parties.',
+      applicability: isFiduciary },
+    { id: 'processor', name: 'Data Processor Contractual Readiness', icon: 'vendors',
+      sections: 'S.8(1)–(2), Rules 6–8',
+      description: 'Contractual and operational controls for organisations processing personal data on behalf of a Data Fiduciary.',
+      applicability: isProcessor },
     { id: 'retention', name: 'Data Retention & Erasure', icon: 'retention',
       sections: 'S.8(7), Rule 8',
-      description: 'Retention limits, timely erasure and secure disposal of personal data.' },
+      description: 'Retention limits, timely erasure and secure disposal of personal data.',
+      applicability: isFiduciary },
     { id: 'crossborder', name: 'Cross-Border Data Transfer', icon: 'crossborder',
       sections: 'S.16',
       description: 'Governance of personal data transferred or stored outside India.',
-      applicability: function (p) { return !p || p.crossBorder !== 'No'; } },
+      applicability: function (p) { return isFiduciary(p) && (!p || p.crossBorder !== 'No'); } },
     { id: 'sdf', name: 'Significant Data Fiduciary Obligations', icon: 'sdf',
-      sections: 'S.10, Rule 12',
+      sections: 'S.10, Rule 13',
       description: 'Enhanced obligations — DPO, independent audit and Data Protection Impact Assessment.',
-      applicability: function (p) { return !p || p.sdf !== 'No / unlikely'; } },
+      applicability: function (p) { return isFiduciary(p) && (!p || p.sdf !== 'No / unlikely'); } },
+    { id: 'state', name: 'State & Public-Service Processing', icon: 'governance',
+      sections: 'S.7(b), Rule 5 & Second Schedule',
+      description: 'Special standards for State and State-instrumentality processing connected with public benefits and services.',
+      applicability: function (p) { return isFiduciary(p) && p && p.stateProcessing !== 'No'; } },
+    { id: 'exemptions', name: 'Scope & Exemption Governance', icon: 'scale',
+      sections: 'S.3, S.17, Rule 16',
+      description: 'Governance of claimed exclusions and exemptions, including research, archiving and statistical processing.',
+      applicability: hasExemptionClaim },
     { id: 'records', name: 'Records, Training & Audit', icon: 'records',
       sections: 'S.8 (accountability)',
-      description: 'Records of processing, staff training and periodic review evidencing compliance.' }
+      description: 'Records of processing, staff training and periodic review supporting reliable self-assessment.',
+      applicability: function (p) { return isFiduciary(p) || isProcessor(p); } }
   ];
 
   /* ---------------------------------------------------------------------------
@@ -1070,6 +1137,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
    * ------------------------------------------------------------------------ */
   function q(cfg) {
     if (!cfg.type) cfg.type = 'single-select';
+    if (!cfg.controlType) cfg.controlType = /good practice/i.test(cfg.legalReference || '')
+      ? 'Supporting practice' : 'Statutory / prescribed control';
     if (!cfg.options) {
       var base = cfg.type === 'maturity'
         ? MATURITY_OPTIONS
@@ -1088,28 +1157,28 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     /* ---- Governance & Accountability -------------------------------------- */
     q({ id: 'GOV-01', domain: 'governance',
       question: 'Has your organization published a privacy / personal data protection policy?',
-      explanation: 'A published policy is the visible baseline of the accountability obligations placed on every Data Fiduciary.',
-      legalReference: 'DPDPA Section 8 – General obligations of Data Fiduciary',
+      explanation: 'A published policy is useful supporting governance for the obligations placed on a Data Fiduciary.',
+      legalReference: 'DPDPA Section 8 – Supporting governance (good practice)',
       importance: 'High', weight: 8, risk: 'High',
       recommendation: 'Draft, obtain management approval for, and publish a DPDPA-aligned privacy policy covering purposes, rights and grievance channels.' }),
     q({ id: 'GOV-02', domain: 'governance',
       question: 'Is there a documented privacy governance framework assigning clear roles and responsibilities?',
       explanation: 'Accountability requires an internal structure that assigns who owns privacy decisions and controls.',
-      legalReference: 'DPDPA Section 8(1) – Responsibility for compliance',
+      legalReference: 'DPDPA Section 8(1) – Governance structure (good practice)',
       importance: 'High', weight: 7, risk: 'Medium',
       recommendation: 'Establish a privacy governance framework (RACI) approved by senior management, defining ownership across functions.' }),
     q({ id: 'GOV-03', domain: 'governance',
       question: 'Has senior management formally approved and resourced privacy responsibilities?',
       explanation: 'The Act holds the Data Fiduciary — not individuals — accountable, making board/leadership ownership essential.',
-      legalReference: 'DPDPA Section 8(1) – Accountability of Data Fiduciary',
+      legalReference: 'DPDPA Section 8(1) – Leadership oversight (good practice)',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Secure documented leadership sign-off on the privacy programme, budget and reporting line.' }),
     q({ id: 'GOV-04', domain: 'governance',
-      question: 'Have you designated and published the contact details of a Data Protection Officer or a responsible person able to answer questions about processing?',
-      explanation: 'The Act requires the business contact of a person who can address Data Principal queries to be published.',
-      legalReference: 'DPDPA Section 8(9) – Publication of contact details',
+      question: 'Have you prominently published the business contact details of the DPO or responsible person on your website/app and included them in every response to a rights communication?',
+      explanation: 'The Act and final Rules require an accessible business contact for questions about processing, including in rights responses.',
+      legalReference: 'DPDPA Section 8(9) with DPDP Rules 2025 Rule 9',
       importance: 'High', weight: 7, risk: 'High',
-      recommendation: 'Appoint a DPO / responsible contact and publish their business contact details on your website and in notices.' }),
+      recommendation: 'Appoint a responsible contact, publish the business contact prominently on the website/app, and include it in every rights response.' }),
     q({ id: 'GOV-05', domain: 'governance', type: 'maturity',
       question: 'How mature is your overall privacy management programme?',
       explanation: 'Indicates whether privacy controls are ad-hoc or a managed, continually improved programme.',
@@ -1125,20 +1194,20 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'High', weight: 9, risk: 'High',
       recommendation: 'Implement a notice that is presented at or before every collection point (web, app, forms, call centre).' }),
     q({ id: 'NOT-02', domain: 'notice',
-      question: 'Does the notice itemise the personal data collected and the specific purposes of processing?',
-      explanation: 'Notice must clearly describe what data is collected and the exact purpose for each item.',
-      legalReference: 'DPDPA Section 5(1)(i) – Contents of notice',
+      question: 'Is the notice independently understandable and does it itemise the personal data, specific purposes, and the goods, services or uses enabled by the processing?',
+      explanation: 'Rule 3 requires a standalone, clear account of the data, purposes and the goods, services or uses enabled.',
+      legalReference: 'DPDPA Section 5(1)(i) with DPDP Rules 2025 Rule 3(a)–(b)',
       importance: 'High', weight: 7, risk: 'High',
-      recommendation: 'Revise notices to list each data category against its specific, itemised processing purpose.' }),
+      recommendation: 'Revise notices so they stand alone and itemise each data category, purpose and related good, service or enabled use.' }),
     q({ id: 'NOT-03', domain: 'notice',
-      question: 'Does the notice explain how a Data Principal can exercise their rights and complain to the Data Protection Board?',
-      explanation: 'Notice must tell individuals how to withdraw consent, exercise rights and lodge a complaint with the Board.',
-      legalReference: 'DPDPA Section 5(1)(ii) – Manner of exercising rights',
+      question: 'Does the notice provide a specific website/app link and any other means for withdrawing consent, exercising rights and complaining to the Board?',
+      explanation: 'The final Rules require a particular communication link plus a description of any other available means.',
+      legalReference: 'DPDPA Section 5(1)(ii)–(iii) with DPDP Rules 2025 Rule 3(c)',
       importance: 'High', weight: 6, risk: 'Medium',
       recommendation: 'Add clear instructions and links for exercising rights and for complaining to the Data Protection Board of India.' }),
     q({ id: 'NOT-04', domain: 'notice',
-      question: 'Is the notice made available in English and/or a language specified in the Eighth Schedule to the Constitution?',
-      explanation: 'The Act requires notices to be available in English or any of the 22 scheduled Indian languages, at the individual’s option.',
+      question: 'Can the Data Principal choose to access the consent request and notice in English or any language specified in the Eighth Schedule to the Constitution?',
+      explanation: 'The Act gives the Data Principal the option to access the request and notice in English or any scheduled language.',
       legalReference: 'DPDPA Section 5(3) – Language of notice',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Offer notices in English plus relevant Eighth Schedule languages based on your Data Principal base.' }),
@@ -1177,7 +1246,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     q({ id: 'CON-05', domain: 'consent',
       question: 'Do you maintain auditable records of consent (what, when, how and the version of notice shown)?',
       explanation: 'Records evidence that valid consent existed — the Data Fiduciary bears the burden of proof.',
-      legalReference: 'DPDPA Section 6(1) with Section 8(1) – Accountability',
+      legalReference: 'DPDPA Section 6(10) – Burden of proving notice and consent',
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Implement a consent ledger capturing purpose, timestamp, method and notice version for every consent.' }),
     q({ id: 'CON-06', domain: 'consent', allowNA: true,
@@ -1233,9 +1302,9 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Provide correction/erasure request channels and fulfil them within defined timelines.' }),
     q({ id: 'RTS-03', domain: 'rights',
-      question: 'Is there a published, readily available grievance redressal mechanism with defined response timelines?',
-      explanation: 'Data Fiduciaries must offer an effective grievance mechanism as a first line of redress.',
-      legalReference: 'DPDPA Section 8(10) & Section 13 – Grievance redressal',
+      question: 'Is there a published, readily available grievance redressal mechanism with a response period not exceeding 90 days?',
+      explanation: 'Data Fiduciaries must publish and operate an effective grievance mechanism with a period of no more than 90 days.',
+      legalReference: 'DPDPA Sections 8(10) & 13 with DPDP Rules 2025 Rule 14(3)',
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Publish a grievance channel, assign ownership and commit to (and track) response timelines.' }),
     q({ id: 'RTS-04', domain: 'rights',
@@ -1245,23 +1314,23 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'Medium', weight: 4, risk: 'Low',
       recommendation: 'Add a nomination capability and process for acting on a valid nominee’s request.' }),
     q({ id: 'RTS-05', domain: 'rights',
-      question: 'Do you track and respond to rights requests within a defined, published time period?',
-      explanation: 'Timely, tracked responses evidence that rights are genuinely operational, not merely stated.',
-      legalReference: 'DPDPA Section 13(2) with DPDP Rules 2025 – Response timelines',
+      question: 'Have you published the means and identifiers required for rights requests, and do you track requests through fulfilment?',
+      explanation: 'Rule 14 requires clear request channels and identification particulars; tracking supports consistent fulfilment.',
+      legalReference: 'DPDP Rules 2025 Rule 14(1)–(2) (tracking is good practice)',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Deploy a request register with SLAs, reminders and audit trail for every rights request.' }),
 
     /* ---- Children's & Vulnerable Data ------------------------------------- */
-    q({ id: 'CHD-01', domain: 'children',
-      question: 'Do you obtain verifiable consent of a parent before processing the personal data of a child (under 18)?',
-      explanation: 'Processing a child’s data requires verifiable parental consent.',
-      legalReference: 'DPDPA Section 9(1) with DPDP Rules 2025 – Verifiable consent',
+    q({ id: 'CHD-01', domain: 'children', allowNA: true,
+      question: 'Before processing a child’s data, do you verify parental consent using reliable identity/age details or an authorised virtual token, unless a Rule 12 exemption applies?',
+      explanation: 'Rule 10 requires due diligence to establish that the person identifying as parent is an identifiable adult.',
+      legalReference: 'DPDPA Section 9(1) with DPDP Rules 2025 Rules 10 & 12',
       importance: 'High', weight: 9, risk: 'High',
       recommendation: 'Implement age determination and a verifiable parental-consent mechanism before processing children’s data.' }),
     q({ id: 'CHD-02', domain: 'children', allowNA: true,
-      question: 'Do you obtain verifiable consent of a lawful guardian before processing the data of a person with disability who has a guardian?',
-      explanation: 'The same verifiable-consent protection extends to persons with disability who have lawful guardians.',
-      legalReference: 'DPDPA Section 9(1) – Persons with disability',
+      question: 'Where consent is given by a lawful guardian for a person with disability, do you verify the guardian’s appointment by a court, designated authority or local level committee?',
+      explanation: 'Rule 11 requires due diligence to verify the legal appointment of the person claiming to be the guardian.',
+      legalReference: 'DPDPA Section 9(1) with DPDP Rules 2025 Rule 11',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Extend guardian-consent verification to processing involving persons with disability.' }),
     q({ id: 'CHD-03', domain: 'children',
@@ -1270,12 +1339,18 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       legalReference: 'DPDPA Section 9(2) – Detrimental processing',
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Assess children-facing features for well-being impact and remove harmful processing.' }),
-    q({ id: 'CHD-04', domain: 'children',
-      question: 'Do you refrain from tracking, behavioural monitoring or targeted advertising directed at children?',
-      explanation: 'Tracking, behavioural monitoring and targeted advertising toward children are prohibited.',
-      legalReference: 'DPDPA Section 9(3) – Tracking & targeted advertising',
+    q({ id: 'CHD-04', domain: 'children', allowNA: true,
+      question: 'Do you refrain from tracking, behavioural monitoring or targeted advertising directed at children, except where a documented Rule 12 exemption applies?',
+      explanation: 'Section 9(3) prohibits these activities, subject to the limited classes and purposes exempted under Rule 12.',
+      legalReference: 'DPDPA Section 9(3) with DPDP Rules 2025 Rule 12',
       importance: 'High', weight: 8, risk: 'High',
-      recommendation: 'Disable tracking, behavioural profiling and ad targeting for users identified as children.' }),
+      recommendation: 'Disable child tracking, behavioural profiling and targeted advertising unless a documented Rule 12 condition is satisfied.' }),
+    q({ id: 'CHD-05', domain: 'children', allowNA: true,
+      question: 'Where you rely on a Rule 12 child-processing exemption, have you documented the applicable class or purpose and enforced every stated condition?',
+      explanation: 'Rule 12 exemptions are narrow and apply only to listed classes or purposes subject to specified conditions.',
+      legalReference: 'DPDP Rules 2025 Rule 12 & Fourth Schedule',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Create an exemption register linking each child-processing activity to the exact Fourth Schedule entry and its operating conditions.' }),
 
     /* ---- Data Security Safeguards ----------------------------------------- */
     q({ id: 'SEC-01', domain: 'security',
@@ -1314,6 +1389,12 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       legalReference: 'DPDP Rules 2025 Rule 6 – Reasonable safeguards (good practice)',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Run periodic vulnerability scans, timely patching and remediation tracking.' }),
+    q({ id: 'SEC-07', domain: 'security',
+      question: 'Do you retain the logs and personal data needed to detect, investigate, remediate and recover from unauthorised access for at least one year, unless another law requires otherwise?',
+      explanation: 'Rule 6(e) sets a minimum one-year retention period for the information needed to investigate and recover from security compromise.',
+      legalReference: 'DPDP Rules 2025 Rule 6(e)',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Configure a documented one-year minimum retention baseline for security logs and associated personal data, reconciled with longer legal holds.' }),
 
     /* ---- Personal Data Breach Management ---------------------------------- */
     q({ id: 'BRC-01', domain: 'breach',
@@ -1329,15 +1410,15 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'High', weight: 6, risk: 'High',
       recommendation: 'Create a breach response SOP covering triage, containment, notification and roles.' }),
     q({ id: 'BRC-03', domain: 'breach',
-      question: 'Do you have a process to notify each affected Data Principal in the event of a personal data breach?',
-      explanation: 'The Act requires intimation to every affected Data Principal, not only the regulator.',
-      legalReference: 'DPDPA Section 8(6) – Intimation to Data Principals',
+      question: 'Can you notify every affected Data Principal without delay, using a registered communication channel and all content prescribed by Rule 7?',
+      explanation: 'Affected individuals must receive clear information on the breach, likely consequences, mitigation, protective steps and a contact person.',
+      legalReference: 'DPDPA Section 8(6) with DPDP Rules 2025 Rule 7(1)',
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Prepare notification templates and channels to inform affected individuals of a breach.' }),
     q({ id: 'BRC-04', domain: 'breach',
-      question: 'Do you have a process to notify the Data Protection Board of India within the timelines prescribed by the rules?',
-      explanation: 'Breaches must be intimated to the Board, with detailed follow-up within the prescribed period.',
-      legalReference: 'DPDPA Section 8(6) with DPDP Rules 2025 Rule 7 – Board notification',
+      question: 'Can you give the Board an initial breach intimation without delay and a detailed report within 72 hours, unless the Board allows longer?',
+      explanation: 'Rule 7 requires an immediate initial description followed by the prescribed detailed information within 72 hours.',
+      legalReference: 'DPDPA Section 8(6) with DPDP Rules 2025 Rule 7(2)',
       importance: 'High', weight: 7, risk: 'High',
       recommendation: 'Define a Board-notification workflow that meets the without-delay and detailed-report timelines.' }),
     q({ id: 'BRC-05', domain: 'breach',
@@ -1373,6 +1454,44 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'Medium', weight: 4, risk: 'Medium',
       recommendation: 'Require prior approval and equivalent obligations for any sub-processors.' }),
 
+    /* ---- Data Processor Contractual Readiness ---------------------------- */
+    q({ id: 'DPR-01', domain: 'processor',
+      question: 'Is every processing engagement governed by a valid contract that clearly defines scope, purpose, duration and documented instructions?',
+      explanation: 'The Data Fiduciary may engage a processor only under a valid contract; clear instructions prevent independent or incompatible use.',
+      legalReference: 'DPDPA Section 8(1)–(2)',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Use a standard processing schedule documenting scope, purposes, duration, data categories, instructions and return/deletion obligations.' }),
+    q({ id: 'DPR-02', domain: 'processor',
+      question: 'Do you process personal data only on the Data Fiduciary’s documented instructions and prevent use for your own unrelated purposes?',
+      explanation: 'A processor acts on behalf of the Data Fiduciary; deciding independent purposes may change the organisation’s legal role.',
+      legalReference: 'DPDPA Sections 2(i), 2(k) & 8(1) (contractual control)',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Implement instruction registers, purpose restrictions and escalation where an instruction appears unlawful or exceeds contract scope.' }),
+    q({ id: 'DPR-03', domain: 'processor',
+      question: 'Do your contracts and operations implement the Rule 6 safeguards required for processing performed on behalf of a Data Fiduciary?',
+      explanation: 'Rule 6 expressly extends safeguards to processing undertaken on behalf of the Data Fiduciary and requires appropriate processor contract provisions.',
+      legalReference: 'DPDP Rules 2025 Rule 6(1)(f)–(g)',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Map the Rule 6 safeguards into contracts and operating controls, including access, logging, monitoring, continuity and one-year retention.' }),
+    q({ id: 'DPR-04', domain: 'processor',
+      question: 'Can you promptly notify and support the Data Fiduciary with the facts, containment and records needed for Rule 7 breach notifications?',
+      explanation: 'The Data Fiduciary remains responsible for notification and depends on timely processor cooperation.',
+      legalReference: 'DPDPA Section 8(1), Section 8(6) & DPDP Rules 2025 Rule 7',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Define processor-to-fiduciary incident notification SLAs, escalation contacts and a standard fact pack aligned with Rule 7.' }),
+    q({ id: 'DPR-05', domain: 'processor',
+      question: 'Can you return or erase personal data, including copies held by approved sub-processors, when instructed or when the engagement ends?',
+      explanation: 'The Data Fiduciary must cause processors to erase data when the statutory conditions are met.',
+      legalReference: 'DPDPA Section 8(7)(b) with DPDP Rules 2025 Rule 8',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Implement deletion workflows, sub-processor propagation and completion confirmation, subject to documented legal retention duties.' }),
+    q({ id: 'DPR-06', domain: 'processor',
+      question: 'Are sub-processors approved, contractually bound to equivalent controls and included in security, breach and deletion workflows?',
+      explanation: 'Flow-down controls preserve the Data Fiduciary’s accountability through the processing chain.',
+      legalReference: 'DPDPA Section 8(1)–(2) (contractual good practice)',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Maintain a sub-processor register, approval workflow and equivalent contractual obligations with change notification.' }),
+
     /* ---- Data Retention & Erasure ----------------------------------------- */
     q({ id: 'RET-01', domain: 'retention',
       question: 'Have you defined a documented data retention schedule for personal data?',
@@ -1389,7 +1508,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     q({ id: 'RET-03', domain: 'retention',
       question: 'Do you securely and irreversibly dispose of personal data at the end of its retention period?',
       explanation: 'Secure disposal prevents recovery of data that should no longer exist.',
-      legalReference: 'DPDPA Section 8(7) – Secure erasure',
+      legalReference: 'DPDPA Section 8(7) – Secure disposal (good practice)',
       importance: 'Medium', weight: 5, risk: 'Medium',
       recommendation: 'Adopt secure deletion / destruction standards for digital and physical media.' }),
     q({ id: 'RET-04', domain: 'retention',
@@ -1398,14 +1517,26 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       legalReference: 'DPDPA Section 8(2)–(7) – Erasure by processors',
       importance: 'Medium', weight: 4, risk: 'Medium',
       recommendation: 'Contractually require and verify processor deletion on instruction and at retention end.' }),
+    q({ id: 'RET-05', domain: 'retention',
+      question: 'Do you retain the personal data, associated traffic data and processing logs covered by Rule 8(3) for at least one year and erase them afterwards unless longer retention is legally required?',
+      explanation: 'Rule 8(3) establishes a one-year minimum followed by erasure, subject to other legal retention requirements.',
+      legalReference: 'DPDP Rules 2025 Rule 8(3) & Seventh Schedule',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Map Rule 8(3) data and logs, implement the one-year minimum, then automate erasure unless a documented legal basis requires longer retention.' }),
+    q({ id: 'RET-06', domain: 'retention', allowNA: true,
+      question: 'If you fall within a class in the Third Schedule, do you apply the prescribed inactivity period and notify the Data Principal at least 48 hours before erasure?',
+      explanation: 'Rule 8 sets special purpose-expiry periods for specified large platforms and requires advance erasure notification.',
+      legalReference: 'DPDP Rules 2025 Rule 8(1)–(2) & Third Schedule',
+      importance: 'Medium', weight: 5, risk: 'Medium',
+      recommendation: 'Identify whether a Third Schedule threshold applies, configure the prescribed inactivity period and send the 48-hour pre-erasure notice.' }),
 
     /* ---- Cross-Border Data Transfer --------------------------------------- */
     q({ id: 'CBT-01', domain: 'crossborder',
-      question: 'Do you maintain awareness of, and comply with, any Central Government restrictions on transfer of personal data to countries outside India?',
-      explanation: 'The Act permits transfer abroad except to countries the Government may restrict.',
-      legalReference: 'DPDPA Section 16 – Processing outside India',
+      question: 'Do you monitor and comply with Central Government restrictions and requirements concerning overseas transfers and availability of data to a foreign State or its controlled entities?',
+      explanation: 'Section 16 and Rule 15 permit restrictions and additional requirements, including when data may be made available to foreign State bodies or controlled entities.',
+      legalReference: 'DPDPA Section 16 with DPDP Rules 2025 Rule 15',
       importance: 'High', weight: 6, risk: 'High',
-      recommendation: 'Track the restricted-country position and gate transfers accordingly.' }),
+      recommendation: 'Maintain a regulatory watch and transfer-control process covering destinations, foreign-government access and applicable Government orders.' }),
     q({ id: 'CBT-02', domain: 'crossborder',
       question: 'Do you maintain an inventory mapping where personal data is stored and transferred internationally?',
       explanation: 'You cannot govern cross-border transfers you have not mapped.',
@@ -1433,17 +1564,75 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       importance: 'High', weight: 6, risk: 'High',
       recommendation: 'Engage an independent data auditor and define an audit scope and cadence.' }),
     q({ id: 'SDF-03', domain: 'sdf',
-      question: 'Do you conduct periodic Data Protection Impact Assessments (DPIAs)?',
-      explanation: 'SDFs must undertake periodic DPIAs and audits as prescribed.',
-      legalReference: 'DPDPA Section 10(2)(c) with DPDP Rules 2025 Rule 12',
+      question: 'Do you complete a Data Protection Impact Assessment and compliance audit at least once in every 12-month period after SDF notification?',
+      explanation: 'Rule 13 fixes an annual minimum cadence for both the DPIA and audit.',
+      legalReference: 'DPDPA Section 10(2)(c) with DPDP Rules 2025 Rule 13(1)',
       importance: 'High', weight: 6, risk: 'High',
-      recommendation: 'Institutionalise DPIAs for high-risk processing with periodic refresh.' }),
+      recommendation: 'Schedule and complete a DPIA and compliance audit within every 12-month SDF cycle.' }),
     q({ id: 'SDF-04', domain: 'sdf',
-      question: 'Do you undertake periodic compliance audits and other measures the rules prescribe for Significant Data Fiduciaries?',
-      explanation: 'Periodic audit and additional measures are conditions of the SDF classification.',
-      legalReference: 'DPDPA Section 10(2)(c) with DPDP Rules 2025 Rule 12',
+      question: 'Does the person conducting the DPIA and audit furnish the Board with a report containing significant observations?',
+      explanation: 'Rule 13 requires significant DPIA and audit observations to be furnished to the Board.',
+      legalReference: 'DPDP Rules 2025 Rule 13(2)',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Define a governed process for identifying significant observations and furnishing the required report to the Board.' }),
+    q({ id: 'SDF-05', domain: 'sdf',
+      question: 'Do you verify that technical measures, including algorithmic software, are not likely to pose a risk to Data Principal rights?',
+      explanation: 'Rule 13 requires due diligence over technical and algorithmic measures used to process personal data.',
+      legalReference: 'DPDP Rules 2025 Rule 13(3)',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Introduce documented algorithmic and technical-risk review before deployment and after material changes.' }),
+    q({ id: 'SDF-06', domain: 'sdf', allowNA: true,
+      question: 'Where the Government specifies personal data for localisation, can you keep that data and traffic data relating to its flow within India?',
+      explanation: 'Rule 13 enables notified localisation restrictions for specified personal data and related traffic data.',
+      legalReference: 'DPDP Rules 2025 Rule 13(4)',
+      importance: 'High', weight: 6, risk: 'High',
+      recommendation: 'Maintain data-location controls capable of enforcing any notified SDF localisation requirement.' }),
+
+    /* ---- State & Public-Service Processing ------------------------------- */
+    q({ id: 'STA-01', domain: 'state',
+      question: 'Is public-benefit or service processing limited to the uses permitted by Section 7(b) and Rule 5?',
+      explanation: 'State processing for subsidies, benefits, services, certificates, licences or permits must remain within the permitted legal or policy basis.',
+      legalReference: 'DPDPA Section 7(b) with DPDP Rules 2025 Rule 5',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Map every public-service processing activity to the specific law, policy or public-fund basis and permitted use.' }),
+    q({ id: 'STA-02', domain: 'state',
+      question: 'Are necessity, accuracy, retention, security and accountability controls implemented for this public-service processing?',
+      explanation: 'The Second Schedule prescribes operational standards for State and State-instrumentality processing.',
+      legalReference: 'DPDP Rules 2025 Rule 5 & Second Schedule',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Assess public-service processing against every Second Schedule standard and assign accountable owners.' }),
+    q({ id: 'STA-03', domain: 'state',
+      question: 'Where Section 7(b) is relied on, do you give the required intimation, responsible-person contact and rights link?',
+      explanation: 'The Second Schedule requires transparency and rights access for this legitimate-use processing.',
+      legalReference: 'DPDP Rules 2025 Second Schedule paragraph (g)',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Issue the prescribed intimation with processing details, a responsible contact and an accessible rights link.' }),
+
+    /* ---- Scope & Exemption Governance ------------------------------------ */
+    q({ id: 'EXM-01', domain: 'exemptions',
+      question: 'For every exclusion or exemption relied on, have you mapped the processing activity to the exact statutory provision and its conditions?',
+      explanation: 'DPDPA exclusions and exemptions are activity- and purpose-specific; they should not be applied to an organisation or dataset wholesale.',
+      legalReference: 'DPDPA Sections 3(c) & 17 (governance good practice)',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Maintain an exemption register recording the provision, processing activity, purpose, conditions, owner and review date.' }),
+    q({ id: 'EXM-02', domain: 'exemptions',
+      question: 'Do controls prevent exempt processing from expanding beyond the permitted purpose, data and duration?',
+      explanation: 'A valid exemption for one activity does not automatically cover other processing or secondary use.',
+      legalReference: 'DPDPA Section 17 (scope-control good practice)',
+      importance: 'High', weight: 7, risk: 'High',
+      recommendation: 'Segregate exempt workflows and enforce purpose, access, sharing and retention boundaries.' }),
+    q({ id: 'EXM-03', domain: 'exemptions', allowNA: true,
+      question: 'For research, archiving or statistical processing under Rule 16, do you implement every standard in the Second Schedule?',
+      explanation: 'The research, archiving and statistical exemption applies only where the prescribed Second Schedule standards are met.',
+      legalReference: 'DPDPA Section 17(2)(b) with DPDP Rules 2025 Rule 16 & Second Schedule',
+      importance: 'High', weight: 8, risk: 'High',
+      recommendation: 'Assess the processing against each Second Schedule standard and close any condition that is not operational.' }),
+    q({ id: 'EXM-04', domain: 'exemptions',
+      question: 'Are claimed exclusions and exemptions periodically reviewed when purposes, datasets, recipients or law change?',
+      explanation: 'Changes to processing can invalidate the assumptions on which an exclusion or exemption was based.',
+      legalReference: 'DPDPA Sections 3 & 17 (review good practice)',
       importance: 'Medium', weight: 5, risk: 'Medium',
-      recommendation: 'Schedule periodic audits and implement any additional SDF measures under the rules.' }),
+      recommendation: 'Trigger exemption reassessment on material processing changes and at a defined periodic cadence.' }),
 
     /* ---- Records, Training & Audit ---------------------------------------- */
     q({ id: 'REC-01', domain: 'records',
@@ -1513,7 +1702,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     'CHD-01': 'Processing a child’s data without verifiable parental consent is a bright-line breach — one the Act treats as non-negotiable.',
     'CHD-02': 'Skipping guardian consent for a person with disability exposes your most vulnerable users — and you — to the harshest scrutiny.',
     'CHD-03': 'A feature that could harm a child’s well-being isn’t just a design flaw here — it’s a statutory violation.',
-    'CHD-04': 'Tracking or advertising to children is flatly prohibited — no amount of consent cures it, and the penalties bite hard.',
+    'CHD-04': 'Tracking or advertising to children without a valid Rule 12 exemption creates a direct statutory exposure.',
+    'CHD-05': 'An undocumented exemption is difficult to defend and may leave prohibited child processing operating without its required conditions.',
     // Security
     'SEC-01': 'Without reasonable safeguards, a breach isn’t bad luck — it’s negligence the Act can penalise up to ₹250 crore.',
     'SEC-02': 'Unencrypted personal data turns a stolen laptop or a leaked backup into a full-blown reportable breach.',
@@ -1521,6 +1711,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     'SEC-04': 'If you can’t see who touched personal data, you can’t detect a breach — or prove one didn’t happen.',
     'SEC-05': 'Untested backups are a promise you discover is broken at the exact moment you need them.',
     'SEC-06': 'Unpatched systems are the unlocked door most breaches simply walk through.',
+    'SEC-07': 'If required security logs and related data disappear too early, you may be unable to investigate a breach or meet Rule 6.',
     // Breach
     'BRC-01': 'A breach you can’t detect is a breach you can’t report — and the clock is already running.',
     'BRC-02': 'Improvising during a breach burns the hours that matter most and turns an incident into a crisis.',
@@ -1532,20 +1723,40 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     'VEN-02': 'A contract that doesn’t flow down security and deletion duties leaves you accountable for controls you can’t enforce.',
     'VEN-03': 'You inherit your weakest vendor’s security — without checking, you have no idea how weak that is.',
     'VEN-04': 'Data quietly handed to a fourth party you never vetted is a breach chain you can’t even see.',
+    // Processor
+    'DPR-01': 'Without a clear processing contract, instructions, purposes and responsibilities are open to dispute.',
+    'DPR-02': 'Independent or incompatible use can move you beyond the processor role and create unplanned Data Fiduciary exposure.',
+    'DPR-03': 'Weak processor safeguards become the Data Fiduciary’s breach exposure and a contractual failure for you.',
+    'DPR-04': 'Late processor escalation can make it impossible for the Data Fiduciary to meet the breach notification clock.',
+    'DPR-05': 'Copies that remain with you or a sub-processor can defeat the Data Fiduciary’s statutory erasure obligation.',
+    'DPR-06': 'An unmanaged sub-processor creates an unseen processing chain with controls the contracting Data Fiduciary cannot rely on.',
     // Retention
     'RET-01': 'With no retention limits, data never leaves — and every extra year is extra breach exposure and extra liability.',
     'RET-02': 'Keeping data after the purpose ends or consent is withdrawn is unlawful hoarding under Section 8(7).',
     'RET-03': '“Deleted” data that’s actually recoverable is data you’ll still have to answer for in a breach.',
     'RET-04': 'If your processors don’t delete when you do, your erasure is a fiction and the copies live on.',
+    'RET-05': 'Retaining Rule 8 data for too little or too long can breach the prescribed minimum-and-erasure lifecycle.',
+    'RET-06': 'A missed Third Schedule period or 48-hour notice leaves large-platform erasure out of step with Rule 8.',
     // Cross-border
-    'CBT-01': 'Send data to a country the Government has restricted and you’ve broken Section 16 — regardless of intent.',
+    'CBT-01': 'A transfer or foreign-government access path that ignores a Government restriction or requirement can breach Section 16 and Rule 15.',
     'CBT-02': 'You can’t govern transfers you can’t see — and “we didn’t know it went there” is not a defence.',
     'CBT-03': 'Sector rules (like RBI’s) can trump the Act — meeting DPDPA isn’t enough if localisation law says otherwise.',
     // SDF
     'SDF-01': 'As a Significant Data Fiduciary, no India-based DPO answerable to the board is a structural gap the Board notices first.',
     'SDF-02': 'Without independent audit, you’re grading your own homework — exactly what SDF status is meant to prevent.',
     'SDF-03': 'Skipping DPIAs on high-risk processing means you discover the risk after it lands, not before.',
-    'SDF-04': 'Enhanced obligations with no periodic audit is a compliance claim with nothing behind it.',
+    'SDF-04': 'Significant observations that never reach the Board leave a direct Rule 13 reporting obligation unmet.',
+    'SDF-05': 'Unchecked algorithmic or technical measures can scale harm to Data Principal rights before anyone notices.',
+    'SDF-06': 'Without localisation capability, a future Government specification can make existing data architecture non-compliant.',
+    // State processing
+    'STA-01': 'Public-service processing outside Section 7(b) and Rule 5 may lack the legitimate-use basis being relied on.',
+    'STA-02': 'Missing Second Schedule controls weaken necessity, accuracy, retention, security and accountability across public processing.',
+    'STA-03': 'Without the required intimation and rights route, individuals cannot understand or challenge public-service processing.',
+    // Exemptions
+    'EXM-01': 'A blanket or undocumented exemption claim can leave ordinary processing outside the controls that still apply to it.',
+    'EXM-02': 'Purpose or data creep can carry processing beyond the legal boundary of an otherwise valid exemption.',
+    'EXM-03': 'Research, archiving or statistical processing that misses a Second Schedule condition may lose the Rule 16 exemption.',
+    'EXM-04': 'An exemption that is never revisited can remain in use after the underlying facts or law have changed.',
     // Records
     'REC-01': 'No record of processing means that when anyone asks what you do with data, your honest answer is “we’re not sure.”',
     'REC-02': 'Undocumented processes walk out the door when people do — and can’t be audited or trusted.',
@@ -1658,16 +1869,16 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
    * Compliance levels
    * ------------------------------------------------------------------------ */
   rules.LEVELS = [
-    { min: 95, max: 100, label: 'Highly Compliant', key: 'excellent', color: 'green',
-      summary: 'A mature, well-governed privacy programme aligned with DPDPA obligations.' },
-    { min: 80, max: 94, label: 'Compliant', key: 'good', color: 'teal',
-      summary: 'Substantial compliance with focused improvements remaining.' },
+    { min: 95, max: 100, label: 'Highly Ready', key: 'excellent', color: 'green',
+      summary: 'A mature self-assessed control programme with no identified critical statutory gap.' },
+    { min: 80, max: 94, label: 'Substantially Ready', key: 'good', color: 'teal',
+      summary: 'Strong self-assessed readiness with focused improvements remaining.' },
     { min: 60, max: 79, label: 'Needs Improvement', key: 'moderate', color: 'amber',
       summary: 'Foundational controls exist but material gaps require remediation.' },
     { min: 40, max: 59, label: 'High Risk', key: 'high', color: 'orange',
       summary: 'Significant non-compliance exposing the organization to regulatory risk.' },
-    { min: 0, max: 39, label: 'Critical Non-Compliance', key: 'critical', color: 'red',
-      summary: 'Core DPDPA obligations are unmet; urgent, structured remediation is required.' }
+    { min: 0, max: 39, label: 'Critical Gaps', key: 'critical', color: 'red',
+      summary: 'Core controls are not ready; urgent, structured remediation is required.' }
   ];
 
   rules.levelForScore = function (score) {
@@ -1685,6 +1896,14 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     return { label: 'Critical', key: 'critical' };
   };
 
+  function levelForEvaluation(score, complete, mandatoryFailures) {
+    if (!complete) return { label: 'Incomplete Assessment', key: 'na', color: 'slate',
+      summary: 'A readiness conclusion is unavailable until every applicable control is answered.' };
+    if (mandatoryFailures > 0) return { label: 'High Risk — Critical Statutory Gap', key: 'high', color: 'orange',
+      summary: 'The maturity score is overridden by one or more failed high-significance statutory controls.' };
+    return rules.levelForScore(score);
+  }
+
   /* ---------------------------------------------------------------------------
    * Owner & timeline heuristics used by the remediation plan
    * ------------------------------------------------------------------------ */
@@ -1698,9 +1917,12 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     security: 'Information Security',
     breach: 'Information Security / DPO',
     vendors: 'Procurement / Legal',
+    processor: 'Service Delivery / Security / Legal',
     retention: 'Data Governance / IT',
     crossborder: 'Legal / IT Infrastructure',
     sdf: 'DPO / Board',
+    state: 'Programme Owner / Legal / IT',
+    exemptions: 'Legal / Privacy Office',
     records: 'DPO / Compliance'
   };
 
@@ -1765,7 +1987,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         value: value || null,
         optionLabel: option ? option.label : null,
         score: scored ? option.score : null,
-        answered: !!value,
+        answered: !!option,
         na: !!(option && option.score === null && option.value === 'na'),
         scored: scored
       };
@@ -1802,16 +2024,32 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     });
 
     var overall = totalWeight > 0 ? Math.round(totalWeighted / totalWeight) : 0;
+    var completion = totalApplicable > 0 ? Math.round((answeredCount / totalApplicable) * 100) : 0;
+    var complete = totalApplicable > 0 && answeredCount === totalApplicable;
+    var mandatoryFailures = 0;
+    Object.keys(domainAgg).forEach(function (id) {
+      domainAgg[id].evaluated.forEach(function (record) {
+        if (record.scored && record.score <= 30 && record.question.risk === 'High' &&
+            record.question.controlType === 'Statutory / prescribed control') mandatoryFailures++;
+      });
+    });
+    var excludedDomains = DPDPA.domains.filter(function (d) { return !applicableIds[d.id]; });
 
     return {
       overallScore: overall,
-      level: rules.levelForScore(overall),
+      controlMaturityScore: overall,
+      rawLevel: rules.levelForScore(overall),
+      level: levelForEvaluation(overall, complete, mandatoryFailures),
       domainScores: domainScores,
       answeredCount: answeredCount,
       naCount: naCount,
       totalApplicable: totalApplicable,
-      completion: totalApplicable > 0 ? Math.round((answeredCount / totalApplicable) * 100) : 0,
-      applicableDomains: applicableDomains
+      completion: completion,
+      complete: complete,
+      unansweredCount: Math.max(0, totalApplicable - answeredCount),
+      mandatoryFailures: mandatoryFailures,
+      applicableDomains: applicableDomains,
+      excludedDomains: excludedDomains
     };
   };
 
@@ -1819,10 +2057,10 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
    * Risk classification for a single evaluated question
    * Combines the answer score with the question's inherent risk rating.
    * ------------------------------------------------------------------------ */
-  function priorityFor(score, inherentRisk) {
+  function priorityFor(score, inherentRisk, controlType) {
     // score is 0..100 (lower = worse). inherentRisk: High/Medium/Low
     if (inherentRisk === 'High') {
-      if (score <= 30) return 'Immediate';
+      if (score <= 30) return controlType === 'Supporting practice' ? 'High' : 'Immediate';
       if (score < 100) return 'High';
     } else if (inherentRisk === 'Medium') {
       if (score <= 30) return 'High';
@@ -1851,9 +2089,12 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     security: ['Personal data breach', 'Financial penalty up to ₹250 crore', 'Operational disruption'],
     breach: ['Missed notification deadlines', 'Regulatory penalty', 'Escalated harm to individuals'],
     vendors: ['Uncontrolled third-party risk', 'Breach via processor', 'Contractual liability'],
+    processor: ['Contractual non-performance', 'Unauthorised processing', 'Downstream breach exposure'],
     retention: ['Excess data exposure', 'Erasure-right violation', 'Larger breach blast radius'],
     crossborder: ['Non-compliant transfer', 'Regulatory restriction', 'Sectoral law breach'],
     sdf: ['Breach of enhanced SDF duties', 'Regulatory penalty', 'Audit findings'],
+    state: ['Unlawful public-service processing', 'Rights and transparency failure', 'Accountability gap'],
+    exemptions: ['Invalid exemption reliance', 'Uncontrolled processing scope', 'Regulatory challenge'],
     records: ['Inability to demonstrate compliance', 'Weak audit posture', 'Accountability gap']
   };
 
@@ -1861,7 +2102,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var q = record.question;
     // Only failing/partial scored controls generate risk (100 = no gap).
     if (!record.scored || record.score >= 100) return null;
-    var priority = priorityFor(record.score, q.risk);
+    var priority = priorityFor(record.score, q.risk, q.controlType);
     var meta = PRIORITY_META[priority];
     return {
       id: q.id,
@@ -1876,6 +2117,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       inherentRisk: q.risk,
       likelihood: likelihoodFor(record.score),
       impact: q.risk,
+      controlType: q.controlType,
       impacts: DOMAIN_IMPACT[q.domain] || [],
       priority: priority,
       timeline: meta.timeline,
@@ -1924,7 +2166,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
      rather than a hand-picked list of domains. */
   function isQuickWin(record) {
     if (!record.scored || record.score >= 100) return false;
-    var priority = priorityFor(record.score, record.question.risk);
+    var priority = priorityFor(record.score, record.question.risk, record.question.controlType);
     return effortFor(record) === 'Low' && (priority === 'Immediate' || priority === 'High');
   }
 
@@ -1953,7 +2195,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       d.evaluated.forEach(function (record) {
         if (!record.scored || record.score >= 100) return;
         var q = record.question;
-        var priority = priorityFor(record.score, q.risk);
+        var priority = priorityFor(record.score, q.risk, q.controlType);
         gaps.push({
           id: q.id,
           domain: q.domain,
@@ -1980,7 +2222,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     // Effort to COMPLETE the control from where it stands today.
     var d = record.question.domain;
     // Domains whose remediation typically needs engineering, contracts or audit.
-    var heavy = { security: 1, consent: 1, children: 1, vendors: 1, crossborder: 1, sdf: 1 };
+    var heavy = { security: 1, consent: 1, children: 1, vendors: 1, processor: 1,
+      crossborder: 1, sdf: 1, state: 1 };
     if (record.score >= 60) return 'Low';                        // already partial -> just finish it
     if (record.score >= 30) return heavy[d] ? 'Medium' : 'Low';  // planned -> execute the plan
     return heavy[d] ? 'High' : 'Medium';                         // absent -> build from scratch
@@ -1992,7 +2235,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       d.evaluated.forEach(function (record) {
         if (!record.scored || record.score >= 100) return;
         var q = record.question;
-        var priority = priorityFor(record.score, q.risk);
+        var priority = priorityFor(record.score, q.risk, q.controlType);
         var meta = PRIORITY_META[priority];
         tasks.push({
           id: q.id,
@@ -2081,7 +2324,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
           score: d.score,
           text: worst.question.recommendation,
           section: worst.question.legalReference,
-          priority: priorityFor(worst.score, worst.question.risk)
+          priority: priorityFor(worst.score, worst.question.risk, worst.question.controlType)
         };
       }
     });
@@ -2150,8 +2393,10 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   /* A single punchy headline for the executive summary. */
   rules.buildHeadline = function (evaluation, criticalCount) {
     var s = evaluation.overallScore;
-    if (s >= 95) return 'A mature programme. Keep auditing and you stay ahead of the Act.';
-    if (s >= 80) return 'You’re most of the way there — tighten a handful of controls and you’re audit-ready.';
+    if (!evaluation.complete) return 'Assessment incomplete — answer every applicable control before drawing a readiness conclusion.';
+    if (evaluation.mandatoryFailures > 0) return 'The maturity score is overridden by critical statutory gaps. Fix the mandatory controls flagged below first.';
+    if (s >= 95) return 'A mature self-assessed programme. Sustain, review and prepare for the phased commencement dates.';
+    if (s >= 80) return 'You’re most of the way there — tighten the remaining controls and continue readiness review.';
     if (s >= 60) return 'A real foundation with real gaps. The roadmap below closes them in priority order.';
     if (s >= 40) return 'Significant exposure: several core DPDPA obligations aren’t operational yet.'
       + (criticalCount ? ' Start with the critical findings flagged below.' : '');
@@ -2169,8 +2414,14 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var critical = riskRegister.filter(function (r) { return r.priority === 'Immediate'; }).length;
 
     var parts = [];
-    parts.push('With an overall compliance score of ' + evaluation.overallScore + '% (' + level.label +
-      '), the organization ' + readinessVerb(evaluation.overallScore) + '.');
+    if (!evaluation.complete) return 'The assessment is incomplete. No readiness conclusion should be used until all applicable controls are answered.';
+    parts.push('With a self-assessed control maturity score of ' + evaluation.overallScore + '% and a readiness status of ' + level.label +
+      ', the organization ' + readinessVerb(evaluation.overallScore) + '.');
+
+    if (evaluation.mandatoryFailures > 0) {
+      parts.push('The percentage does not override the ' + evaluation.mandatoryFailures +
+        ' failed high-significance statutory ' + (evaluation.mandatoryFailures === 1 ? 'control' : 'controls') + '.');
+    }
 
     if (strong.length) {
       parts.push('It demonstrates relative strength in ' + listNames(strong.slice(0, 3)) + '.');
@@ -2183,18 +2434,22 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       parts.push('There ' + (critical === 1 ? 'is 1 finding' : 'are ' + critical + ' findings') +
         ' rated for immediate action, exposing the organization to regulatory and reputational risk under the DPDPA.');
     } else if (evaluation.overallScore >= 80) {
-      parts.push('No findings require immediate action; focus should shift to sustaining and auditing existing controls.');
+      parts.push('No finding requires immediate action; focus should shift to sustaining and periodically reviewing existing controls.');
     }
-    parts.push('A structured remediation roadmap — sequenced by the priority matrix below — will move the organization toward substantial compliance with the Digital Personal Data Protection Act, 2023.');
+    if (riskRegister.length) {
+      parts.push('The remediation roadmap below sequences the remaining self-identified gaps by urgency.');
+    } else {
+      parts.push('No remediation item was generated from the responses; periodic reassessment remains appropriate.');
+    }
     return parts.join(' ');
   };
 
   function readinessVerb(score) {
     if (score >= 95) return 'operates a mature, well-governed privacy programme';
-    if (score >= 80) return 'has achieved substantial DPDPA compliance';
-    if (score >= 60) return 'has a functioning foundation but has not yet reached substantial compliance';
-    if (score >= 40) return 'faces significant compliance exposure';
-    return 'is in a state of critical non-compliance requiring urgent intervention';
+    if (score >= 80) return 'shows substantial readiness across the assessed controls';
+    if (score >= 60) return 'has a functioning foundation but material readiness gaps remain';
+    if (score >= 40) return 'faces significant readiness exposure';
+    return 'has critical control gaps requiring urgent intervention';
   }
 
   function listNames(domains) {
@@ -2318,7 +2573,6 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     answeredSummary: document.getElementById('answered-summary'),
     btnPrev: document.getElementById('btn-prev'),
     btnNext: document.getElementById('btn-next'),
-    btnDemoFill: document.getElementById('btn-demo-fill'),
     btnGenerate: document.getElementById('btn-generate'),
     btnReset: document.getElementById('btn-reset')
   };
@@ -2356,7 +2610,14 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     });
   }
 
-  function hasProfileBasics() { return !!(state.profile.orgName && state.profile.industry); }
+  function missingRequiredProfileFields() {
+    return DPDPA.profileQuestions.filter(function (pq) {
+      if (!pq.required) return false;
+      var value = state.profile[pq.field];
+      return pq.type === 'multi-select' ? !Array.isArray(value) || !value.length : !value;
+    });
+  }
+  function hasProfileBasics() { return missingRequiredProfileFields().length === 0; }
 
   function renderProgress() {
     var pct = overallCompletion();
@@ -2390,7 +2651,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         var opts = '<option value="">Select…</option>' + pq.options.map(function (o) {
           return '<option value="' + escapeAttr(o) + '"' + (val === o ? ' selected' : '') + '>' + o + '</option>';
         }).join('');
-        return '<div class="field"><label>' + pq.label + '</label>' +
+        return '<div class="field"><label>' + pq.label + (pq.required ? ' *' : '') + '</label>' +
           '<select data-field="' + pq.field + '">' + opts + '</select></div>';
       }
       if (pq.type === 'multi-select') {
@@ -2401,7 +2662,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
             '<span class="box">' + DPDPA.icon('check') + '</span>' +
             '<span>' + o + '</span></label>';
         }).join('');
-        return '<div class="field"><label>' + pq.label + '</label><div class="checks">' + checks + '</div></div>';
+        return '<div class="field"><label>' + pq.label + (pq.required ? ' *' : '') + '</label><div class="checks">' + checks + '</div></div>';
       }
       return '';
     }).join('');
@@ -2413,7 +2674,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         '<p style="margin:2px 0 0">Context that tailors the assessment and shapes the applicability of certain domains.</p></div>' +
       '</div>' +
       '<div class="applic-note">' + DPDPA.icon('info') +
-        '<span>Your answers to the children’s data, cross-border and Significant Data Fiduciary questions determine which specialised domains appear in your assessment.</span></div>' +
+        '<span>Required profile answers tailor fiduciary, processor, children’s data, cross-border, public-service and Significant Data Fiduciary domains. Scope and exemption answers are disclosed in the report as self-assessed assumptions.</span></div>' +
       '<div class="card card-pad mt-2">' + fields + '</div>';
 
     DPDPA.hydrateIcons(el.stepContent);
@@ -2431,10 +2692,17 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         var field = node.getAttribute('data-multi'), v = node.getAttribute('data-val');
         var arr = Array.isArray(state.profile[field]) ? state.profile[field].slice() : [];
         var idx = arr.indexOf(v);
-        if (idx === -1) { arr.push(v); node.classList.add('checked'); }
+        if (idx === -1) {
+          if (field === 'exemptions' && (v === 'None identified' || v === 'Not sure')) arr = [v];
+          else {
+            if (field === 'exemptions') arr = arr.filter(function (x) { return x !== 'None identified' && x !== 'Not sure'; });
+            arr.push(v);
+          }
+          node.classList.add('checked');
+        }
         else { arr.splice(idx, 1); node.classList.remove('checked'); }
-        state.profile[field] = arr;
-        saveState();
+        onProfileChange(field, arr);
+        if (field === 'exemptions') renderProfileStep();
       });
     });
   }
@@ -2443,7 +2711,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     state.profile[field] = value;
     saveState();
     // Applicability-affecting fields rebuild the step list & stepper.
-    if (field === 'childrenData' || field === 'crossBorder' || field === 'sdf') {
+    if (field === 'role' || field === 'childrenData' || field === 'crossBorder' ||
+        field === 'sdf' || field === 'stateProcessing' || field === 'exemptions') {
       steps = buildSteps();
       renderStepper();
       renderProgress();
@@ -2480,7 +2749,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         '<div class="q-text">' + q.question + '</div>' +
         '<div class="q-why">' + DPDPA.icon('help') + '<span><b>Why we ask:</b> ' + q.explanation + '</span></div>' +
         '<div class="q-ref">' + DPDPA.icon('scale') + '<span><b>Reference:</b> ' + q.legalReference + '</span>' +
-          '<span class="pill ' + importancePillClass(q.importance) + '" style="margin-left:auto">' + q.importance + ' importance</span></div>' +
+          '<span class="pill" style="margin-left:auto">' + q.controlType + '</span>' +
+          '<span class="pill ' + importancePillClass(q.importance) + '">' + q.importance + ' importance</span></div>' +
         '<div class="options">' + opts + '</div>' +
         '<div class="q-flag">' + DPDPA.icon('alert') + '<span>Please choose an option — this control is required.</span></div>' +
       '</div>';
@@ -2620,83 +2890,25 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   }
 
   function flashProfileWarning() {
+    var missingFields = missingRequiredProfileFields();
+    var missing = missingFields.map(function (pq) { return pq.label; });
     var note = el.stepContent.querySelector('.applic-note');
     if (note) {
       note.style.background = 'var(--amber-50)';
       note.style.borderColor = '#fde68a';
       note.innerHTML = DPDPA.icon('alert') +
-        '<span>Please enter at least your <b>organization name</b> and <b>industry</b> before generating the report.</span>';
+        '<span>Please complete the required profile fields before continuing: <b>' + missing.join(', ') + '</b>.</span>';
       DPDPA.hydrateIcons(note);
     }
-    var first = el.stepContent.querySelector('[data-field="orgName"]');
+    var firstField = missingFields.length ? missingFields[0].field : 'orgName';
+    var first = el.stepContent.querySelector('[data-field="' + firstField + '"]') ||
+      el.stepContent.querySelector('[data-multi="' + firstField + '"]');
     if (first) first.focus();
   }
 
   /* ------------------------------- Utilities ------------------------------ */
   function escapeAttr(s) {
     return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  /* Fill the complete assessment with a realistic, deterministic demo profile.
-     The response mix intentionally produces a useful report with strengths,
-     partial controls and a few material gaps instead of an unrealistic 100%. */
-  function demoValueFor(question, index) {
-    var targetScores = [100, 100, 60, 100, 60, 30, 100, 60, 100, 0];
-    var target = targetScores[index % targetScores.length];
-    var scored = (question.options || []).filter(function (o) {
-      return o.score !== null && o.score !== undefined;
-    });
-    if (!scored.length) return null;
-    var best = scored[0];
-    for (var i = 1; i < scored.length; i++) {
-      if (Math.abs(scored[i].score - target) < Math.abs(best.score - target)) best = scored[i];
-    }
-    return best.value;
-  }
-
-  function fillDemoAssessment() {
-    state.profile = {
-      orgName: 'Demo Healthcare Technologies Pvt. Ltd.',
-      industry: 'Healthcare & Pharma',
-      employees: '201–1,000',
-      turnover: '₹50–250 crore',
-      dataPrincipals: '1–10 lakh',
-      dataCategories: [
-        'Contact & identity details', 'Financial / payment data', 'Health data',
-        'Government identifiers (Aadhaar, PAN, etc.)', 'Children’s data', 'Employee data'
-      ],
-      role: [
-        'Data Fiduciary (you determine purpose & means)',
-        'Data Processor (you process on behalf of another entity)'
-      ],
-      childrenData: 'Occasionally / possibly',
-      crossBorder: 'Yes',
-      sdf: 'Likely (large volume / sensitive processing)'
-    };
-
-    state.answers = {};
-    DPDPA.questions.forEach(function (question, index) {
-      var value = demoValueFor(question, index);
-      if (value !== null) state.answers[question.id] = value;
-    });
-    state.meta.demoFilledAt = new Date().toISOString();
-    steps = buildSteps();
-    currentStep = 0;
-    saveState();
-    renderStep();
-
-    if (el.btnDemoFill) {
-      el.btnDemoFill.innerHTML = DPDPA.icon('checkCircle') + ' Demo data filled';
-      el.btnDemoFill.style.background = 'var(--green-50)';
-      el.btnDemoFill.style.borderColor = '#a7f3d0';
-      el.btnDemoFill.style.color = 'var(--green-700)';
-      root.setTimeout(function () {
-        el.btnDemoFill.innerHTML = DPDPA.icon('zap') + ' Demo Fill';
-        el.btnDemoFill.style.background = 'var(--blue-50)';
-        el.btnDemoFill.style.borderColor = 'var(--blue-200)';
-        el.btnDemoFill.style.color = '';
-      }, 1800);
-    }
   }
 
   function resetAssessment() {
@@ -2713,7 +2925,6 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     DPDPA.hydrateIcons();
     el.btnPrev.addEventListener('click', function () { goToStep(currentStep - 1); });
     el.btnNext.addEventListener('click', next);
-    el.btnDemoFill.addEventListener('click', fillDemoAssessment);
     el.btnGenerate.addEventListener('click', generateReport);
     el.btnReset.addEventListener('click', resetAssessment);
     renderStep();
@@ -2800,8 +3011,31 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         '<div class="e-ic">' + DPDPA.icon('file') + '</div>' +
         '<h2>No assessment found</h2>' +
         '<p style="max-width:44ch;margin:0 auto 24px">Complete the DPDPA assessment to generate your executive ' +
-          'compliance report. Your answers stay in this browser.</p>' +
+          'readiness report. Your answers stay in this browser.</p>' +
         '<a href="#" data-view="assessment" class="btn btn-primary btn-lg">Start the assessment ' + DPDPA.icon('arrowRight') + '</a>' +
+      '</div>';
+    DPDPA.hydrateIcons();
+  }
+
+  function profileComplete(profile) {
+    profile = profile || {};
+    return DPDPA.profileQuestions.every(function (pq) {
+      if (!pq.required) return true;
+      var value = profile[pq.field];
+      return pq.type === 'multi-select' ? Array.isArray(value) && value.length > 0 : !!value;
+    });
+  }
+
+  function renderIncomplete(model) {
+    document.getElementById('report-toolbar').style.display = 'none';
+    var ev = model.evaluation;
+    mount.innerHTML = '<div class="empty" style="margin-top:40px">' +
+      '<div class="e-ic">' + DPDPA.icon('alert') + '</div>' +
+      '<h2>Assessment incomplete</h2>' +
+      '<p style="max-width:52ch;margin:0 auto 10px">A readiness score is withheld until the required profile and every applicable control are complete.</p>' +
+      '<p class="muted" style="margin:0 auto 24px">' + ev.answeredCount + ' of ' + ev.totalApplicable +
+        ' applicable controls answered (' + ev.completion + '%).</p>' +
+      '<a href="#" data-view="assessment" class="btn btn-primary btn-lg">Return to assessment ' + DPDPA.icon('arrowRight') + '</a>' +
       '</div>';
     DPDPA.hydrateIcons();
   }
@@ -2829,10 +3063,10 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
                 'stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '" ' +
                 'style="filter: drop-shadow(0 2px 6px ' + color + '66)"></circle>' +
             '</svg>' +
-            '<div class="g-center"><b>' + ev.overallScore + '<small>%</small></b><span>DPDPA readiness</span></div>' +
+            '<div class="g-center"><b>' + ev.overallScore + '<small>%</small></b><span>control maturity</span></div>' +
           '</div>' +
           '<div class="rh-info">' +
-            '<h1>DPDPA Compliance Report</h1>' +
+            '<h1>DPDPA Readiness Report</h1>' +
             '<div class="rh-org">' + esc(orgName) + (model.profile.industry ? ' · ' + esc(model.profile.industry) : '') + '</div>' +
             '<div class="rh-level" style="border-color:' + color + '55"><span class="dot" style="background:' + color + '"></span>' + lvl.label + '</div>' +
             '<p class="rh-headline">' + esc(model.headline) + '</p>' +
@@ -2847,10 +3081,14 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   /* Critical findings — lead with the CONSEQUENCE, tag with domain + section. */
   function criticalFindingsBlock(model) {
     if (!model.criticalFindings.length) {
+      var high = model.riskRegister.filter(function (r) { return r.priority === 'High'; }).length;
+      if (high) return '<div class="card card-pad mt-3" style="border-left:4px solid var(--amber-500)">' +
+        '<div class="flex aic gap">' + DPDPA.icon('alert') + '<div><b style="color:var(--navy)">No immediate-priority gap.</b> ' +
+        '<span class="muted">There are still ' + high + ' high-priority control ' + (high === 1 ? 'gap' : 'gaps') + ' to address.</span></div></div></div>';
       return '<div class="card card-pad mt-3" style="border-left:4px solid var(--green-500)">' +
         '<div class="flex aic gap">' + DPDPA.icon('checkCircle') +
-        '<div><b style="color:var(--navy)">Nothing on fire.</b> ' +
-        '<span class="muted">No control is rated for immediate action — shift focus to sustaining and auditing what you have.</span></div></div></div>';
+        '<div><b style="color:var(--navy)">No immediate or high-priority gap identified.</b> ' +
+        '<span class="muted">Continue periodic self-assessment and control maintenance.</span></div></div></div>';
     }
     var items = model.criticalFindings.slice(0, 5).map(function (r) {
       return '<li>' +
@@ -2859,10 +3097,30 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
         '<span>' + esc(r.domainName) + ' &middot; ' + esc(r.section) + '</span></div></li>';
     }).join('');
     var more = model.criticalFindings.length > 5
-      ? '<div class="cf-more">+ ' + (model.criticalFindings.length - 5) + ' more critical findings in the risk register below</div>' : '';
+      ? '<div class="cf-more">+ ' + (model.criticalFindings.length - 5) + ' more critical findings in the control gap register below</div>' : '';
     return '<div class="card critical-card mt-3">' +
       '<h3 class="cf-head">' + DPDPA.icon('zap') + 'Fix these first</h3>' +
       '<ul class="cf-list">' + items + '</ul>' + more + '</div>';
+  }
+
+  function sectionScope(model) {
+    var ev = model.evaluation, p = model.profile || {}, legal = DPDPA.legalStatus || {};
+    var roles = Array.isArray(p.role) && p.role.length ? p.role.join('; ') : 'Not stated';
+    var exemptions = Array.isArray(p.exemptions) && p.exemptions.length ? p.exemptions.join('; ') : 'None stated';
+    var applicable = ev.applicableDomains.map(function (d) { return d.name; }).join(', ');
+    var excluded = ev.excludedDomains.length ? ev.excludedDomains.map(function (d) { return d.name; }).join(', ') : 'None';
+    var scopeWarning = p.territorialScope !== 'Yes'
+      ? '<div class="disclaimer mt-2">' + DPDPA.icon('alert') + '<span><b>Scope requires confirmation:</b> territorial applicability was answered “' + esc(p.territorialScope || 'Not stated') + '”. The controls below are presented as readiness guidance, not a conclusion that the Act applies.</span></div>' : '';
+    return '<section id="scope" class="section">' +
+      sectionHead('info', 'Assessment Scope & Status', 'The assumptions behind this self-assessed readiness report.') +
+      '<div class="card card-pad"><div class="grid grid-2">' +
+        '<div><h3>Self-assessed profile</h3><p><b>Role:</b> ' + esc(roles) + '<br><b>Territorial scope:</b> ' + esc(p.territorialScope || 'Not stated') +
+        '<br><b>State/public-service processing:</b> ' + esc(p.stateProcessing || 'Not stated') + '<br><b>Exemptions indicated:</b> ' + esc(exemptions) + '</p></div>' +
+        '<div><h3>Coverage</h3><p><b>Applicable domains:</b> ' + esc(applicable) + '<br><b>Excluded by profile:</b> ' + esc(excluded) + '</p></div>' +
+      '</div><p class="muted" style="margin:8px 0 0"><b>Content version:</b> ' + esc(legal.contentVersion || '') +
+        '. ' + esc(legal.currentPhase || '') + '. Consent Manager provisions are scheduled for ' + esc(legal.consentManagerEffective || '') +
+        '; most substantive obligations are scheduled for ' + esc(legal.substantiveEffective || '') + '.</p></div>' +
+      scopeWarning + '</section>';
   }
 
   /* =========================================================================
@@ -2873,8 +3131,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var highGaps = model.gapAnalysis.filter(function (g) { return g.priority === 'Immediate' || g.priority === 'High'; }).length;
 
     var kpis =
-      kpi('blue', 'dashboard', ev.overallScore + '%', 'Overall compliance') +
-      kpi('red', 'alert', model.priorityMatrix.Immediate, 'Immediate-priority risks') +
+      kpi('blue', 'dashboard', ev.overallScore + '%', 'Control maturity') +
+      kpi('red', 'alert', ev.mandatoryFailures, 'Failed critical statutory controls') +
       kpi('amber', 'target', highGaps, 'High-priority gaps') +
       kpi('green', 'list', model.remediationPlan.length, 'Actions to close');
 
@@ -2974,24 +3232,24 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   function sectionRisks(model) {
     if (!model.riskRegister.length) {
       return '<section id="risks" class="section">' +
-        sectionHead('alert', 'Risk Register', 'Risks arising from control gaps.') +
-        emptyCard('No open risks — every assessed control is fully implemented.') + '</section>';
+        sectionHead('alert', 'Control Gap Register', 'Self-identified implementation gaps requiring attention.') +
+        emptyCard('No open control gaps — every assessed control is fully implemented.') + '</section>';
     }
     var rows = model.riskRegister.map(function (r) {
       return '<tr>' +
         '<td><strong>' + esc(r.exposure) + '</strong></td>' +
         '<td>' + esc(r.domainName) + '<br><span class="muted" style="font-size:.76rem">' + esc(r.section) + '</span></td>' +
-        '<td><span class="pill ' + likePill(r.likelihood) + '">' + r.likelihood + '</span></td>' +
-        '<td><span class="pill ' + likePill(r.impact) + '">' + r.impact + '</span></td>' +
+        '<td>' + esc(r.currentState) + '</td>' +
+        '<td><span class="pill ' + likePill(r.inherentRisk) + '">' + r.inherentRisk + '</span><br><span class="muted" style="font-size:.72rem">' + esc(r.controlType) + '</span></td>' +
         '<td><span class="badge badge-' + r.badge + '">' + r.priority + '</span></td>' +
         '<td>' + esc(r.mitigation) + '</td>' +
         '<td>' + esc(r.owner) + '</td>' +
       '</tr>';
     }).join('');
     return '<section id="risks" class="section">' +
-      sectionHead('alert', 'Risk Register', 'Every gap, framed as what it exposes you to — sorted by urgency.') +
+      sectionHead('alert', 'Control Gap Register', 'Every self-identified gap, framed by exposure and sorted by remediation urgency.') +
       '<div class="table-wrap"><table class="grc"><thead><tr>' +
-        '<th style="min-width:260px">What’s at risk</th><th>Where</th><th>Likelihood</th><th>Impact</th>' +
+        '<th style="min-width:260px">Exposure</th><th>Where</th><th>Current state</th><th>Significance</th>' +
         '<th>Priority</th><th style="min-width:220px">Fix</th><th>Owner</th>' +
       '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
     '</section>';
@@ -3065,13 +3323,13 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
           '<div class="flex aic gap"><div class="kpi-ic blue" style="width:44px;height:44px">' + DPDPA.icon('shield') + '</div>' +
             '<div><b style="color:var(--navy);font-size:1.05rem">' + ev.level.label + '</b>' +
             '<div class="muted" style="font-size:.85rem">' + ev.level.summary + '</div></div></div>' +
-          '<div class="rh-level" style="background:' + color + '18;color:' + color + ';border:1px solid ' + color + '55">' + ev.overallScore + '% overall</div>' +
+          '<div class="rh-level" style="background:' + color + '18;color:' + color + ';border:1px solid ' + color + '55">' + ev.overallScore + '% control maturity</div>' +
         '</div>' +
         '<p style="font-size:.98rem;line-height:1.7;color:var(--slate-700);margin:0">' + esc(model.readiness) + '</p>' +
       '</div>' +
-      '<div class="disclaimer mt-3 no-print">' + DPDPA.icon('info') +
-        '<span>This report is a structured self-assessment for informational purposes and is not legal advice. ' +
-        'References cite the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.</span></div>' +
+      '<div class="disclaimer mt-3">' + DPDPA.icon('info') +
+        '<span>This is an unverified self-assessment for readiness planning; it does not collect or validate evidence and is not a certification or legal advice. ' +
+        'References cite the Digital Personal Data Protection Act, 2023 and the final DPDP Rules, 2025.</span></div>' +
     '</section>';
   }
 
@@ -3091,17 +3349,31 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   function exportData(assessment, model) {
     var payload = {
       generatedAt: new Date().toISOString(),
+      assessmentType: 'Unverified self-assessment — no evidence collected',
+      legalStatus: DPDPA.legalStatus,
       profile: assessment.profile,
+      completion: model.evaluation.completion,
+      answeredControls: model.evaluation.answeredCount,
+      applicableControls: model.evaluation.totalApplicable,
       overallScore: model.evaluation.overallScore,
-      complianceLevel: model.evaluation.level.label,
+      metricName: 'Self-assessed control maturity',
+      readinessStatus: model.evaluation.level.label,
+      mandatoryFailures: model.evaluation.mandatoryFailures,
       headline: model.headline,
+      applicableDomains: model.evaluation.applicableDomains.map(function (d) { return d.name; }),
+      excludedDomains: model.evaluation.excludedDomains.map(function (d) { return d.name; }),
+      domainScores: model.evaluation.domainScores.map(function (d) {
+        return { domain: d.name, score: d.score, status: d.status.label, answered: d.answered, total: d.total };
+      }),
       domainVerdicts: model.domainVerdicts.map(function (v) {
         return { domain: v.name, score: v.score, status: v.status.label, exposure: v.exposure, working: v.win };
       }),
       riskRegister: model.riskRegister.map(function (r) {
-        return { risk: r.exposure, priority: r.priority, likelihood: r.likelihood,
-          impact: r.impact, section: r.section, fix: r.mitigation, owner: r.owner };
+        return { exposure: r.exposure, currentState: r.currentState, significance: r.inherentRisk,
+          controlType: r.controlType, priority: r.priority, section: r.section, fix: r.mitigation, suggestedOwner: r.owner };
       }),
+      gapAnalysis: model.gapAnalysis,
+      criticalFindings: model.criticalFindings,
       remediationPlan: model.remediationPlan,
       answers: assessment.answers
     };
@@ -3109,7 +3381,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     var safe = (assessment.profile.orgName || 'organization').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
-    a.href = url; a.download = 'dpdpa-compliance-report-' + safe + '.json';
+    a.href = url; a.download = 'dpdpa-readiness-report-' + safe + '.json';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
@@ -3122,10 +3394,16 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var model = DPDPA.rules.buildReport(assessment.answers, assessment.profile);
     model.metaDate = assessment.meta && (assessment.meta.completedAt || assessment.meta.updatedAt);
 
+    if (!model.evaluation.complete || !profileComplete(assessment.profile)) {
+      renderIncomplete(model);
+      return;
+    }
+
     document.getElementById('report-toolbar').style.display = '';
 
     mount.innerHTML =
       sectionSummary(model) +
+      sectionScope(model) +
       sectionDashboard(model) +
       sectionVerdicts(model) +
       sectionMatrix(model) +
