@@ -94,6 +94,243 @@ ul { margin: 0 0 1rem; padding-left: 1.2rem; }
 .muted { color: var(--text-mut); }
 .center { text-align: center; }
 .hidden { display: none !important; }
+.visually-hidden {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important; overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important;
+}
+
+/* -------------------------- Launch intro screen -------------------------- */
+body.intro-active { overflow: hidden; }
+.app-intro {
+  display: none; position: fixed; inset: 0; z-index: 1000; min-height: 100dvh;
+  overflow: auto; isolation: isolate; color: var(--navy); background:
+    radial-gradient(900px 540px at 86% 12%, rgba(37,99,235,.14), transparent 65%),
+    radial-gradient(760px 500px at -8% 80%, rgba(13,148,136,.08), transparent 62%),
+    var(--surface);
+  --intro-banner-h: 82px; clip-path: inset(0); transition: clip-path .82s cubic-bezier(.4,0,.2,1);
+}
+body.intro-active .app-intro { display: grid; }
+.app-intro::before {
+  content: ''; position: absolute; inset: 0; z-index: -2; opacity: .46;
+  background-image:
+    linear-gradient(var(--blue-100) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blue-100) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.app-intro::after {
+  content: ''; position: absolute; width: 520px; height: 520px; z-index: -1;
+  right: -90px; top: 48%; border-radius: 50%; transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(37,99,235,.1), transparent 68%);
+  border: 1px solid var(--blue-100); box-shadow: 0 0 0 72px rgba(219,234,254,.2);
+}
+.app-intro[data-state="morphing"] {
+  clip-path: inset(var(--header-h) 0 calc(100% - var(--header-h) - var(--intro-banner-h)) 0);
+  pointer-events: none;
+}
+.app-intro[data-state="morphing"] .intro-top,
+.app-intro[data-state="morphing"] .intro-copy,
+.app-intro[data-state="morphing"] .intro-foot { opacity: 0; transform: translateY(-8px); transition: opacity .2s ease, transform .25s ease; }
+.app-intro[data-state="morphing"] .intro-count-card { visibility: hidden; }
+.intro-morph-card {
+  position: fixed !important; z-index: 1100; margin: 0 !important; pointer-events: none;
+  transform-origin: center; will-change: left, top, width, height, border-radius;
+}
+.intro-shell {
+  width: min(1280px, 100%); min-height: 100dvh; margin: 0 auto; padding: 28px 44px 26px;
+  display: grid; grid-template-rows: auto 1fr auto; gap: 24px;
+}
+.intro-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.intro-brand { display: inline-flex; align-items: center; gap: 11px; color: var(--navy); }
+.intro-mark {
+  width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px;
+  background: var(--navy); color: var(--surface); font-size: .79rem; font-weight: 850;
+  letter-spacing: -.03em; box-shadow: var(--shadow);
+}
+.intro-brand b { display: block; font-size: .86rem; line-height: 1.1; }
+.intro-brand small {
+  display: block; margin-top: 3px; color: var(--slate-500); font-size: .59rem;
+  font-weight: 750; line-height: 1; letter-spacing: .1em; text-transform: uppercase;
+}
+.intro-skip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--blue-200);
+  border-radius: 999px; background: rgba(255,255,255,.66); color: var(--blue-700);
+  font: 700 .72rem/1 var(--font); cursor: pointer; transition: background .18s ease, transform .18s ease;
+}
+.intro-skip:hover { background: var(--surface); transform: translateY(-1px); }
+.intro-skip:focus-visible { outline: 3px solid var(--blue-200); outline-offset: 3px; }
+.intro-skip[data-hidden="true"] { display: none; }
+.intro-skip svg { width: 14px; height: 14px; }
+.intro-main { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(420px, .98fr); gap: 58px; align-items: center; }
+.intro-copy { max-width: 650px; }
+.intro-title {
+  max-width: 14ch; margin: 0 0 28px; color: var(--navy); font-size: clamp(3rem, 4.8vw, 4.7rem);
+  line-height: 1.01; font-weight: 780; letter-spacing: -.048em;
+}
+.intro-title span { color: var(--blue-600); }
+.intro-deadline {
+  display: inline-flex; align-items: center; gap: 11px; padding: 9px 14px 9px 10px;
+  border: 1px solid var(--blue-200); border-radius: 11px; background: var(--blue-50);
+}
+.intro-deadline strong {
+  padding: 7px 10px; border-radius: 7px; background: var(--blue-600); color: var(--surface);
+  font-size: 1rem; line-height: 1; letter-spacing: -.02em;
+}
+.intro-deadline span { color: var(--slate-600); font-size: .69rem; line-height: 1.3; font-weight: 650; }
+.intro-path {
+  position: relative; width: min(100%, 520px); margin: 34px 0 0; padding: 0; display: grid;
+  grid-template-columns: repeat(3, 1fr); gap: 14px; list-style: none;
+}
+.intro-path::before {
+  content: ''; position: absolute; top: 15px; left: 16.666%; right: 16.666%; height: 1px;
+  background: linear-gradient(90deg, var(--blue-200), var(--blue-500));
+}
+.intro-path li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.intro-path i {
+  position: relative; z-index: 1; width: 30px; height: 30px; display: grid; place-items: center;
+  border: 4px solid var(--surface); border-radius: 9px; background: var(--blue-600); color: var(--surface);
+  font-size: .57rem; line-height: 1; font-weight: 800; font-style: normal; box-shadow: var(--shadow-sm);
+}
+.intro-path b { color: var(--slate-700); font-size: .75rem; font-weight: 750; }
+.intro-visual { position: relative; min-height: 410px; display: grid; place-items: center; }
+.intro-dial {
+  position: absolute; width: 390px; height: 390px; border-radius: 50%; opacity: .32;
+  background: repeating-conic-gradient(from -90deg, var(--blue-600) 0deg 1.4deg, transparent 1.4deg 18deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 15px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 15px));
+  animation: intro-dial-turn 28s linear infinite;
+}
+.intro-dial::before {
+  content: ''; position: absolute; inset: 48px; border: 1px dashed var(--blue-200); border-radius: 50%;
+}
+.intro-count-card {
+  position: relative; width: min(100%, 470px); padding: 22px 24px 24px; overflow: hidden;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: rgba(255,255,255,.94);
+  box-shadow: var(--shadow-lg); backdrop-filter: blur(14px);
+}
+.intro-count-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue-600), var(--teal-600));
+}
+.intro-count-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.intro-count-icon {
+  width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 9px;
+  background: var(--blue-50); color: var(--blue-600);
+}
+.intro-count-icon svg { width: 18px; height: 18px; }
+.intro-count-heading { min-width: 0; }
+.intro-count-heading b { display: block; color: var(--navy); font-size: .78rem; line-height: 1.2; }
+.intro-count-heading span { display: block; margin-top: 2px; color: var(--slate-500); font-size: .6rem; }
+.intro-live {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 5px; color: var(--blue-700);
+  font-size: .56rem; font-weight: 800; letter-spacing: .08em;
+}
+.intro-live::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue-600);
+  box-shadow: 0 0 0 3px var(--blue-100);
+}
+.intro-countdown {
+  display: grid; grid-template-columns: repeat(3, 1fr); padding: 20px 8px;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--slate-50);
+}
+.intro-unit { min-width: 0; text-align: center; }
+.intro-unit + .intro-unit { border-left: 1px solid var(--slate-200); }
+.intro-unit b {
+  display: block; color: var(--navy); font-size: clamp(2.4rem, 4.2vw, 4.2rem); line-height: .95;
+  font-weight: 760; letter-spacing: -.055em; font-variant-numeric: tabular-nums;
+}
+.intro-unit span { display: block; margin-top: 9px; color: var(--slate-600); font-size: .78rem; font-weight: 650; }
+.intro-count-note { margin: 16px 0 0; color: var(--slate-500); font-size: .67rem; line-height: 1.45; text-align: center; }
+.intro-foot { display: flex; align-items: center; gap: 14px; color: var(--slate-500); font-size: .67rem; font-weight: 650; }
+.intro-progress { height: 2px; flex: 1; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.76); }
+.intro-progress span { display: block; width: 100%; height: 100%; background: var(--blue-600); transform: scaleX(0); transform-origin: left center; }
+.app-intro[data-ready="true"] .intro-progress span { animation: intro-progress var(--intro-duration, 4500ms) linear forwards; }
+.intro-copy, .intro-count-card { opacity: 0; transform: translateY(12px); }
+.app-intro[data-ready="true"] .intro-copy,
+.app-intro[data-ready="true"] .intro-count-card { opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .7s cubic-bezier(.4,0,.2,1); }
+.app-intro[data-ready="true"] .intro-count-card { transition-delay: .12s; }
+@keyframes intro-progress { to { transform: scaleX(1); } }
+@keyframes intro-dial-turn { to { transform: rotate(360deg); } }
+@media (max-width: 900px) {
+  .intro-shell { padding: 24px; }
+  .intro-main { grid-template-columns: 1fr; gap: 20px; padding: 34px 0; }
+  .intro-copy { max-width: 720px; }
+  .intro-title { max-width: 14ch; font-size: clamp(2.8rem, 9vw, 4.4rem); }
+  .intro-visual { min-height: 285px; }
+  .intro-dial { width: 300px; height: 300px; }
+}
+@media (max-width: 520px) {
+  .app-intro { --intro-banner-h: 132px; }
+  .intro-shell { padding: 18px 18px 16px; gap: 14px; }
+  .intro-brand small { display: none; }
+  .intro-main { padding: 14px 0; gap: 18px; }
+  .intro-title { margin-bottom: 14px; font-size: clamp(2.35rem, 12vw, 3.25rem); }
+  .intro-deadline { align-items: stretch; }
+  .intro-deadline strong { display: grid; place-items: center; font-size: .88rem; }
+  .intro-path { margin-top: 20px; gap: 6px; }
+  .intro-path li { gap: 5px; }
+  .intro-path i { width: 26px; height: 26px; border-width: 3px; }
+  .intro-path b { font-size: .65rem; }
+  .intro-path::before { top: 13px; }
+  .intro-visual { min-height: 240px; }
+  .intro-dial { width: 235px; height: 235px; }
+  .intro-count-card { padding: 18px 14px 16px; }
+  .intro-count-head { margin-bottom: 14px; }
+  .intro-unit b { font-size: 2.25rem; }
+  .intro-unit span { font-size: .67rem; }
+  .intro-count-note { margin-top: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-intro, .app-intro *, .app-intro *::before, .app-intro *::after {
+    animation: none !important; transition: none !important;
+  }
+  .app-intro .intro-copy, .app-intro .intro-count-card { opacity: 1; transform: none; }
+  .app-intro .intro-progress span { transform: scaleX(1); }
+}
+
+/* Persistent countdown banner — the intro resolves into this surface. */
+.countdown-banner { background: var(--surface); border-bottom: 1px solid var(--border); }
+.countdown-banner .container { padding-top: 11px; padding-bottom: 11px; }
+.countdown-banner-inner {
+  min-height: 58px; display: grid; grid-template-columns: minmax(230px, 1fr) auto auto auto;
+  align-items: center; gap: 24px; transition: opacity .18s ease, transform .22s ease;
+}
+.countdown-banner[data-arriving="true"] .countdown-banner-inner { opacity: 0; transform: translateY(-3px); }
+.cb-intro { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.cb-icon {
+  width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 9px;
+  background: var(--blue-50); color: var(--blue-600);
+}
+.cb-icon svg { width: 18px; height: 18px; }
+.cb-intro b { display: block; color: var(--navy); font-size: .78rem; line-height: 1.2; }
+.cb-intro span { display: block; margin-top: 2px; color: var(--slate-500); font-size: .6rem; line-height: 1.25; }
+.cb-timer { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; background: var(--slate-50); }
+.cb-unit { min-width: 72px; padding: 7px 10px; text-align: center; }
+.cb-unit + .cb-unit { border-left: 1px solid var(--border); }
+.cb-unit b { display: block; color: var(--navy); font-size: 1.18rem; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cb-unit span { display: block; margin-top: 3px; color: var(--slate-500); font-size: .51rem; line-height: 1; font-weight: 700; text-transform: uppercase; }
+.cb-deadline { padding-left: 22px; border-left: 1px solid var(--border); }
+.cb-deadline span { display: block; color: var(--slate-500); font-size: .55rem; line-height: 1; text-transform: uppercase; letter-spacing: .06em; }
+.cb-deadline b { display: block; margin-top: 5px; color: var(--blue-700); font-size: .76rem; line-height: 1; }
+.cb-action {
+  display: inline-flex; align-items: center; gap: 7px; padding: 9px 13px; border-radius: 9px;
+  background: var(--blue-600); color: var(--surface); font-size: .7rem; font-weight: 750; white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+.cb-action:hover { background: var(--blue-700); color: var(--surface); text-decoration: none; }
+.cb-action svg { width: 13px; height: 13px; }
+@media (max-width: 820px) {
+  .countdown-banner-inner { grid-template-columns: 1fr auto auto; gap: 14px; }
+  .cb-deadline { display: none; }
+}
+@media (max-width: 560px) {
+  .countdown-banner .container { padding-top: 10px; padding-bottom: 10px; }
+  .countdown-banner-inner { grid-template-columns: 1fr auto; gap: 9px 12px; }
+  .cb-intro span { display: none; }
+  .cb-timer { grid-column: 1 / -1; grid-row: 2; width: 100%; }
+  .cb-unit { flex: 1; min-width: 0; padding: 6px; }
+  .cb-action { grid-column: 2; grid-row: 1; }
+}
 
 /* ------------------------------- Header ---------------------------------- */
 .site-header {
@@ -233,7 +470,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
     var(--surface);
   border-bottom: 1px solid var(--border);
 }
-.hero .container { padding-top: 72px; padding-bottom: 72px; }
+.hero .container { padding-top: 12px; padding-bottom: 12px; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
 @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; gap: 36px; } }
 .hero .tag { display:inline-flex; align-items:center; gap:8px; background: var(--blue-50);
@@ -247,18 +484,258 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
 .hero-stats .stat b { display:block; font-size: 1.7rem; color: var(--navy); font-weight: 800; letter-spacing: -.02em; }
 .hero-stats .stat span { font-size: .84rem; color: var(--text-mut); }
 
-/* Hero visual: mini score gauge card */
-.hero-card { background: var(--surface); border:1px solid var(--border); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg); padding: 26px; }
-.hero-card .hc-head { display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; }
-.hero-card .hc-head b { color: var(--navy); }
-.gauge-mini { display:flex; align-items:center; gap: 20px; }
-.gauge-mini .g-score { font-size: 3rem; font-weight: 800; color: var(--blue-600); letter-spacing: -.03em; line-height: 1; }
-.gauge-mini .g-score small { font-size: 1.1rem; color: var(--slate-400); font-weight: 700; }
-.hc-rows { margin-top: 22px; display: grid; gap: 14px; }
-.hc-row { display: grid; grid-template-columns: 118px 1fr auto; gap: 12px; align-items: center; font-size: .85rem; }
-.hc-row span:first-child { color: var(--text-soft); font-weight: 600; }
-.hc-row b { color: var(--navy); font-variant-numeric: tabular-nums; }
+/* Hero visual: story-driven product demo */
+.product-demo {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); overflow: hidden; min-width: 0;
+}
+.demo-head {
+  height: 58px; padding: 0 18px; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border);
+}
+.demo-acts { display: flex; align-items: stretch; align-self: stretch; gap: 2px; }
+.demo-act-btn {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 0 8px;
+  border: 0; background: transparent; color: var(--slate-500); font: 700 .73rem/1 var(--font);
+  cursor: pointer; transition: color .2s ease;
+}
+.demo-act-btn span { color: var(--slate-400); font-size: .61rem; font-variant-numeric: tabular-nums; }
+.demo-act-btn::after {
+  content: ''; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px;
+  border-radius: 2px 2px 0 0; background: var(--blue-600); transform: scaleX(0);
+  transition: transform .25s ease;
+}
+.demo-act-btn[data-current="true"] { color: var(--blue-700); }
+.demo-act-btn[data-current="true"] span { color: var(--blue-500); }
+.demo-act-btn[data-current="true"]::after { transform: scaleX(1); }
+.demo-act-btn:focus-visible { outline: 3px solid var(--blue-200); outline-offset: -3px; border-radius: 6px; }
+.demo-sample {
+  display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 4px 9px;
+  border: 1px solid var(--blue-200); border-radius: 999px; background: var(--blue-50);
+  color: var(--blue-700); font-size: .61rem; line-height: 1; font-weight: 800; letter-spacing: .08em;
+}
+.demo-sample::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue-600); }
+.demo-stage { position: relative; height: 326px; overflow: hidden; background: var(--slate-50); }
+.demo-panel {
+  position: absolute; inset: 0; z-index: 1; padding: 15px 18px; opacity: 0;
+  transform: translateY(7px); pointer-events: none;
+  transition: opacity .32s ease, transform .32s ease;
+}
+.demo-panel[data-active="true"] { z-index: 2; opacity: 1; transform: translateY(0); }
+.demo-caption {
+  height: 50px; margin: 0; padding: 0 20px; display: flex; align-items: center;
+  border-top: 1px solid var(--border); color: var(--slate-700); font-size: .79rem;
+  font-weight: 650; line-height: 1.35;
+}
+.demo-caption::before {
+  content: ''; width: 5px; height: 5px; margin-right: 9px; flex: none;
+  border-radius: 50%; background: var(--blue-500);
+}
+.demo-foot {
+  min-height: 42px; padding: 9px 20px; display: flex; align-items: center; gap: 8px;
+  border-top: 1px solid var(--border); color: var(--slate-500); font-size: .69rem; line-height: 1.3;
+}
+.demo-foot svg { width: 13px; height: 13px; color: var(--blue-600); }
+
+/* Scope act */
+.demo-profile-chips { min-height: 43px; display: flex; align-content: flex-start; flex-wrap: wrap; gap: 5px; }
+.demo-profile-chip {
+  display: inline-flex; align-items: center; gap: 4px; height: 19px; padding: 0 7px;
+  border: 1px solid var(--blue-100); border-radius: 999px; background: var(--blue-50);
+  color: var(--blue-700); font-size: .59rem; line-height: 1; font-weight: 700;
+  opacity: 0; transform: translateY(4px); transition: opacity .2s ease, transform .2s ease;
+}
+.demo-profile-chip[data-visible="true"] { opacity: 1; transform: translateY(0); }
+.demo-profile-chip svg { width: 9px; height: 9px; stroke-width: 3; }
+.demo-scope-counter { height: 35px; display: flex; align-items: baseline; gap: 5px; color: var(--slate-500); }
+.demo-scope-counter b { color: var(--blue-600); font-size: 1.26rem; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+.demo-scope-counter span { font-size: .68rem; font-weight: 650; }
+.demo-scope-counter i { margin: 0 2px; color: var(--slate-300); font-style: normal; }
+.demo-scope-counter .demo-counter-real { display: none; align-items: baseline; gap: 5px; }
+.demo-scope-counter[data-state="ready"] .demo-counter-real { display: flex; }
+.demo-scope-counter[data-state="ready"] .demo-counter-skel { display: none; }
+.demo-counter-skel { position: relative; display: block; width: 148px; height: 14px; overflow: hidden; border-radius: 4px; background: var(--slate-200); }
+.demo-domain-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.demo-domain-tile {
+  min-width: 0; height: 50px; padding: 6px 6px 5px; display: grid;
+  grid-template-columns: 15px minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: 5px;
+  border: 1px solid var(--border); border-radius: 7px; background: var(--surface);
+  transform: scale(1); transition: opacity .22s ease, transform .22s ease,
+    border-color .22s ease, background-color .22s ease, box-shadow .22s ease;
+  transition-delay: calc(var(--tile-i, 0) * 22ms);
+}
+.demo-domain-tile .demo-tile-icon { grid-row: 1 / 3; color: var(--slate-400); padding-top: 1px; }
+.demo-domain-tile svg { width: 14px; height: 14px; }
+.demo-tile-copy { min-width: 0; align-self: center; }
+.demo-tile-name {
+  display: block; overflow: hidden; color: var(--navy); font-size: .58rem; line-height: 1.1;
+  font-weight: 750; text-overflow: ellipsis; white-space: nowrap;
+}
+.demo-tile-ref { display: block; color: var(--blue-700); font-size: .48rem; line-height: 1; font-weight: 700; }
+.demo-domain-tile[data-state="skel"] .demo-tile-copy { display: none; }
+.demo-domain-tile[data-state="skel"]::before,
+.demo-domain-tile[data-state="skel"]::after {
+  content: ''; grid-column: 2; height: 5px; align-self: center; border-radius: 3px;
+  background: var(--slate-200); overflow: hidden;
+  background-image: linear-gradient(90deg, transparent, var(--surface), transparent);
+  background-repeat: no-repeat; animation: demo-shimmer 1.4s ease-in-out infinite;
+}
+.demo-domain-tile[data-state="skel"]::before { width: 78%; }
+.demo-domain-tile[data-state="skel"]::after { width: 44%; }
+.demo-domain-tile[data-state="on"] { border-color: var(--blue-200); background: var(--blue-50); }
+.demo-domain-tile[data-state="on"] .demo-tile-icon { color: var(--blue-600); }
+.demo-domain-tile[data-state="off"] {
+  opacity: .3; transform: scale(.955); border-style: dashed; border-color: var(--slate-200); background: var(--surface);
+}
+.demo-domain-tile[data-state="off"] .demo-tile-icon,
+.demo-domain-tile[data-state="off"] .demo-tile-name { color: var(--slate-400); }
+.demo-domain-tile[data-state="off"] .demo-tile-ref { visibility: hidden; }
+.demo-domain-tile.is-pulsing { box-shadow: var(--ring); transition-delay: 0ms; }
+@keyframes demo-shimmer { from { background-position: -140px 0; } to { background-position: 140px 0; } }
+
+/* Assess act */
+.demo-assess-head { height: 51px; display: flex; align-items: center; justify-content: space-between; }
+.demo-assess-head span { color: var(--slate-500); font-size: .68rem; font-weight: 650; }
+.demo-assess-count { color: var(--blue-600); font-size: 1.42rem; line-height: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+.demo-assess-count small { color: var(--slate-400); font-size: .72rem; }
+.demo-domain-rows { display: grid; gap: 13px; padding-top: 7px; }
+.demo-domain-row { display: grid; grid-template-columns: minmax(0, 1fr) 96px 34px; gap: 9px; align-items: center; }
+.demo-domain-row > span { overflow: hidden; color: var(--slate-700); font-size: .68rem; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.demo-score-track { position: relative; height: 7px; overflow: hidden; border-radius: 999px; background: var(--slate-200); }
+.demo-score-fill { height: 100%; width: 0; border-radius: inherit; transition: width .75s cubic-bezier(.4,0,.2,1); }
+.demo-domain-row[data-band="amber"] .demo-score-fill { background: var(--amber-500); }
+.demo-domain-row[data-band="orange"] .demo-score-fill { background: var(--orange-500); }
+.demo-domain-row b { color: var(--slate-400); font-size: .68rem; text-align: right; font-variant-numeric: tabular-nums; }
+.demo-domain-row[data-state="skel"] .demo-score-track::after,
+.demo-counter-skel::after,
+.demo-roadmap[data-state="skel"] .demo-roadmap-skeleton span::after {
+  content: ''; position: absolute; inset: 0; background-image: linear-gradient(90deg, transparent, var(--surface), transparent);
+  transform: translateX(-100%); animation: demo-sweep 1.4s ease-in-out infinite;
+}
+.demo-domain-row[data-state="skel"] .demo-score-track { border-radius: 3px; }
+.demo-domain-row[data-state="skel"] b { visibility: hidden; }
+.demo-domain-row[data-state="ready"] .demo-score-fill { width: var(--score); }
+.demo-domain-row[data-state="ready"] b { color: var(--navy); }
+@keyframes demo-sweep { to { transform: translateX(100%); } }
+
+/* Report act */
+.demo-report { padding-top: 12px; padding-bottom: 12px; }
+.demo-report-summary { height: 108px; display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 15px; align-items: center; }
+.demo-gauge { position: relative; width: 92px; height: 92px; display: grid; place-items: center; }
+.demo-gauge svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.demo-gauge-track { fill: none; stroke: var(--slate-200); stroke-width: 9; }
+.demo-gauge-fill {
+  fill: none; stroke: var(--orange-500); stroke-width: 9; stroke-linecap: round;
+  stroke-dasharray: 326.73; stroke-dashoffset: 326.73;
+}
+.demo-gauge-number { color: var(--navy); font-size: 1.65rem; line-height: 1; font-weight: 850; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.demo-gauge-number small { color: var(--slate-400); font-size: .72rem; letter-spacing: 0; }
+.demo-report-copy { min-width: 0; }
+.demo-report-kicker { margin-bottom: 6px; color: var(--slate-500); font-size: .62rem; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; }
+.demo-band {
+  display: inline-flex; max-width: 100%; padding: 5px 8px; border: 1px solid var(--slate-200);
+  border-radius: 7px; background: var(--slate-100); color: var(--slate-500);
+  font-size: .62rem; line-height: 1.15; font-weight: 750; opacity: 0; transform: translateY(3px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.demo-band[data-visible="true"] { border-color: var(--orange-500); background: var(--orange-50); color: var(--orange-600); opacity: 1; transform: translateY(0); }
+.demo-report-stats { min-height: 27px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.demo-report-stat {
+  padding: 3px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+  color: var(--slate-600); font-size: .55rem; line-height: 1; font-weight: 750;
+  opacity: 0; transform: translateY(3px); transition: opacity .18s ease, transform .18s ease;
+}
+.demo-report-stat[data-visible="true"] { opacity: 1; transform: translateY(0); margin-top:10px; }
+.demo-roadmaps { display: grid; gap: 7px; }
+.demo-roadmap {
+  position: relative; min-height: 86px; padding: 9px 10px 8px 12px; overflow: hidden;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--surface);
+  opacity: 0; transform: translateY(5px); transition: opacity .22s ease, transform .22s ease, border-color .22s ease;
+}
+.demo-roadmap[data-state="skel"], .demo-roadmap[data-state="ready"] { opacity: 1; transform: translateY(0); }
+.demo-roadmap[data-state="ready"] { border-left: 3px solid var(--orange-500); padding-left: 10px; }
+.demo-roadmap-content { display: none; }
+.demo-roadmap[data-state="ready"] .demo-roadmap-content { display: block; }
+.demo-roadmap-skeleton { display: none; gap: 8px; }
+.demo-roadmap[data-state="skel"] .demo-roadmap-skeleton { display: grid; }
+.demo-roadmap-skeleton span { position: relative; display: block; width: 100%; height: 7px; overflow: hidden; border-radius: 4px; background: var(--slate-200); }
+.demo-roadmap-skeleton span:nth-child(1) { width: 34%; }
+.demo-roadmap-skeleton span:nth-child(2) { width: 88%; }
+.demo-roadmap-skeleton span:nth-child(3) { width: 62%; }
+.demo-roadmap-top { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+.demo-roadmap-tag { padding: 2px 5px; border-radius: 4px; background: var(--orange-50); color: var(--orange-600); font-size: .5rem; line-height: 1.1; font-weight: 800; }
+.demo-roadmap-tag.quick { display: inline-flex; align-items: center; gap: 2px; background: var(--green-50); color: var(--green-600); }
+.demo-roadmap-tag.quick svg { width: 8px; height: 8px; }
+.demo-roadmap-task {
+  margin: 0 0 5px; overflow: hidden; color: var(--navy); font-size: .61rem; line-height: 1.25;
+  font-weight: 700; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+}
+.demo-roadmap-meta { display: flex; flex-wrap: wrap; gap: 3px 10px; color: var(--slate-500); font-size: .51rem; line-height: 1.1; font-weight: 650; }
+.demo-roadmap-meta span { display: inline-flex; align-items: center; gap: 3px; }
+.demo-roadmap-meta svg { width: 8px; height: 8px; }
+
+.product-demo.is-paused .demo-domain-tile::before,
+.product-demo.is-paused .demo-domain-tile::after,
+.product-demo.is-paused .demo-score-track::after,
+.product-demo.is-paused .demo-counter-skel::after,
+.product-demo.is-paused .demo-roadmap-skeleton span::after { animation-play-state: paused; }
+
+@media (max-width: 940px) {
+  .product-demo { max-width: 600px; width: 100%; justify-self: center; }
+  .demo-tile-ref { display: none; }
+  .demo-domain-tile { grid-template-rows: 1fr; }
+  .demo-domain-tile .demo-tile-icon { grid-row: 1; }
+}
+@media (max-width: 620px) {
+  .hero .container { padding-top: 54px; padding-bottom: 54px; }
+  .demo-head { padding: 0 12px; }
+  .demo-act-btn { padding: 0 5px; font-size: .67rem; }
+  .demo-act-btn::after { left: 5px; right: 5px; }
+  .demo-stage { height: 352px; }
+  .demo-panel { padding-left: 12px; padding-right: 12px; }
+  .demo-domain-grid { gap: 5px; }
+  .demo-domain-tile { height: 56px; padding: 6px 4px; grid-template-columns: 1fr; place-items: center; }
+  .demo-domain-tile .demo-tile-icon { padding: 0; }
+  .demo-domain-tile svg { width: 18px; height: 18px; }
+  .demo-tile-copy { display: none; }
+  .demo-domain-row { grid-template-columns: minmax(0, 1fr) 62px 30px; gap: 7px; }
+  .demo-domain-rows { gap: 16px; }
+  .demo-report-summary { grid-template-columns: 86px minmax(0, 1fr); }
+  .demo-gauge { width: 86px; height: 86px; }
+  .demo-caption { height: 56px; font-size: .74rem; }
+  .demo-foot { min-height: 46px; }
+}
+@media (max-width: 390px) {
+  .demo-act-btn span { display: none; }
+  .demo-sample { padding: 4px 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-demo *, .product-demo *::before, .product-demo *::after {
+    animation: none !important; transition: none !important; scroll-behavior: auto !important;
+  }
+}
+
+/* Assurance strip — privacy and effort facts directly beneath the hero */
+.assure-band { background: var(--surface); border-bottom: 1px solid var(--border); }
+.assure {
+  list-style: none; margin: 0; padding: 20px 0; display: grid;
+  grid-template-columns: repeat(4, 1fr); gap: 14px 28px;
+}
+.assure li { display: flex; align-items: flex-start; gap: 11px; }
+.assure .ab-ic {
+  width: 32px; height: 32px; border-radius: 9px; background: var(--blue-50); color: var(--blue-600);
+  display: grid; place-items: center; flex: none;
+}
+.assure .ab-ic svg { width: 16px; height: 16px; }
+.assure b { display: block; color: var(--navy); font-size: .88rem; line-height: 1.3; font-weight: 700; }
+.assure span:not(.ab-ic) {
+  display: block; margin-top: 1px; color: var(--text-mut); font-size: .78rem; line-height: 1.4;
+}
+@media (max-width: 940px) { .assure { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) {
+  .assure { grid-template-columns: 1fr; gap: 12px; padding: 16px 0; }
+  .assure span:not(.ab-ic) { font-size: .75rem; }
+}
 
 /* Feature cards */
 .feature { padding: 24px; }
@@ -269,15 +746,35 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
 .feature p { margin: 0; font-size: .92rem; }
 
 /* Steps / flow */
-.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
-@media (max-width: 900px) { .flow { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .flow { grid-template-columns: 1fr; } }
+.flow { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
+.flow::before {
+  content: ''; position: absolute; top: 35px; left: 33px; right: 33px; height: 2px;
+  border-radius: 2px; z-index: 0; background: linear-gradient(90deg, var(--blue-200), var(--blue-500));
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform .9s cubic-bezier(.4,0,.2,1);
+}
+.flow[data-drawn="1"]::before { transform: scaleX(1); }
 .flow .step { position: relative; padding: 20px 18px; background: var(--surface); border:1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  border-radius: var(--radius); box-shadow: var(--shadow-sm); z-index: 1; }
 .flow .step .n { width: 30px; height: 30px; border-radius: 8px; background: var(--navy); color:#fff;
-  display:grid; place-items:center; font-weight:700; font-size:.9rem; margin-bottom: 12px; }
+  display:grid; place-items:center; font-weight:700; font-size:.9rem; margin-bottom: 12px;
+  position: relative; z-index: 2; box-shadow: 0 0 0 5px var(--surface); }
 .flow .step h4 { margin: 0 0 4px; font-size: .98rem; }
 .flow .step p { margin: 0; font-size: .84rem; }
+@media (max-width: 900px) {
+  .flow { grid-template-columns: repeat(2, 1fr); }
+  .flow::before { display: none; }
+}
+@media (max-width: 480px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow::before {
+    display: block; top: 35px; bottom: 35px; left: 33px; right: auto; width: 2px; height: auto;
+    background: linear-gradient(180deg, var(--blue-200), var(--blue-500));
+    transform: scaleY(0); transform-origin: top center;
+  }
+  .flow[data-drawn="1"]::before { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) { .flow::before { transition: none; } }
 
 /* Domains preview grid */
 .dom-chip { display:flex; align-items:center; gap: 12px; padding: 14px 16px; background: var(--surface);
@@ -615,7 +1112,7 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
  * PRINT (Save as PDF)
  * ========================================================================== */
 @media print {
-  .site-header, .report-toolbar, .no-print, .site-footer, .btn { display: none !important; }
+  .app-intro, .countdown-banner, .site-header, .report-toolbar, .no-print, .site-footer, .btn { display: none !important; }
   body { background: #fff; font-size: 11pt; }
   .container { max-width: 100%; padding: 0; }
   .report-hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -634,6 +1131,68 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   </style>
 </head>
 <body>
+  <script>
+    /* Intro configuration — change these values without touching the animation code. */
+    window.DPDPA_INTRO_CONFIG = Object.assign({
+      enabled: true,
+      durationMs: 7200,
+      deadline: '2027-05-13T23:59:59+05:30',
+      deadlineLabel: '13 May 2027',
+      allowSkip: true
+    }, window.DPDPA_INTRO_CONFIG || {});
+    if (window.DPDPA_INTRO_CONFIG.enabled) document.body.classList.add('intro-active');
+  </script>
+
+  <section class="app-intro" id="app-intro" role="dialog" aria-modal="true" aria-label="DPDPA compliance countdown" data-state="visible">
+    <div class="intro-shell">
+      <div class="intro-top">
+        <div class="intro-brand" aria-label="Connectivity Solutions DPDPA Compliance">
+          <span class="intro-mark">CS</span>
+          <span><b>DPDPA Compliance</b><small>Connectivity Solutions</small></span>
+        </div>
+        <button class="intro-skip" type="button" data-intro-skip>Skip intro <span data-icon="arrowRight"></span></button>
+      </div>
+
+      <div class="intro-main">
+        <div class="intro-copy">
+          <h1 class="intro-title">Know your <span>DPDPA readiness</span> before the deadline.</h1>
+          <div class="intro-deadline">
+            <strong data-intro-deadline>13 May 2027</strong>
+            <span>Readiness target<br>Substantive obligations commence the next day</span>
+          </div>
+          <ol class="intro-path" aria-label="Assessment journey">
+            <li><i>01</i><b>Scope</b></li>
+            <li><i>02</i><b>Assess</b></li>
+            <li><i>03</i><b>Report</b></li>
+          </ol>
+        </div>
+
+        <div class="intro-visual" aria-hidden="true">
+          <div class="intro-dial"></div>
+          <div class="intro-count-card">
+            <div class="intro-count-head">
+              <span class="intro-count-icon" data-icon="shield"></span>
+              <span class="intro-count-heading"><b>Readiness countdown</b><span>DPDPA compliance workspace</span></span>
+              <span class="intro-live">LIVE</span>
+            </div>
+            <div class="intro-countdown">
+              <div class="intro-unit"><b data-intro-weeks>—</b><span>Weeks</span></div>
+              <div class="intro-unit"><b data-intro-days>—</b><span>Days</span></div>
+              <div class="intro-unit"><b data-intro-hours>—</b><span>Hours</span></div>
+            </div>
+            <p class="intro-count-note">Time remaining until the configured readiness target</p>
+          </div>
+        </div>
+        <p class="visually-hidden" data-intro-summary>Countdown to the DPDPA readiness target.</p>
+      </div>
+
+      <div class="intro-foot" aria-hidden="true">
+        <span>Preparing your readiness workspace</span>
+        <div class="intro-progress"><span></span></div>
+      </div>
+    </div>
+  </section>
+
   <header class="site-header">
     <div class="container">
       <a class="brand" data-view="landing" href="#">
@@ -650,6 +1209,25 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
       </nav>
     </div>
   </header>
+
+  <section class="countdown-banner" id="countdown-banner" aria-label="DPDPA readiness countdown" aria-hidden="true" hidden>
+    <div class="container">
+      <div class="countdown-banner-inner">
+        <div class="cb-intro">
+          <span class="cb-icon" data-icon="shield"></span>
+          <div><b>DPDPA readiness countdown</b><span>Your assessment workspace is ready</span></div>
+        </div>
+        <div class="cb-timer" aria-hidden="true">
+          <div class="cb-unit"><b data-banner-weeks>—</b><span>Weeks</span></div>
+          <div class="cb-unit"><b data-banner-days>—</b><span>Days</span></div>
+          <div class="cb-unit"><b data-banner-hours>—</b><span>Hours</span></div>
+        </div>
+        <div class="cb-deadline"><span>Readiness target</span><b data-banner-deadline>13 May 2027</b></div>
+        <p class="visually-hidden" data-banner-summary>Countdown to the DPDPA readiness target.</p>
+      </div>
+    </div>
+  </section>
+
   <div id="view-landing" class="view">
 
 
@@ -675,37 +1253,123 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
             <a href="#flow" class="btn btn-secondary btn-lg">See how it works</a>
           </div>
           <div class="hero-stats">
-            <div class="stat"><b id="stat-questions">—</b><span>Control questions</span></div>
-            <div class="stat"><b id="stat-domains">—</b><span>Compliance domains</span></div>
+            <div class="stat"><b>50+</b><span>Control questions</span></div>
+            <div class="stat"><b>15+</b><span>Compliance domains</span></div>
             <div class="stat"><b>16+</b><span>DPDPA sections mapped</span></div>
           </div>
         </div>
 
-        <!-- Illustrative report preview card -->
-        <div class="hero-card">
-          <div class="hc-head">
-            <b>Readiness Snapshot</b>
-            <span class="badge badge-moderate"><span class="dot"></span>Sample</span>
-          </div>
-          <div class="gauge-mini">
-            <div class="g-score">72<small>%</small></div>
-            <div>
-              <div class="badge badge-moderate" style="margin-bottom:8px">Needs Improvement</div>
-              <div class="muted" style="font-size:.84rem">Overall readiness across applicable domains</div>
+        <!-- Animated product story: Scope -> Assess -> Report -->
+        <div class="product-demo" id="demo" aria-label="Illustrative DPDPA assessment product walkthrough">
+          <div class="demo-head">
+            <div class="demo-acts" aria-label="Product walkthrough chapters">
+              <button class="demo-act-btn" type="button" data-demo-act="scope" data-current="true" aria-pressed="true"><span>01</span>Scope</button>
+              <button class="demo-act-btn" type="button" data-demo-act="assess" data-current="false" aria-pressed="false"><span>02</span>Assess</button>
+              <button class="demo-act-btn" type="button" data-demo-act="report" data-current="false" aria-pressed="false"><span>03</span>Report</button>
             </div>
+            <span class="demo-sample">SAMPLE</span>
           </div>
-          <div class="hc-rows">
-            <div class="hc-row"><span>Notice &amp; Consent</span>
-              <div class="progress sm bar-moderate"><span style="width:68%"></span></div><b>68%</b></div>
-            <div class="hc-row"><span>Data Security</span>
-              <div class="progress sm bar-good"><span style="width:84%"></span></div><b>84%</b></div>
-            <div class="hc-row"><span>Breach Mgmt</span>
-              <div class="progress sm bar-high"><span style="width:45%"></span></div><b>45%</b></div>
-            <div class="hc-row"><span>Data Principal Rights</span>
-              <div class="progress sm bar-moderate"><span style="width:61%"></span></div><b>61%</b></div>
+
+          <div class="demo-stage" aria-hidden="true">
+            <section class="demo-panel demo-scope" data-demo-panel="scope" data-active="true">
+              <div class="demo-profile-chips">
+                <span class="demo-profile-chip" data-demo-chip="fiduciary"><span data-icon="check"></span>Data Fiduciary</span>
+                <span class="demo-profile-chip" data-demo-chip="state"><span data-icon="check"></span>Not a State body</span>
+                <span class="demo-profile-chip" data-demo-chip="exemptions"><span data-icon="check"></span>No exemptions claimed</span>
+                <span class="demo-profile-chip" data-demo-chip="children"><span data-icon="check"></span>Children's data</span>
+                <span class="demo-profile-chip" data-demo-chip="crossborder"><span data-icon="check"></span>Data leaves India</span>
+                <span class="demo-profile-chip" data-demo-chip="sdf"><span data-icon="check"></span>Likely an SDF</span>
+              </div>
+              <div class="demo-scope-counter" data-state="skel">
+                <span class="demo-counter-skel"></span>
+                <span class="demo-counter-real"><b data-demo-domains>16</b><span>domains</span><i>·</i><b data-demo-controls>79</b><span>controls</span></span>
+              </div>
+              <div class="demo-domain-grid" data-demo-domain-grid></div>
+            </section>
+
+            <section class="demo-panel demo-assess" data-demo-panel="assess" data-active="false">
+              <div class="demo-assess-head">
+                <span>5 of 13 applicable domains</span>
+                <div class="demo-assess-count"><b data-demo-assess-count>0</b><small> / <span data-demo-assess-total>66</span></small></div>
+              </div>
+              <div class="demo-domain-rows">
+                <div class="demo-domain-row" data-state="skel" data-score="73" data-band="amber" style="--score:73%"><span>Data Security Safeguards</span><div class="demo-score-track"><div class="demo-score-fill"></div></div><b>73%</b></div>
+                <div class="demo-domain-row" data-state="skel" data-score="61" data-band="amber" style="--score:61%"><span>Consent Management</span><div class="demo-score-track"><div class="demo-score-fill"></div></div><b>61%</b></div>
+                <div class="demo-domain-row" data-state="skel" data-score="59" data-band="orange" style="--score:59%"><span>Cross-Border Data Transfer</span><div class="demo-score-track"><div class="demo-score-fill"></div></div><b>59%</b></div>
+                <div class="demo-domain-row" data-state="skel" data-score="57" data-band="orange" style="--score:57%"><span>Significant Data Fiduciary</span><div class="demo-score-track"><div class="demo-score-fill"></div></div><b>57%</b></div>
+                <div class="demo-domain-row" data-state="skel" data-score="47" data-band="orange" style="--score:47%"><span>Records, Training &amp; Audit</span><div class="demo-score-track"><div class="demo-score-fill"></div></div><b>47%</b></div>
+              </div>
+            </section>
+
+            <section class="demo-panel demo-report" data-demo-panel="report" data-active="false">
+              <div class="demo-report-summary">
+                <div class="demo-gauge">
+                  <svg viewBox="0 0 120 120" focusable="false">
+                    <circle class="demo-gauge-track" cx="60" cy="60" r="52"></circle>
+                    <circle class="demo-gauge-fill" data-demo-gauge cx="60" cy="60" r="52"></circle>
+                  </svg>
+                  <span class="demo-gauge-number"><b data-demo-score>0</b><small>%</small></span>
+                </div>
+                <div class="demo-report-copy">
+                  <div class="demo-report-kicker">Control maturity</div>
+                  <span class="demo-band" data-demo-band>High Risk — Critical Statutory Gap</span>
+                  <div class="demo-report-stats">
+                    <span class="demo-report-stat" data-demo-stat="0">11 immediate</span>
+                    <span class="demo-report-stat" data-demo-stat="1">41 actions</span>
+                    <span class="demo-report-stat" data-demo-stat="2">13 domains</span>
+                  </div>
+                </div>
+              </div>
+              <div class="demo-roadmaps">
+                <article class="demo-roadmap" data-demo-roadmap="0" data-state="hidden">
+                  <div class="demo-roadmap-skeleton"><span></span><span></span><span></span></div>
+                  <div class="demo-roadmap-content">
+                    <div class="demo-roadmap-top"><span class="demo-roadmap-tag quick"><span data-icon="zap"></span>Quick win</span><span class="demo-roadmap-tag">Immediate</span></div>
+                    <p class="demo-roadmap-task">Appoint a responsible contact and publish it prominently on the website and app</p>
+                    <div class="demo-roadmap-meta"><span><span data-icon="clock"></span>0–2 weeks</span><span>DPO / Privacy Office</span><span>S.8(9), Rule 9</span></div>
+                  </div>
+                </article>
+                <article class="demo-roadmap" data-demo-roadmap="1" data-state="hidden">
+                  <div class="demo-roadmap-skeleton"><span></span><span></span><span></span></div>
+                  <div class="demo-roadmap-content">
+                    <div class="demo-roadmap-top"><span class="demo-roadmap-tag">Immediate</span></div>
+                    <p class="demo-roadmap-task">Implement a consent ledger capturing purpose, timestamp, method and notice version</p>
+                    <div class="demo-roadmap-meta"><span><span data-icon="clock"></span>0–2 weeks</span><span>Product / Engineering</span><span>S.6</span></div>
+                  </div>
+                </article>
+              </div>
+            </section>
           </div>
+
+          <p class="demo-caption" data-demo-caption>Tell us who you are. The assessment works out what applies.</p>
+          <div class="demo-foot"><span data-icon="lock"></span><span>Illustrative demo. Your answers stay in your browser.</span></div>
+          <p class="visually-hidden">The assessment adapts sixteen DPDPA domains to your organisation, applies weighted scoring to applicable controls, and produces a prioritised remediation roadmap with an owner and deadline for every action.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ======================= PRIVACY & EFFORT ====================== -->
+  <section class="assure-band">
+    <div class="container">
+      <ul class="assure">
+        <li>
+          <span class="ab-ic" data-icon="lock"></span>
+          <div><b>Runs in your browser</b><span>Nothing is uploaded. No server sees your answers.</span></div>
+        </li>
+        <li>
+          <span class="ab-ic" data-icon="clock"></span>
+          <div><b>15–20 minutes</b><span>Most teams finish in one sitting.</span></div>
+        </li>
+        <li>
+          <span class="ab-ic" data-icon="rights"></span>
+          <div><b>No sign-up required</b><span>No email, no account, no sales call.</span></div>
+        </li>
+        <li>
+          <span class="ab-ic" data-icon="check"></span>
+          <div><b>Pause and resume</b><span>Progress saves on this device as you go.</span></div>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -776,8 +1440,8 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   <section class="section container">
     <div class="cta-band">
       <h2>Ready to measure your DPDPA readiness?</h2>
-      <p>The assessment takes about 15–20 minutes. Your answers stay in your browser — nothing is
-        uploaded. You can pause and resume at any time.</p>
+      <p>Answer the control questions that apply to your organization and get a scored readiness
+        report with a prioritised remediation roadmap.</p>
       <a href="#" data-view="assessment" class="btn btn-primary btn-lg" style="background:#fff;color:var(--blue-700)">
         Start your assessment <span data-icon="arrowRight"></span></a>
     </div>
@@ -3510,15 +4174,499 @@ table.grc td strong { color: var(--navy); font-weight: 600; }
   });
   // Landing init: icons + live stats + domain grid
   DPDPA.hydrateIcons();
-  var sq = document.getElementById('stat-questions'); if (sq) sq.textContent = DPDPA.questions.length;
-  var sd = document.getElementById('stat-domains'); if (sd) sd.textContent = DPDPA.domains.length;
   var grid = document.getElementById('domain-grid');
   if (grid) grid.innerHTML = DPDPA.domains.map(function (d) {
     var count = DPDPA.getQuestionsByDomain(d.id).length;
     return '<div class="dom-chip card-hover"><div class="di">' + DPDPA.icon(d.icon) + '</div>' +
       '<div><b>' + d.name + '</b><span>' + d.sections + ' \u00b7 ' + count + ' controls</span></div></div>';
   }).join('');
+
+  /* Draw the five-step connector once the process is meaningfully in view. */
+  var flow = document.querySelector('.flow');
+  if (flow) {
+    var reduceFlowMotion = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceFlowMotion || !root.IntersectionObserver) {
+      flow.setAttribute('data-drawn', '1');
+    } else {
+      var flowObserver = new root.IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (!entries[i].isIntersecting) continue;
+          flow.setAttribute('data-drawn', '1');
+          flowObserver.disconnect();
+          break;
+        }
+      }, { threshold: .35 });
+      flowObserver.observe(flow);
+    }
+  }
   showView('landing');
+})(window);
+
+  </script>
+  <script>
+/* =============================================================================
+ * hero-demo.js
+ * A dependency-free, 19.5-second product story: Scope -> Assess -> Report.
+ * Figures are tied to the declared demo persona in hero-section-demo.md.
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var DPDPA = root.DPDPA;
+  var demo = document.getElementById('demo');
+  if (!demo || !DPDPA || !DPDPA.domains || !DPDPA.questions) return;
+
+  var DURATION = 19500;
+  var CIRCUMFERENCE = 326.73;
+  var ACT_STARTS = { scope: 0, assess: 6500, report: 12000 };
+  var reducedQuery = root.matchMedia ? root.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var reducedMotion = !!(reducedQuery && reducedQuery.matches);
+
+  var panels = demo.querySelectorAll('[data-demo-panel]');
+  var actButtons = demo.querySelectorAll('[data-demo-act]');
+  var chips = demo.querySelectorAll('[data-demo-chip]');
+  var grid = demo.querySelector('[data-demo-domain-grid]');
+  var scopeCounter = demo.querySelector('.demo-scope-counter');
+  var domainCount = demo.querySelector('[data-demo-domains]');
+  var controlCount = demo.querySelector('[data-demo-controls]');
+  var assessCount = demo.querySelector('[data-demo-assess-count]');
+  var assessTotal = demo.querySelector('[data-demo-assess-total]');
+  var assessRows = demo.querySelectorAll('.demo-domain-row');
+  var gauge = demo.querySelector('[data-demo-gauge]');
+  var score = demo.querySelector('[data-demo-score]');
+  var band = demo.querySelector('[data-demo-band]');
+  var reportStats = demo.querySelectorAll('[data-demo-stat]');
+  var roadmaps = demo.querySelectorAll('[data-demo-roadmap]');
+  var caption = demo.querySelector('[data-demo-caption]');
+  var tiles;
+
+  var shortNames = {
+    governance: 'Governance', notice: 'Notice', consent: 'Consent', processing: 'Processing',
+    rights: 'Rights', children: "Children's", security: 'Security', breach: 'Breach',
+    vendors: 'Vendors', processor: 'Processor', retention: 'Retention', crossborder: 'Cross-Border',
+    sdf: 'SDF', state: 'State', exemptions: 'Exemptions', records: 'Records'
+  };
+  var shortRefs = {
+    governance: 'S.8', notice: 'S.5', consent: 'S.6', processing: 'S.4, S.7',
+    rights: 'S.11–14', children: 'S.9', security: 'S.8(5)', breach: 'S.8(6)',
+    vendors: 'S.8(1)', processor: 'R.6–8', retention: 'S.8(7)', crossborder: 'S.16',
+    sdf: 'S.10', state: 'S.7(b)', exemptions: 'S.3, S.17', records: 'S.8'
+  };
+
+  grid.innerHTML = DPDPA.domains.map(function (domain, index) {
+    return '<div class="demo-domain-tile" data-demo-domain="' + domain.id + '" data-state="skel" style="--tile-i:' + index + '">' +
+      '<span class="demo-tile-icon">' + DPDPA.icon(domain.icon) + '</span>' +
+      '<span class="demo-tile-copy"><span class="demo-tile-name">' + (shortNames[domain.id] || domain.name) + '</span>' +
+      '<span class="demo-tile-ref">' + (shortRefs[domain.id] || domain.sections) + '</span></span></div>';
+  }).join('');
+  tiles = demo.querySelectorAll('[data-demo-domain]');
+
+  var personaExcluded = ['processor', 'state', 'exemptions'];
+  var applicableControls = DPDPA.questions.filter(function (question) {
+    return personaExcluded.indexOf(question.domain) === -1;
+  }).length;
+  assessTotal.textContent = applicableControls;
+
+  function each(nodes, fn) {
+    for (var i = 0; i < nodes.length; i++) fn(nodes[i], i);
+  }
+
+  function setAct(name) {
+    each(panels, function (panel) {
+      panel.setAttribute('data-active', panel.getAttribute('data-demo-panel') === name ? 'true' : 'false');
+    });
+    each(actButtons, function (button) {
+      var current = button.getAttribute('data-demo-act') === name;
+      button.setAttribute('data-current', current ? 'true' : 'false');
+      button.setAttribute('aria-pressed', current ? 'true' : 'false');
+    });
+  }
+
+  function setChip(name, visible) {
+    var chip = demo.querySelector('[data-demo-chip="' + name + '"]');
+    if (chip) chip.setAttribute('data-visible', visible ? 'true' : 'false');
+  }
+
+  function setTile(id, state) {
+    var tile = demo.querySelector('[data-demo-domain="' + id + '"]');
+    if (tile) tile.setAttribute('data-state', state);
+  }
+
+  function pulseTile(id, on) {
+    var tile = demo.querySelector('[data-demo-domain="' + id + '"]');
+    if (tile) tile.classList.toggle('is-pulsing', !!on);
+  }
+
+  function updateScope(excluded) {
+    var excludedIds = excluded || [];
+    var controls = DPDPA.questions.filter(function (question) {
+      return excludedIds.indexOf(question.domain) === -1;
+    }).length;
+    domainCount.textContent = DPDPA.domains.length - excludedIds.length;
+    controlCount.textContent = controls;
+    scopeCounter.setAttribute('data-state', 'ready');
+  }
+
+  function resetVisuals() {
+    setAct('scope');
+    each(chips, function (chip) { chip.setAttribute('data-visible', 'false'); });
+    each(tiles, function (tile) {
+      tile.setAttribute('data-state', 'skel');
+      tile.classList.remove('is-pulsing');
+    });
+    scopeCounter.setAttribute('data-state', 'skel');
+    domainCount.textContent = DPDPA.domains.length;
+    controlCount.textContent = DPDPA.questions.length;
+    assessCount.textContent = '0';
+    each(assessRows, function (row) { row.setAttribute('data-state', 'skel'); });
+    gauge.style.strokeDashoffset = CIRCUMFERENCE;
+    score.textContent = '0';
+    band.setAttribute('data-visible', 'false');
+    each(reportStats, function (stat) { stat.setAttribute('data-visible', 'false'); });
+    each(roadmaps, function (roadmap) { roadmap.setAttribute('data-state', 'hidden'); });
+    caption.textContent = 'Tell us who you are. The assessment works out what applies.';
+  }
+
+  function easeOutCubic(value) {
+    var inverse = 1 - value;
+    return 1 - inverse * inverse * inverse;
+  }
+
+  function clamp(value) { return Math.max(0, Math.min(1, value)); }
+
+  function updateContinuous(time) {
+    if (time >= 6500 && time < 12000) {
+      var assessProgress = clamp((time - 6850) / 1700);
+      assessCount.textContent = Math.round(applicableControls * easeOutCubic(assessProgress));
+    }
+    if (time >= 12000) {
+      var gaugeProgress = clamp((time - 12250) / 1300);
+      var result = Math.round(63 * easeOutCubic(gaugeProgress));
+      score.textContent = result;
+      gauge.style.strokeDashoffset = CIRCUMFERENCE * (1 - (.63 * easeOutCubic(gaugeProgress)));
+    }
+  }
+
+  var cues = [
+    [0, function () { resetVisuals(); }],
+    [700, function () { updateScope([]); }],
+    [750, function () {
+      setChip('fiduciary', true);
+      each(tiles, function (tile) {
+        if (tile.getAttribute('data-demo-domain') !== 'processor') tile.setAttribute('data-state', 'on');
+      });
+    }],
+    [1350, function () { setTile('processor', 'off'); updateScope(['processor']); }],
+    [1500, function () { setChip('state', true); }],
+    [1900, function () { setTile('state', 'off'); updateScope(['processor', 'state']); }],
+    [2050, function () { setChip('exemptions', true); }],
+    [2450, function () { setTile('exemptions', 'off'); updateScope(personaExcluded); }],
+    [2750, function () { setChip('children', true); pulseTile('children', true); }],
+    [3170, function () { pulseTile('children', false); }],
+    [3250, function () { setChip('crossborder', true); pulseTile('crossborder', true); }],
+    [3670, function () { pulseTile('crossborder', false); }],
+    [3750, function () { setChip('sdf', true); pulseTile('sdf', true); }],
+    [4170, function () { pulseTile('sdf', false); }],
+    [4300, function () { caption.textContent = "Three domains removed. You'll never be asked those questions."; }],
+    [6500, function () {
+      setAct('assess');
+      caption.textContent = '66 applicable controls — scored by significance, not by tally.';
+    }],
+    [7150, function () { assessRows[0].setAttribute('data-state', 'ready'); }],
+    [7500, function () { assessRows[1].setAttribute('data-state', 'ready'); }],
+    [7850, function () { assessRows[2].setAttribute('data-state', 'ready'); }],
+    [8200, function () { assessRows[3].setAttribute('data-state', 'ready'); }],
+    [8550, function () { assessRows[4].setAttribute('data-state', 'ready'); }],
+    [9000, function () { caption.textContent = 'Weighted by how much each control actually matters.'; }],
+    [12000, function () {
+      setAct('report');
+      caption.textContent = 'The result is candid — and every gap becomes an action.';
+    }],
+    [13650, function () { band.setAttribute('data-visible', 'true'); }],
+    [13950, function () { reportStats[0].setAttribute('data-visible', 'true'); }],
+    [14100, function () { reportStats[1].setAttribute('data-visible', 'true'); }],
+    [14250, function () { reportStats[2].setAttribute('data-visible', 'true'); }],
+    [14600, function () { roadmaps[0].setAttribute('data-state', 'skel'); }],
+    [15100, function () { roadmaps[0].setAttribute('data-state', 'ready'); }],
+    [15500, function () { roadmaps[1].setAttribute('data-state', 'skel'); }],
+    [16000, function () { roadmaps[1].setAttribute('data-state', 'ready'); }],
+    [16500, function () { caption.textContent = 'A prioritised roadmap, with an owner and a deadline on every action.'; }]
+  ];
+
+  var elapsed = 0;
+  var cueIndex = 0;
+  var frameId = null;
+  var lastTime = null;
+  var pauseReasons = {
+    hover: false,
+    focus: false,
+    view: false,
+    document: false,
+    intro: document.body.classList.contains('intro-active')
+  };
+
+  function runCuesTo(time) {
+    while (cueIndex < cues.length && cues[cueIndex][0] <= time) {
+      cues[cueIndex][1]();
+      cueIndex += 1;
+    }
+  }
+
+  function resetTimeline(time) {
+    elapsed = time || 0;
+    cueIndex = 0;
+    resetVisuals();
+    runCuesTo(elapsed);
+    updateContinuous(elapsed);
+  }
+
+  function advance(delta) {
+    elapsed += delta;
+    if (elapsed >= DURATION) {
+      resetTimeline(elapsed % DURATION);
+    } else {
+      runCuesTo(elapsed);
+      updateContinuous(elapsed);
+    }
+  }
+
+  function tick(now) {
+    if (lastTime === null) lastTime = now;
+    advance(now - lastTime);
+    lastTime = now;
+    frameId = root.requestAnimationFrame(tick);
+  }
+
+  function isPaused() {
+    return pauseReasons.hover || pauseReasons.focus || pauseReasons.view || pauseReasons.document;
+  }
+
+  function syncPlayback() {
+    var paused = isPaused();
+    demo.classList.toggle('is-paused', paused);
+    if (reducedMotion) return;
+    if (paused && frameId !== null) {
+      advance(Math.max(0, root.performance.now() - lastTime));
+      root.cancelAnimationFrame(frameId);
+      frameId = null;
+      lastTime = null;
+    } else if (!paused && frameId === null) {
+      lastTime = null;
+      frameId = root.requestAnimationFrame(tick);
+    }
+  }
+
+  function setPause(reason, value) {
+    pauseReasons[reason] = !!value;
+    syncPlayback();
+  }
+
+  function jumpTo(time) {
+    resetTimeline(time);
+    lastTime = frameId !== null ? root.performance.now() : null;
+    syncPlayback();
+  }
+
+  function showReducedMotionResult() {
+    resetVisuals();
+    setAct('report');
+    score.textContent = '63';
+    gauge.style.strokeDashoffset = CIRCUMFERENCE * .37;
+    band.setAttribute('data-visible', 'true');
+    each(reportStats, function (stat) { stat.setAttribute('data-visible', 'true'); });
+    each(roadmaps, function (roadmap) { roadmap.setAttribute('data-state', 'ready'); });
+    caption.textContent = 'A prioritised roadmap, with an owner and a deadline on every action.';
+    demo.classList.add('is-paused');
+  }
+
+  each(actButtons, function (button) {
+    button.addEventListener('click', function () {
+      if (reducedMotion) { showReducedMotionResult(); return; }
+      jumpTo(ACT_STARTS[button.getAttribute('data-demo-act')]);
+    });
+  });
+  demo.addEventListener('mouseenter', function () { setPause('hover', true); });
+  demo.addEventListener('mouseleave', function () { setPause('hover', false); });
+  demo.addEventListener('focusin', function () { setPause('focus', true); });
+  demo.addEventListener('focusout', function () {
+    root.requestAnimationFrame(function () { setPause('focus', demo.contains(document.activeElement)); });
+  });
+  document.addEventListener('visibilitychange', function () { setPause('document', document.hidden); });
+  document.addEventListener('dpdpa:intro-complete', function () {
+    if (reducedMotion) {
+      showReducedMotionResult();
+      return;
+    }
+    pauseReasons.intro = false;
+    jumpTo(0);
+  });
+
+  if ('IntersectionObserver' in root) {
+    var observer = new root.IntersectionObserver(function (entries) {
+      setPause('view', entries[0].intersectionRatio < .15);
+    }, { threshold: [0, .15, 1] });
+    observer.observe(demo);
+  }
+
+  if (reducedMotion) {
+    showReducedMotionResult();
+  } else {
+    resetTimeline(0);
+    syncPlayback();
+  }
+
+})(window);
+
+  </script>
+  <script>
+/* =============================================================================
+ * intro.js — configurable launch screen and live DPDPA readiness countdown.
+ * ========================================================================== */
+(function (root) {
+  'use strict';
+
+  var config = root.DPDPA_INTRO_CONFIG || {};
+  var intro = document.getElementById('app-intro');
+  var banner = document.getElementById('countdown-banner');
+  if (!intro || !banner) return;
+
+  if (!config.enabled || !document.body.classList.contains('intro-active')) {
+    intro.setAttribute('aria-hidden', 'true');
+    return;
+  }
+
+  var reduceMotion = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var configuredDuration = Number(config.durationMs);
+  var duration = Number.isFinite(configuredDuration) ? Math.max(800, configuredDuration) : 4800;
+  if (reduceMotion) duration = Math.min(duration, 1800);
+
+  var deadline = new Date(config.deadline || '2027-05-13T23:59:59+05:30');
+  if (isNaN(deadline.getTime())) deadline = new Date('2027-05-13T23:59:59+05:30');
+
+  var weeks = intro.querySelector('[data-intro-weeks]');
+  var days = intro.querySelector('[data-intro-days]');
+  var hours = intro.querySelector('[data-intro-hours]');
+  var deadlineLabel = intro.querySelector('[data-intro-deadline]');
+  var summary = intro.querySelector('[data-intro-summary]');
+  var skip = intro.querySelector('[data-intro-skip]');
+  var countCard = intro.querySelector('.intro-count-card');
+  var bannerTimer = banner.querySelector('.cb-timer');
+  var bannerWeeks = banner.querySelector('[data-banner-weeks]');
+  var bannerDays = banner.querySelector('[data-banner-days]');
+  var bannerHours = banner.querySelector('[data-banner-hours]');
+  var bannerDeadline = banner.querySelector('[data-banner-deadline]');
+  var bannerSummary = banner.querySelector('[data-banner-summary]');
+  var inertNodes = document.querySelectorAll('body > header, body > .view, body > footer');
+  var countdownTimer;
+  var exitTimer;
+  var closing = false;
+  var morphComplete = false;
+
+  intro.style.setProperty('--intro-duration', duration + 'ms');
+  deadlineLabel.textContent = config.deadlineLabel || '13 May 2027';
+  bannerDeadline.textContent = deadlineLabel.textContent;
+  skip.setAttribute('data-hidden', config.allowSkip === false ? 'true' : 'false');
+
+  for (var i = 0; i < inertNodes.length; i++) inertNodes[i].inert = true;
+
+  function twoDigits(value) { return value < 10 ? '0' + value : String(value); }
+
+  function updateCountdown() {
+    var remaining = Math.max(0, deadline.getTime() - Date.now());
+    var totalHours = Math.floor(remaining / 3600000);
+    var weekValue = Math.floor(totalHours / (24 * 7));
+    var dayValue = Math.floor(totalHours / 24) % 7;
+    var hourValue = totalHours % 24;
+
+    weeks.textContent = twoDigits(weekValue);
+    days.textContent = twoDigits(dayValue);
+    hours.textContent = twoDigits(hourValue);
+    bannerWeeks.textContent = weeks.textContent;
+    bannerDays.textContent = days.textContent;
+    bannerHours.textContent = hours.textContent;
+    var summaryText = weekValue + ' weeks, ' + dayValue + ' days and ' + hourValue +
+      ' hours remain until the configured DPDPA readiness target on ' + deadlineLabel.textContent + '.';
+    summary.textContent = summaryText;
+    bannerSummary.textContent = summaryText;
+  }
+
+  function completeMorph(ghost) {
+    if (morphComplete) return;
+    morphComplete = true;
+    root.clearTimeout(exitTimer);
+    if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
+
+    document.body.classList.remove('intro-active');
+    intro.setAttribute('aria-hidden', 'true');
+    banner.inert = false;
+    banner.setAttribute('aria-hidden', 'false');
+    banner.removeAttribute('data-arriving');
+    for (var i = 0; i < inertNodes.length; i++) inertNodes[i].inert = false;
+    document.removeEventListener('keydown', onKeydown);
+    document.dispatchEvent(new CustomEvent('dpdpa:intro-complete'));
+
+    var firstAction = document.querySelector('#view-landing .hero .btn-primary');
+    if (firstAction && config.allowSkip !== false) firstAction.focus({ preventScroll: true });
+  }
+
+  function finishIntro() {
+    if (closing) return;
+    closing = true;
+    root.clearTimeout(exitTimer);
+    banner.hidden = false;
+    banner.inert = true;
+    banner.setAttribute('data-arriving', 'true');
+    updateCountdown();
+
+    if (reduceMotion) {
+      intro.setAttribute('data-state', 'morphing');
+      completeMorph(null);
+      return;
+    }
+
+    root.requestAnimationFrame(function () {
+      var source = countCard.getBoundingClientRect();
+      var target = bannerTimer.getBoundingClientRect();
+      var ghost = countCard.cloneNode(true);
+      ghost.classList.add('intro-morph-card');
+      ghost.style.left = source.left + 'px';
+      ghost.style.top = source.top + 'px';
+      ghost.style.width = source.width + 'px';
+      ghost.style.height = source.height + 'px';
+      document.body.appendChild(ghost);
+
+      intro.setAttribute('data-state', 'morphing');
+
+      if (ghost.animate) {
+        var animation = ghost.animate([
+          { transform: 'translate(0, 0) scale(1, 1)', borderRadius: '20px' },
+          { transform: 'translate(' + (target.left - source.left) + 'px, ' +
+              (target.top - source.top) + 'px) scale(' + (target.width / source.width) + ', ' +
+              (target.height / source.height) + ')', borderRadius: '10px' }
+        ], { duration: 820, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+        animation.onfinish = function () { completeMorph(ghost); };
+        exitTimer = root.setTimeout(function () { completeMorph(ghost); }, 930);
+      } else {
+        completeMorph(ghost);
+      }
+    });
+  }
+
+  function onKeydown(event) {
+    if (event.key === 'Escape' && config.allowSkip !== false) finishIntro();
+  }
+
+  updateCountdown();
+  countdownTimer = root.setInterval(updateCountdown, 1000);
+  skip.addEventListener('click', finishIntro);
+  document.addEventListener('keydown', onKeydown);
+
+  root.requestAnimationFrame(function () {
+    intro.setAttribute('data-ready', 'true');
+    if (config.allowSkip !== false) skip.focus({ preventScroll: true });
+  });
+  exitTimer = root.setTimeout(finishIntro, duration);
+
 })(window);
 
   </script>
