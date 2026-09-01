@@ -1,0 +1,20 @@
+/* =============================================================================
+ * PRINT (Save as PDF)
+ * ========================================================================== */
+@media print {
+  .app-intro, .countdown-banner, .site-header, .report-toolbar, .no-print, .site-footer, .btn { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  .container { max-width: 100%; padding: 0; }
+  .report-hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card, .table-wrap { box-shadow: none; break-inside: avoid; }
+  .section { padding: 16px 0; break-inside: avoid; }
+  .analysis, .kpi, .dom-score { break-inside: avoid; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* single-file view switching */
+[hidden]{display:none!important}
+/* offset anchor targets so they land below the sticky header / toolbar */
+#view-landing section[id]{scroll-margin-top:84px}
+#report-root section[id]{scroll-margin-top:128px}
+
